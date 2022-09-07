@@ -1,5 +1,8 @@
 # Cashback comparator (from Sitescashback.com)
 
+colors: https://color.adobe.com/fr/search?q=discount%20sales
+responsive: https://kinsta.com/fr/blog/design-web-responsive/
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
