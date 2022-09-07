@@ -15,7 +15,7 @@ export const HomePage: FC<HomePageProps> = () => {
       </Head>
       <main className="w-auto h-auto bg-red-600">
         <Header></Header>
-        <h1>sdsdsdsd</h1>
+        <h1 style={{zIndex: 0}}>sdsdsdsd</h1>
       </main>
       <footer className={styles.footer}></footer>
     </div>
