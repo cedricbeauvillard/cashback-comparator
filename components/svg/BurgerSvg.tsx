@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {SVGProps} from 'react';
 
-const BurgerButtonSvg = (props: SVGProps<SVGSVGElement>) => (
+const BurgerSvg = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width={props.width}
     height={props.height}
@@ -21,4 +21,4 @@ const BurgerButtonSvg = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export default BurgerButtonSvg;
+export default BurgerSvg;

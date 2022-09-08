@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import {FC} from 'react';
-import {Header} from '../components/Header';
-import styles from '../styles/Home.module.css';
+import {SearchHeader} from '../components/SearchHeader';
 
 export interface HomePageProps {}
 
@@ -14,19 +13,17 @@ export const HomePage: FC<HomePageProps> = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-auto h-auto bg-red-600 justify-center">
-        <Header></Header>
+        <SearchHeader></SearchHeader>
         <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'center'}}>
           Page d'accueil comparateur cashback
         </h1>
       </main>
-      <footer className={styles.footer}>
+      <footer /* className={styles.footer} */>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Powered by <span className={styles.logo}></span>
-        </a>
+        ></a>
       </footer>
     </div>
   );
