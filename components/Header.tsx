@@ -1,6 +1,7 @@
 import {FC, useState} from 'react';
 import Image from 'next/image';
 import BurgerButtonSvg from './svg/BurgerButtonSvg';
+import Link from 'next/link';
 
 export const Header: FC = () => {
   const [showPagePanel, setShowPagePanel] = useState(false);
@@ -24,31 +25,32 @@ export const Header: FC = () => {
             flex: '1',
             flexDirection: 'column',
             width: '100%',
-            height: '20rem',
+            height: '30rem',
             position: 'absolute',
             left: 0,
             top: 64,
             zIndex: 1,
+            backgroundColor: 'grey',
           }}
         >
-          <div className="flex flex-row w-full h-1/4">
+          <a href="/HomePage" className="flex flex-row w-full h-1/6">
             <p className="ml-8 text-textColor self-center">Accueil</p>
-          </div>
-          <div className="flex flex-row w-full h-1/4">
+          </a>
+          <a href="/HomePage" className="flex flex-row w-full h-1/6">
             <p className="ml-8 text-textColor self-center">Meilleur sites de cashback</p>
-          </div>
-          <div className="flex flex-row w-full h-1/4">
+          </a>
+          <a href="/HomePage" className="flex flex-row w-full h-1/6">
             <p className="ml-8 text-textColor self-center">Liste des marchands</p>
-          </div>
-          <div className="flex flex-row w-full h-1/4">
+          </a>
+          <a href="/HomePage" className="flex flex-row w-full h-1/6">
             <p className="ml-8 text-textColor self-center">Top marchands</p>
-          </div>
-          <div className="flex flex-row w-full h-1/4">
+          </a>
+          <a href="/HomePage" className="flex flex-row w-full h-1/6">
             <p className="ml-8 text-textColor self-center">Contact</p>
-          </div>
-          <div className="flex flex-row w-full h-1/4">
+          </a>
+          <a href="/HomePage" className="flex flex-row w-full h-1/6">
             <p className="ml-8 text-textColor self-center">Mentions légales</p>
-          </div>
+          </a>
         </div>
       )}
     </div>
