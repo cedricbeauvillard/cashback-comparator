@@ -1,4 +1,4 @@
-import {Autocomplete, Burger, Button, createStyles, Group, Header} from '@mantine/core';
+import {Autocomplete, Burger, Button, createStyles, Group, Header, Input} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import Link from 'next/link';
 import {FC, useState} from 'react';
@@ -36,6 +36,20 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  mobilePanel: {
+    gap: 0,
+    position: 'absolute',
+    width: '100%',
+    top: 56,
+    left: 0,
+  },
+
+  searchIcon: {
+    [theme.fn.largerThan('md')]: {
+      display: 'none',
+    },
+  },
+
   link: {
     display: 'block',
     lineHeight: 1,
@@ -53,16 +67,25 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const SearchHeader: FC = () => {
-  const [opened, {toggle}] = useDisclosure(false);
+  const [pagePanelOpened, {toggle}] = useDisclosure(false);
+  const [searchPanelOpened, toggleSearchPanel] = useState(false);
   const {classes} = useStyles();
-  const [showPagePanel, setShowPagePanel] = useState(false);
+
+  const onSearchButtonClicked = () => {
+    toggleSearchPanel(!searchPanelOpened);
+  };
 
   return (
     <Header height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
-        <Group>
-          <Burger className={classes.burger} opened={opened} onClick={toggle} size="sm" />
+        <Group className="w-full">
+          <Burger className={classes.burger} opened={pagePanelOpened} onClick={toggle} size="sm" />
           <Image alt="logo" src="/logo.png" width="100%" height="50px" />
+        </Group>
+        <Group className={classes.searchIcon}>
+          <Button className="p-0" onClick={onSearchButtonClicked}>
+            <SearchSvg width={'1.5rem'}></SearchSvg>
+          </Button>
         </Group>
         <Group>
           <Group ml={50} spacing={5} className={classes.links}>
@@ -93,6 +116,49 @@ export const SearchHeader: FC = () => {
           />
         </Group>
       </div>
+      {pagePanelOpened && (
+        <Group className={classes.mobilePanel}>
+          <div className="flex flex-row w-full py-2">
+            <Link key="HomePage" href="/HomePage" className="w-full bg-white">
+              <p className="ml-8 text-textColor self-center">Accueil</p>
+            </Link>
+          </div>
+          <div className="flex flex-row w-full py-2">
+            <Link key="BestCashbackers" href="/CashbackerPage" className="w-full bg-white">
+              <p className="ml-8 text-textColor self-center">Meilleurs sites de cashback</p>
+            </Link>
+          </div>
+          <div className="flex flex-row w-full py-2">
+            <Link key="SellerList" href="/SellerListPage" className="w-full bg-white">
+              <p className="ml-8 text-textColor self-center">Liste des marchands</p>
+            </Link>
+          </div>
+          <div className="flex flex-row w-full py-2">
+            <Link key="TopSeller" href="/TopSellerPage" className="w-full bg-white">
+              <p className="ml-8 text-textColor self-center">Top marchands</p>
+            </Link>
+          </div>
+          <div className="flex flex-row w-full py-2">
+            <Link key="Contact" href="/ContactPage" className="w-full bg-white">
+              <p className="ml-8 text-textColor self-center">Contact</p>
+            </Link>
+          </div>
+          <div className="flex flex-row w-full py-2">
+            <Link key="GCU" href="/GCUPage" className="w-full bg-white">
+              <p className="ml-8 text-textColor self-center">CGU</p>
+            </Link>
+          </div>
+        </Group>
+      )}
+      {/*       {searchPanelOpened && (
+        <Group className="w-full" style={{position: 'absolute', top: 56, left: 0}}>
+          <Input
+            className="w-full"
+            icon={<SearchSvg width={'1rem'}></SearchSvg>}
+            placeholder="Rechercher un vendeur"
+          />
+        </Group>
+      )} */}
     </Header>
   );
 };
