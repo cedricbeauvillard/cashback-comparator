@@ -45,7 +45,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   searchIcon: {
-    [theme.fn.largerThan('md')]: {
+    [theme.fn.largerThan('xs')]: {
       display: 'none',
     },
   },
@@ -78,13 +78,13 @@ export const SearchHeader: FC = () => {
   return (
     <Header height={56} className={classes.header} mb={120}>
       <div className={classes.inner}>
-        <Group className="w-full">
+        <Group className="w-full sm:w-auto">
           <Burger className={classes.burger} opened={pagePanelOpened} onClick={toggle} size="sm" />
           <Image alt="logo" src="/logo.png" width="100%" height="50px" />
         </Group>
-        <Group className={classes.searchIcon}>
+        <Group>
           <Button className="p-0" onClick={onSearchButtonClicked}>
-            <SearchSvg width={'1.5rem'}></SearchSvg>
+            <SearchSvg width={'1.5rem'} className={classes.searchIcon}></SearchSvg>
           </Button>
         </Group>
         <Group>
@@ -150,7 +150,7 @@ export const SearchHeader: FC = () => {
           </div>
         </Group>
       )}
-      {/*       {searchPanelOpened && (
+      {searchPanelOpened && (
         <Group className="w-full" style={{position: 'absolute', top: 56, left: 0}}>
           <Input
             className="w-full"
@@ -158,7 +158,7 @@ export const SearchHeader: FC = () => {
             placeholder="Rechercher un vendeur"
           />
         </Group>
-      )} */}
+      )}
     </Header>
   );
 };
