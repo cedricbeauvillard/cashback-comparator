@@ -1,10 +1,11 @@
+import {Button} from '@mantine/core';
 import Head from 'next/head';
 import {FC} from 'react';
 import {SearchHeader} from '../components/SearchHeader';
 
 export interface HomePageProps {}
 
-export const HomePage: FC<HomePageProps> = () => {
+const HomePage: FC<HomePageProps> = () => {
   return (
     <div>
       <Head>
@@ -17,8 +18,11 @@ export const HomePage: FC<HomePageProps> = () => {
         <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'center'}}>
           Page d'accueil comparateur cashback
         </h1>
+        <Button variant="light" color="teal">
+          Settings
+        </Button>
       </main>
-      <footer /* className={styles.footer} */>
+      <footer>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"

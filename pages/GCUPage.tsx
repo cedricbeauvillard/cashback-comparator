@@ -2,7 +2,7 @@ import {VFC} from 'react';
 
 export interface CGUPageProps {}
 
-export const GCUPage: VFC<CGUPageProps> = () => {
+const GCUPage: VFC<CGUPageProps> = () => {
   return null;
 };
 

@@ -3,7 +3,7 @@ import {useDisclosure} from '@mantine/hooks';
 import Link from 'next/link';
 import {FC, useState} from 'react';
 import SearchSvg from './svg/SearchSvg';
-import Image from 'next/image';
+import {Image} from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -76,11 +76,13 @@ export const SearchHeader: FC = () => {
   };
 
   return (
-    <Header height={56} className={classes.header} mb={120}>
+    <Header height={56} className={classes.header}>
       <div className={classes.inner}>
         <Group className="w-full sm:w-auto">
           <Burger className={classes.burger} opened={pagePanelOpened} onClick={toggle} size="sm" />
-          <Image alt="logo" src="/logo.png" width="100%" height="50px" />
+          <div style={{width: '4.5rem'}}>
+            <Image src="/logo.png" alt="logo" />
+          </div>
         </Group>
         <Group>
           <Button className="p-0" onClick={onSearchButtonClicked}>
