@@ -85,7 +85,7 @@ export const SearchHeader: FC = () => {
           </div>
         </Group>
         <Group>
-          <Button className="p-0" onClick={onSearchButtonClicked}>
+          <Button className="p-0" onClick={onSearchButtonClicked} variant="subtle">
             <SearchSvg width={'1.5rem'} className={classes.searchIcon}></SearchSvg>
           </Button>
         </Group>
