@@ -3,7 +3,7 @@ import Head from 'next/head';
 import {VFC} from 'react';
 import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
-import {FooterSimple} from '../components/generic/FooterSimple';
+import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import AllSvg from '../components/svg/AllSvg';
 import SearchSvg from '../components/svg/SearchSvg';
@@ -160,12 +160,30 @@ const SellerPage: VFC<SellerPageProps> = () => {
         </div>
       </main>
       <footer>
-        <FooterSimple
-          links={[
-            {label: 'Contact', link: 'http://localhost:3000/ContactPage'},
-            {label: 'Menu', link: 'http://localhost:3000/HomePage'},
-          ]}
-        ></FooterSimple>
+        <footer>
+          <FooterLinks
+            data={[
+              {
+                title: 'About',
+                links: [
+                  {
+                    label: 'Comment faire du café',
+                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
+                  },
+                ],
+              },
+              {
+                title: 'Menu',
+                links: [
+                  {
+                    label: 'Comment faire du café',
+                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
+                  },
+                ],
+              },
+            ]}
+          ></FooterLinks>
+        </footer>
       </footer>
     </div>
   );

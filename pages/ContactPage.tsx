@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import {VFC} from 'react';
-import {FooterSimple} from '../components/generic/FooterSimple';
+import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 
 export interface ContactPageProps {}
@@ -20,12 +20,30 @@ const ContactPage: VFC<ContactPageProps> = () => {
         </h1>
       </main>
       <footer>
-        <FooterSimple
-          links={[
-            {label: 'Contact', link: 'http://localhost:3000/ContactPage'},
-            {label: 'Menu', link: 'http://localhost:3000/HomePage'},
-          ]}
-        ></FooterSimple>
+        <footer>
+          <FooterLinks
+            data={[
+              {
+                title: 'About',
+                links: [
+                  {
+                    label: 'Comment faire du café',
+                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
+                  },
+                ],
+              },
+              {
+                title: 'Menu',
+                links: [
+                  {
+                    label: 'Comment faire du café',
+                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
+                  },
+                ],
+              },
+            ]}
+          ></FooterLinks>
+        </footer>
       </footer>
     </div>
   );

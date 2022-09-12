@@ -1,9 +1,9 @@
-import {Autocomplete, Button, Group, SimpleGrid} from '@mantine/core';
+import {Button, Group, SimpleGrid} from '@mantine/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import {VFC} from 'react';
 import {ItemSellerLetter} from '../components/business/ItemSellerLetter';
-import {FooterSimple} from '../components/generic/FooterSimple';
+import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 
 export interface SellerListPageProps {}
@@ -62,12 +62,30 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
         </div>
       </main>
       <footer>
-        <FooterSimple
-          links={[
-            {label: 'Contact', link: 'http://localhost:3000/ContactPage'},
-            {label: 'Menu', link: 'http://localhost:3000/HomePage'},
-          ]}
-        ></FooterSimple>
+        <footer>
+          <FooterLinks
+            data={[
+              {
+                title: 'About',
+                links: [
+                  {
+                    label: 'Comment faire du café',
+                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
+                  },
+                ],
+              },
+              {
+                title: 'Menu',
+                links: [
+                  {
+                    label: 'Comment faire du café',
+                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
+                  },
+                ],
+              },
+            ]}
+          ></FooterLinks>
+        </footer>
       </footer>
     </div>
   );
