@@ -1,27 +1,19 @@
-import {Button, createStyles, Group, Image} from '@mantine/core';
+import {Button, createStyles, Image} from '@mantine/core';
 import {FC} from 'react';
 import StarSvg from '../svg/StarSvg';
 
-const useStyles = createStyles((theme) => ({
-  cashbackerItemCol: {
-    flex: 1,
-    flexDirection: 'column',
-    width: '100%',
-    marginTop: '0.5rem',
-  },
-  cashbackerItemRow: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-}));
+/*
+ * Used seller page to details advantages for each cashbackers (desktop view)
+ */
+
+const useStyles = createStyles((theme) => ({}));
 
 export const ItemCashbackerDesktop: FC = () => {
   const {classes} = useStyles();
 
   return (
     <tr key="ebuyclub">
+      {/* Cashbacker image */}
       <td>
         <div style={{width: 100}}>
           <Image
@@ -31,6 +23,7 @@ export const ItemCashbackerDesktop: FC = () => {
           />
         </div>
       </td>
+      {/* Rating */}
       <td className="w-32">
         <StarSvg width="1rem"></StarSvg>
         <StarSvg width="1rem"></StarSvg>
@@ -38,6 +31,7 @@ export const ItemCashbackerDesktop: FC = () => {
         <StarSvg width="1rem"></StarSvg>
         <StarSvg width="1rem"></StarSvg>
       </td>
+      {/* Ranking */}
       <td>
         <div style={{width: '50%'}}>
           <Image
@@ -47,8 +41,11 @@ export const ItemCashbackerDesktop: FC = () => {
           />
         </div>
       </td>
+      {/* Bonus */}
       <td>7 euros à l'inscription</td>
+      {/* Cashback rate */}
       <td>7,5%</td>
+      {/* More informations  ctas*/}
       <td>
         <Button.Group orientation="vertical" className="flex">
           <Button className="my-2 w-24">Avis</Button>

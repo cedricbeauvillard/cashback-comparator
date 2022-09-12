@@ -17,13 +17,13 @@ const TopSellerPage: VFC<TopSellersPageProps> = () => {
       </Head>
       <main className="w-auto h-auto bg-red-600 justify-center">
         <SearchHeader></SearchHeader>
-        <div className="flex flex-col items-center justify-center">
-          <Group className="items-center justify-center mx-4 mb-2 mt-2 sm:w-1/2 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4">
-            <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'center'}}>Les top marchands</h1>
-            <p>
-              Nous avons répertorié pour vous une liste des principaux marchands (web ou magasin)
-              qui sont les plus consultés sur notre comparateur.
-            </p>
+        <div className="flex flex-col mx-4 mb-2 mt-2 sm:m-auto sm:w-1/2 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4">
+          <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'left'}}>Les top marchands</h1>
+          <p>
+            Nous avons répertorié pour vous une liste des principaux marchands (web ou magasin) qui
+            sont les plus consultés sur notre comparateur.
+          </p>
+          <Group className="items-center justify-center">
             <SimpleGrid
               cols={4}
               spacing="lg"
@@ -45,8 +45,12 @@ const TopSellerPage: VFC<TopSellersPageProps> = () => {
               <ItemTopSeller></ItemTopSeller>
               <ItemTopSeller></ItemTopSeller>
               <ItemTopSeller></ItemTopSeller>
+              <ItemTopSeller></ItemTopSeller>
+              <ItemTopSeller></ItemTopSeller>
+              <ItemTopSeller></ItemTopSeller>
+              <ItemTopSeller></ItemTopSeller>
             </SimpleGrid>
-            <Button color="red">Voir plus</Button>
+            <Button color="red">Charger plus</Button>
           </Group>
         </div>
       </main>

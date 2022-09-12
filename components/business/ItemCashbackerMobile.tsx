@@ -2,6 +2,10 @@ import {Button, Card, createStyles, Group, Image} from '@mantine/core';
 import {FC} from 'react';
 import StarSvg from '../svg/StarSvg';
 
+/*
+ * Used seller page to details advantages for each cashbackers (mobile view)
+ */
+
 const useStyles = createStyles((theme) => ({
   cashbackerItemCol: {
     flex: 1,
@@ -65,7 +69,7 @@ export const ItemCashbackerMobile: FC = () => {
         <p>Taux de cashback:</p>
         <p>2.5%</p>
       </Group>
-      {/* More informations */}
+      {/* More informations  ctas*/}
       <Group className={classes.cashbackerItemCol}>
         <p className="self-start m-0">Plus d'informations:</p>
         <Button.Group orientation="vertical" className="flex">

@@ -1,20 +1,7 @@
 import {Card, createStyles, Image, Text} from '@mantine/core';
 import {FC} from 'react';
 
-const useStyles = createStyles((theme) => ({
-  cashbackerItemCol: {
-    flex: 1,
-    flexDirection: 'column',
-    width: '100%',
-    marginTop: '0.5rem',
-  },
-  cashbackerItemRow: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-}));
+const useStyles = createStyles((theme) => ({}));
 
 export const ItemTopSeller: FC = () => {
   const {classes} = useStyles();

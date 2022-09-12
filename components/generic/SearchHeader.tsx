@@ -114,7 +114,7 @@ export const SearchHeader: FC = () => {
           </Group>
           <Autocomplete
             className={classes.search}
-            placeholder="Search"
+            placeholder="Chercher un vendeur"
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
             data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
           />
