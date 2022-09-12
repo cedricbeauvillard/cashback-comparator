@@ -8,6 +8,7 @@ module.exports = {
       mainColor: '#9904D9',
       textColor: '#111827',
       white: '#FFFFFF',
+      cardBackground: '#fafafa',
       hyperlink: '#6ea5ff',
       green: '#03ff57',
     },

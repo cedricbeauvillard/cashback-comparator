@@ -1,4 +1,4 @@
-import {Button, Card, createStyles, Group, Image, SimpleGrid} from '@mantine/core';
+import {Button, Card, createStyles, Group, Image} from '@mantine/core';
 import {FC} from 'react';
 import StarSvg from './svg/StarSvg';
 
@@ -17,7 +17,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const SellerDetails: FC = () => {
+export const SellerDetailsMobile: FC = () => {
   const {classes} = useStyles();
 
   return (

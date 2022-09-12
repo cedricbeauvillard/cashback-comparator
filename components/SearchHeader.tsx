@@ -37,6 +37,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   mobilePanel: {
+    backgroundColor: 'white',
     gap: 0,
     position: 'absolute',
     width: '100%',

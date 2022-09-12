@@ -1,9 +1,10 @@
-import {ClassNames} from '@emotion/react';
-import {Button, createStyles, Group, Input, SimpleGrid} from '@mantine/core';
+import {Button, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
 import Head from 'next/head';
 import {VFC} from 'react';
+import {FooterSimple} from '../components/FooterSimple';
 import {SearchHeader} from '../components/SearchHeader';
-import {SellerDetails} from '../components/SellerDetails';
+import {SellerDetailsDesktop} from '../components/SellerDetailsDesktop';
+import {SellerDetailsMobile} from '../components/SellerDetailsMobile';
 import AllSvg from '../components/svg/AllSvg';
 import SearchSvg from '../components/svg/SearchSvg';
 
@@ -17,12 +18,30 @@ const useStyles = createStyles((theme) => ({
       display: 'none',
     },
   },
+  desktopTable: {
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
+  },
 }));
 
 export interface SellerPageProps {}
 
 const SellerPage: VFC<SellerPageProps> = () => {
   const {classes} = useStyles();
+
+  const data = [
+    {name: 'sdqdsds', email: 'qswsqs', company: 'dsdsdd'},
+    {name: 'sdqdsds', email: 'qswsqs', company: 'dsdsdd'},
+    {name: 'sdqdsds', email: 'qswsqs', company: 'dsdsdd'},
+  ];
+  const rows = data.map((row) => (
+    <tr key={row.name}>
+      <td>{row.name}</td>
+      <td>{row.email}</td>
+      <td>{row.company}</td>
+    </tr>
+  ));
 
   return (
     <div>
@@ -33,83 +52,134 @@ const SellerPage: VFC<SellerPageProps> = () => {
       </Head>
       <main>
         <SearchHeader></SearchHeader>
-        <Group className="mx-4 mb-4 mt-2">
-          <h1 className="m-0">MEILLEUR CASHBACK ALIZEA VOYAGES</h1>
-          <p className="m-0">
-            Vous vous apprêtez à faire un achat sur le site marchand de <b>ALIZEA VOYAGES</b> et
-            vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
-            comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
-            pratiqué par
-            <a
-              className="text-hyperlink"
-              href="https://sitescashback.com/classement-des-meilleurs-sites-de-cashback/"
+        <div className="flex items-center justify-center">
+          <Group className="mx-4 mb-2 mt-2 sm:w-1/2 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4">
+            <h1 className="m-0">MEILLEUR CASHBACK ALIZEA VOYAGES</h1>
+            <p className="m-0">
+              Vous vous apprêtez à faire un achat sur le site marchand de <b>ALIZEA VOYAGES</b> et
+              vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
+              comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
+              pratiqué par
+              <a
+                className="text-hyperlink"
+                href="https://sitescashback.com/classement-des-meilleurs-sites-de-cashback/"
+              >
+                {' '}
+                chacun des meilleurs sites de notre classement sitescashback
+              </a>
+              , mais également toutes les informations nécessaires pour faire votre choix (note,
+              bonus de bienvenue, notre avis...) car il n'y a pas que le taux qui compte. Pour
+              gagner encore plus, vous pouvez utiliser les <b>codes promos</b> disponibles sur le
+              site de cashback, sans oublier le <b>bonus de bienvenue</b> à votre inscription sur le
+              site de cashback. Pour les sites permettant de cumuler plusieurs types de cashback
+              tels que le
+              <a
+                className="text-hyperlink"
+                href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
+              >
+                {' '}
+                cashback sur bon d'achat{' '}
+              </a>
+              et le
+              <a
+                className="text-hyperlink"
+                href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
+              >
+                {' '}
+                cashback en magasin{' '}
+              </a>
+              , le taux cashback indiqué dans le comparateur est le taux total.
+            </p>
+            <h3 className="m-0 mt-4">TAUX DE CASHBACK POUR LE SITE ALIZEA VOYAGES</h3>
+            {/* Mobile table */}
+            <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
+              <SellerDetailsMobile></SellerDetailsMobile>
+              <SellerDetailsMobile></SellerDetailsMobile>
+              <SellerDetailsMobile></SellerDetailsMobile>
+              <SellerDetailsMobile></SellerDetailsMobile>
+            </SimpleGrid>
+            {/* Desktop table */}
+            <Table sx={{minWidth: 500}} className={classes.desktopTable}>
+              <thead>
+                <tr>
+                  <th>Nom du site</th>
+                  <th>Note (/5)</th>
+                  <th>Classement</th>
+                  <th>Bonus</th>
+                  <th>Taux de cashback</th>
+                  <th>Plus d'infos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <SellerDetailsDesktop></SellerDetailsDesktop>
+              </tbody>
+            </Table>
+            <p className="m-0">
+              Même si nous nous efforçons de mettre à jour le plus fréquemment possible les taux de
+              cashback présents dans nos comparatifs, nous vous conseillons de vérifier leur
+              validité sur les sites concernés. Une erreur dans ces taux ne pourrait engager ni
+              Sitescashback ni le site de cashback en question.
+            </p>
+            <SimpleGrid
+              className="my-4"
+              cols={2}
+              spacing="lg"
+              breakpoints={[
+                {maxWidth: 980, cols: 2, spacing: 'md'},
+                {maxWidth: 755, cols: 2, spacing: 'sm'},
+                {maxWidth: 600, cols: 1, spacing: 'sm'},
+              ]}
             >
-              {' '}
-              chacun des meilleurs sites de notre classement sitescashback
-            </a>
-            , mais également toutes les informations nécessaires pour faire votre choix (note, bonus
-            de bienvenue, notre avis...) car il n'y a pas que le taux qui compte. Pour gagner encore
-            plus, vous pouvez utiliser les <b>codes promos</b> disponibles sur le site de cashback,
-            sans oublier le <b>bonus de bienvenue</b> à votre inscription sur le site de cashback.
-            Pour les sites permettant de cumuler plusieurs types de cashback tels que le
-            <a
-              className="text-hyperlink"
-              href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
-            >
-              {' '}
-              cashback sur bon d'achat{' '}
-            </a>
-            et le
-            <a
-              className="text-hyperlink"
-              href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
-            >
-              {' '}
-              cashback en magasin{' '}
-            </a>
-            , le taux cashback indiqué dans le comparateur est le taux total.
-          </p>
-          <h3 className="m-0">TAUX DE CASHBACK POUR LE SITE ALIZEA VOYAGES</h3>
-          <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-            <SellerDetails></SellerDetails>
-            <SellerDetails></SellerDetails>
-            <SellerDetails></SellerDetails>
-            <SellerDetails></SellerDetails>
-          </SimpleGrid>
-          <p className="m-0">
-            Même si nous nous efforçons de mettre à jour le plus fréquemment possible les taux de
-            cashback présents dans nos comparatifs, nous vous conseillons de vérifier leur validité
-            sur les sites concernés. Une erreur dans ces taux ne pourrait engager ni Sitescashback
-            ni le site de cashback en question.
-          </p>
-          <Group className="w-full">
-            <Button variant="outline" className="w-full h-12" color="red">
-              CE SITE NE FAIT PARTIE DU PANIER CASHBACK 40
-            </Button>
-            <Button variant="outline" className="w-full text-center h-12" color="red">
-              CE SITE NE FAIT PARTIE
-              <br />
-              DU PANIER TOP MARCHAND
-            </Button>
-            <Button variant="outline" className="w-full text-center h-12" color="green">
-              COMPATIBLE AVEC LE CASHBACK
-              <br /> SUR BONS D'ACHAT EBUYCLUB
-            </Button>
+              <div>
+                <Group className="w-full">
+                  <Button variant="outline" className="w-full h-12" color="red">
+                    CE SITE NE FAIT PARTIE DU PANIER CASHBACK 40
+                  </Button>
+                  <Button variant="outline" className="w-full text-center h-12" color="red">
+                    CE SITE NE FAIT PARTIE
+                    <br />
+                    DU PANIER TOP MARCHAND
+                  </Button>
+                  <Button variant="outline" className="w-full text-center h-12" color="green">
+                    COMPATIBLE AVEC LE CASHBACK
+                    <br /> SUR BONS D'ACHAT EBUYCLUB
+                  </Button>
+                </Group>
+              </div>
+              <div>
+                <Group spacing={0} className="my-2 w-full sm:m-0">
+                  <h3 className="m-0">Chercher un marchand</h3>
+                  <Input
+                    className="w-full mt-2"
+                    icon={<SearchSvg width={'1rem'}></SearchSvg>}
+                    placeholder="Je cherche un site marchand"
+                  />
+                </Group>
+                <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>
+                  Voir la liste complète des marchands
+                </Button>
+              </div>
+            </SimpleGrid>
           </Group>
-          <Group spacing={0} className="my-2 w-full">
-            <h3 className="m-0">Chercher un marchand</h3>
-            <Input
-              className="w-full mt-2"
-              icon={<SearchSvg width={'1rem'}></SearchSvg>}
-              placeholder="Je cherche un site marchand"
-            />
-          </Group>
-          <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>
-            Voir la liste complète des marchands
-          </Button>
-        </Group>
+        </div>
       </main>
-      <footer></footer>
+      <footer>
+        <FooterSimple
+          links={[
+            {label: 'Contact', link: 'http://localhost:3000/ContactPage'},
+            {label: 'Menu', link: 'http://localhost:3000/HomePage'},
+          ]}
+        ></FooterSimple>
+      </footer>
     </div>
   );
 };
