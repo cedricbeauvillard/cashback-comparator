@@ -2,7 +2,7 @@ import {Autocomplete, Burger, Button, createStyles, Group, Header, Input} from '
 import {useDisclosure} from '@mantine/hooks';
 import Link from 'next/link';
 import {FC, useState} from 'react';
-import SearchSvg from './svg/SearchSvg';
+import SearchSvg from '../svg/SearchSvg';
 import {Image} from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
@@ -38,6 +38,7 @@ const useStyles = createStyles((theme) => ({
 
   mobilePanel: {
     backgroundColor: 'white',
+    zIndex: 1,
     gap: 0,
     position: 'absolute',
     width: '100%',

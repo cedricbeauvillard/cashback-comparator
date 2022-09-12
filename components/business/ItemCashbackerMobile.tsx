@@ -1,6 +1,6 @@
 import {Button, Card, createStyles, Group, Image} from '@mantine/core';
 import {FC} from 'react';
-import StarSvg from './svg/StarSvg';
+import StarSvg from '../svg/StarSvg';
 
 const useStyles = createStyles((theme) => ({
   cashbackerItemCol: {
@@ -17,7 +17,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const SellerDetailsMobile: FC = () => {
+export const ItemCashbackerMobile: FC = () => {
   const {classes} = useStyles();
 
   return (

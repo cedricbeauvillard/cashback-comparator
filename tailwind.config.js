@@ -9,6 +9,7 @@ module.exports = {
       textColor: '#111827',
       white: '#FFFFFF',
       cardBackground: '#fafafa',
+      red: '#d91111',
       hyperlink: '#6ea5ff',
       green: '#03ff57',
     },

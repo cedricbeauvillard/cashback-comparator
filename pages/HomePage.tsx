@@ -1,7 +1,8 @@
 import {Button} from '@mantine/core';
 import Head from 'next/head';
 import {FC} from 'react';
-import {SearchHeader} from '../components/SearchHeader';
+import {FooterSimple} from '../components/generic/FooterSimple';
+import {SearchHeader} from '../components/generic/SearchHeader';
 
 export interface HomePageProps {}
 
@@ -23,11 +24,12 @@ const HomePage: FC<HomePageProps> = () => {
         </Button>
       </main>
       <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        ></a>
+        <FooterSimple
+          links={[
+            {label: 'Contact', link: 'http://localhost:3000/ContactPage'},
+            {label: 'Menu', link: 'http://localhost:3000/HomePage'},
+          ]}
+        ></FooterSimple>
       </footer>
     </div>
   );

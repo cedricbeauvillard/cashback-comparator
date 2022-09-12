@@ -1,10 +1,10 @@
 import {Button, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
 import Head from 'next/head';
 import {VFC} from 'react';
-import {FooterSimple} from '../components/FooterSimple';
-import {SearchHeader} from '../components/SearchHeader';
-import {SellerDetailsDesktop} from '../components/SellerDetailsDesktop';
-import {SellerDetailsMobile} from '../components/SellerDetailsMobile';
+import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
+import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
+import {FooterSimple} from '../components/generic/FooterSimple';
+import {SearchHeader} from '../components/generic/SearchHeader';
 import AllSvg from '../components/svg/AllSvg';
 import SearchSvg from '../components/svg/SearchSvg';
 
@@ -29,19 +29,6 @@ export interface SellerPageProps {}
 
 const SellerPage: VFC<SellerPageProps> = () => {
   const {classes} = useStyles();
-
-  const data = [
-    {name: 'sdqdsds', email: 'qswsqs', company: 'dsdsdd'},
-    {name: 'sdqdsds', email: 'qswsqs', company: 'dsdsdd'},
-    {name: 'sdqdsds', email: 'qswsqs', company: 'dsdsdd'},
-  ];
-  const rows = data.map((row) => (
-    <tr key={row.name}>
-      <td>{row.name}</td>
-      <td>{row.email}</td>
-      <td>{row.company}</td>
-    </tr>
-  ));
 
   return (
     <div>
@@ -93,10 +80,10 @@ const SellerPage: VFC<SellerPageProps> = () => {
             <h3 className="m-0 mt-4">TAUX DE CASHBACK POUR LE SITE ALIZEA VOYAGES</h3>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-              <SellerDetailsMobile></SellerDetailsMobile>
-              <SellerDetailsMobile></SellerDetailsMobile>
-              <SellerDetailsMobile></SellerDetailsMobile>
-              <SellerDetailsMobile></SellerDetailsMobile>
+              <ItemCashbackerMobile></ItemCashbackerMobile>
+              <ItemCashbackerMobile></ItemCashbackerMobile>
+              <ItemCashbackerMobile></ItemCashbackerMobile>
+              <ItemCashbackerMobile></ItemCashbackerMobile>
             </SimpleGrid>
             {/* Desktop table */}
             <Table sx={{minWidth: 500}} className={classes.desktopTable}>
@@ -111,16 +98,16 @@ const SellerPage: VFC<SellerPageProps> = () => {
                 </tr>
               </thead>
               <tbody>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
-                <SellerDetailsDesktop></SellerDetailsDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                <ItemCashbackerDesktop></ItemCashbackerDesktop>
               </tbody>
             </Table>
             <p className="m-0">

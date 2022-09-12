@@ -1,6 +1,5 @@
-import {createStyles, Container, Group, Anchor} from '@mantine/core';
-import {Image} from '@mantine/core';
-import Link from 'next/link';
+import {Anchor, Container, createStyles, Group, Image} from '@mantine/core';
+
 const useStyles = createStyles((theme) => ({
   footer: {
     borderTop: `1px solid ${
