@@ -1,4 +1,4 @@
-import {Button, Group, SimpleGrid} from '@mantine/core';
+import {Button, Card, Group, SimpleGrid} from '@mantine/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import {VFC} from 'react';
@@ -19,7 +19,10 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
       <main className="justify-center">
         <SearchHeader></SearchHeader>
         <div className="flex flex-col items-center justify-center">
-          <Group className="mx-4 mb-2 mt-2 sm:w-1/2 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4">
+          <Card
+            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
+            withBorder
+          >
             <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'center'}}>
               Liste des marchands
             </h1>
@@ -30,27 +33,32 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
             </p>
             <SimpleGrid
               className="w-full"
-              cols={16}
-              spacing="xs"
+              cols={22}
+              spacing={6}
               breakpoints={[
-                {maxWidth: 980, cols: 16, spacing: 'md'},
-                {maxWidth: 755, cols: 16, spacing: 'sm'},
-                {maxWidth: 600, cols: 8, spacing: 'sm'},
+                {maxWidth: 980, cols: 16, spacing: 8},
+                {maxWidth: 755, cols: 16, spacing: 8},
+                {maxWidth: 600, cols: 8, spacing: 8},
               ]}
             >
               {[...Array(26)].map((_, i) => {
                 const letter = String.fromCharCode('A'.charCodeAt(0) + i);
 
                 return (
-                  <Link href={`#${letter}`} scroll={false}>
-                    <Button size="xs" radius="xs" color={'red'} className="p-0">
+                  <Link href={`#${letter}`} scroll={false} key={`letter${i}`}>
+                    <Button
+                      size="xs"
+                      radius="xs"
+                      color={'red'}
+                      className="p-0 whitespace-nowrap w-9 h-9"
+                    >
                       {letter}
                     </Button>
                   </Link>
                 );
               })}
             </SimpleGrid>
-            <Group className="flex-col flex-1">
+            <Group className="flex-col flex-1 mt-4">
               <ItemSellerLetter letter="A"></ItemSellerLetter>
               <ItemSellerLetter letter="B"></ItemSellerLetter>
               <ItemSellerLetter letter="C"></ItemSellerLetter>
@@ -58,7 +66,7 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
               <ItemSellerLetter letter="E"></ItemSellerLetter>
               <ItemSellerLetter letter="F"></ItemSellerLetter>
             </Group>
-          </Group>
+          </Card>
         </div>
       </main>
       <footer>

@@ -218,8 +218,27 @@ const HomePage: FC<HomePageProps> = () => {
             </Grid.Col>
             <Grid.Col md={24} lg={24} xs={24}>
               <Card shadow={'xs'} withBorder className="justify-center">
-                <h1>A quoi sert le comparateur meilleurcashback.com</h1>
-                <p>Meilleurcashback est un comparateur qui vous permet</p>
+                <h3 className="underline m-0">A quoi sert le comparateur meilleurcashback.com</h3>
+                <p>
+                  Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup
+                  d'oeil quel est le taux de cashback pratiqué par les meilleurs sites de cashback
+                  du marché sur le marchand chez lequel vous envisagez de réaliser votre achat. Vous
+                  pourrez alors savoir quel site pratique le meilleur taux, mais également avoir
+                  toutes les informations nécessaires pour faire votre choix (note, bonus de
+                  bienvenue, notre avis...) pour faire votre choix en fonction de vos critères.
+                </p>
+                <h3 className="underline m-0">
+                  Je veux en savoir plus sur le cashback et son fonctionnement
+                </h3>
+                <p>
+                  Ce comparateur a été conçu en collaboration avec le blog sitescashback.com, blog
+                  de reference sur le cashback depuis plus de 10 ans, ce qui a valus a sitescashback
+                  un passage en expert du cashback dans l'émission TV Capital sur M6 fin 2021. Pour
+                  trouver de nombreux articles détaillés sur le cashback et ses différents sites, je
+                  vous invite à vous rendre sur sitescashback.com. Si vous souhaitez pour commencer
+                  comprendre ce qu'est le cashback et comment ça marche vous pouvez lire cet
+                  article.
+                </p>
               </Card>
             </Grid.Col>
           </Grid>

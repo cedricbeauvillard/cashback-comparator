@@ -1,4 +1,4 @@
-import {Button, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
+import {Button, Card, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
 import Head from 'next/head';
 import {VFC} from 'react';
 import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
@@ -40,7 +40,10 @@ const SellerPage: VFC<SellerPageProps> = () => {
       <main>
         <SearchHeader></SearchHeader>
         <div className="flex items-center justify-center">
-          <Group className="mx-4 mb-2 mt-2 sm:w-1/2 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4">
+          <Card
+            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
+            withBorder
+          >
             <h1 className="m-0">MEILLEUR CASHBACK ALIZEA VOYAGES</h1>
             <p className="m-0">
               Vous vous apprêtez à faire un achat sur le site marchand de <b>ALIZEA VOYAGES</b> et
@@ -156,7 +159,7 @@ const SellerPage: VFC<SellerPageProps> = () => {
                 </Button>
               </div>
             </SimpleGrid>
-          </Group>
+          </Card>
         </div>
       </main>
       <footer>

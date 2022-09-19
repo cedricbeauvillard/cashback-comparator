@@ -1,4 +1,4 @@
-import {Button, Group, SimpleGrid} from '@mantine/core';
+import {Button, Card, Group, SimpleGrid} from '@mantine/core';
 import Head from 'next/head';
 import {VFC} from 'react';
 import {ItemTopSeller} from '../components/business/ItemTopSeller';
@@ -17,7 +17,10 @@ const TopSellerPage: VFC<TopSellersPageProps> = () => {
       </Head>
       <main className="w-auto h-auto bg-red-600 justify-center">
         <SearchHeader></SearchHeader>
-        <div className="flex flex-col mx-4 mb-2 mt-2 sm:m-auto sm:w-1/2 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4">
+        <Card
+          className="flex flex-col mx-4 mb-2 mt-2 sm:m-auto sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
+          withBorder
+        >
           <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'left'}}>Les top marchands</h1>
           <p>
             Nous avons répertorié pour vous une liste des principaux marchands (web ou magasin) qui
@@ -52,7 +55,7 @@ const TopSellerPage: VFC<TopSellersPageProps> = () => {
             </SimpleGrid>
             <Button color="red">Charger plus</Button>
           </Group>
-        </div>
+        </Card>
       </main>
       <footer>
         <footer>
