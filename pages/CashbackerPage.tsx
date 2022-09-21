@@ -55,14 +55,15 @@ const CashbackerPage: VFC<CashbackerPageProps> = () => {
               savoir plus sur le fonctionnement du cashback nous vous invitons à lire
               <a className="text-hyperlink" href="https://sitescashback.com/le-cashback-explique/">
                 {' '}
-                cet article{' '}
+                cet article.
+                <br />
               </a>
               Nous avons réalisé pour vous un comparatif des meilleurs sites de cashback et avons
               retenu les plus sérieux pour notre comparateur de taux, que nous vous présentons sous
               forme de classement. Dans le tableau ci-dessous nous avons mentionné pour chaque site
-              le bonus de bienvenue (inscriptions gratuites) dont vous bénéficierez lors de votre
-              inscription par notre lien de parrainage, ainsi que le seuil et mode de paiement pour
-              récupérer votre cagnotte. Si l’on prend l’exemple d’
+              le bonus de bienvenue (<a className="font-bold">inscriptions gratuites</a>) dont vous
+              bénéficierez lors de votre inscription par notre lien de parrainage, ainsi que le
+              seuil et mode de paiement pour récupérer votre cagnotte. Si l’on prend l’exemple d’
               <a
                 className="text-hyperlink"
                 href="https://www.ebuyclub.com/inscription?h=1&parrain=contact934&affilie=comparateur-sites-cb"
