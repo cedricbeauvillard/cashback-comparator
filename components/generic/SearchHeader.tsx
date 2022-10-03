@@ -19,7 +19,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan('md')]: {
+    [theme.fn.smallerThan('lg')]: {
       display: 'none',
     },
   },
@@ -120,6 +120,8 @@ export const SearchHeader: FC = () => {
           />
         </Group>
       </div>
+
+      {/* Burger menu */}
       {pagePanelOpened && (
         <Group className={classes.mobilePanel}>
           <div className="flex flex-row w-full py-2">
