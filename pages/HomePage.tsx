@@ -12,7 +12,7 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import {Cashbacker, PrismaClient} from '@prisma/client';
+import {Cashbacker, PrismaClient, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -41,7 +41,8 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
-  cashbackers: Cashbacker[] | null;
+  cashbackers?: Cashbacker[] | null;
+  topSellers?: Seller[] | null;
 }
 
 const HomePage: FC<HomePageProps> = ({cashbackers}) => {
@@ -257,9 +258,14 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       orderBy: {rank: 'asc'},
     });
 
+    const topSellers = await prisma.seller.findMany({
+      take: 20,
+    });
+
     return {
       props: {
         cashbackers: cashbackers,
+        topSellers: topSellers,
       },
     };
   } catch (e) {
