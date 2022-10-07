@@ -34,15 +34,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface ItemCashbackerInfosMobileProps {
-  image: string;
+  imageUrl: string;
   name: string;
-  bonus: string;
+  bonus: number;
   paymentThresold: number;
   paymentMethod: string;
 }
 
 export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
-  image,
+  imageUrl,
   name,
   bonus,
   paymentThresold,
@@ -53,13 +53,13 @@ export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
   return (
     <Card withBorder radius="md" shadow={'sm'} p={0} className={classes.card}>
       <Group noWrap spacing={0}>
-        <Image src={image} height={140} width={140} fit="contain" />
+        <Image src={imageUrl} height={140} width={140} fit="contain" />
         <div className={classes.title}>
           <Text transform="uppercase" color="dimmed" weight={900} size="md" className="mt-2">
             {name}
           </Text>
           <Text mt="xs" mb="xs" weight={400}>
-            Bonus d'inscription: {bonus}
+            Bonus d'inscription: {bonus}€
           </Text>
           <Text mt="xs" mb="xs" weight={400}>
             Seuil de paiement: {paymentThresold}€

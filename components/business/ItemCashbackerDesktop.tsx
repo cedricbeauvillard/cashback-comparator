@@ -1,8 +1,8 @@
 import {Button, createStyles, Image} from '@mantine/core';
-import {Cashbacker} from '@prisma/client';
+import Link from 'next/link';
 import {FC} from 'react';
 import StarSvg from '../svg/StarSvg';
-import {ItemCashbackerProps, RateData} from './types';
+import {ItemCashbackerProps} from './types';
 import {rankingIcons} from './_static';
 
 /*
@@ -11,7 +11,11 @@ import {rankingIcons} from './_static';
 
 const useStyles = createStyles((theme) => ({}));
 
-export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({cashbacker, rateData}) => {
+export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
+  displayRate,
+  cashbacker,
+  rateData,
+}) => {
   const {classes} = useStyles();
 
   let stars = [];
@@ -20,11 +24,15 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({cashbacker, rate
     stars.push(<StarSvg key={`star-${i}`} width="1rem"></StarSvg>);
   }
 
-  const cashbackerUnit = rateData.unit === 'None' ? '' : rateData.unit === 'Euro' ? '€' : '%';
+  const cashbackerUnit = rateData?.unit === 'None' ? '' : rateData?.unit === 'Euro' ? '€' : '%';
 
-  const cashbackerRate = `${rateData.isRangeRate ? "Jusqu'a" : ''}${
-    rateData.rate
-  }${cashbackerUnit}`;
+  let cashbackerRate = '';
+
+  if (rateData && rateData?.rate > 0) {
+    cashbackerRate = `${rateData?.isRangeRate ? "Jusqu'a" : ''}${rateData?.rate}${cashbackerUnit}`;
+  } else {
+    cashbackerRate = '-';
+  }
 
   return (
     <tr key="ebuyclub">
@@ -45,12 +53,16 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({cashbacker, rate
       {/* Bonus */}
       <td>{cashbacker.signupBonus}€ à l'inscription</td>
       {/* Cashback rate */}
-      <td>{cashbackerRate}</td>
+      {displayRate ? <td>{cashbackerRate}</td> : undefined}
       {/* More informations  cta's*/}
       <td>
         <Button.Group orientation="vertical" className="flex">
-          <Button className="my-2 w-24">Avis</Button>
-          <Button className="my-2 w-24">Visiter</Button>
+          <Link href={cashbacker.reviewsUrl} passHref>
+            <Button className="my-2 w-24">Avis</Button>
+          </Link>
+          <Link href={cashbacker.sponsorshipUrl} passHref>
+            <Button className="my-2 w-24">Visiter</Button>
+          </Link>
         </Button.Group>
       </td>
     </tr>

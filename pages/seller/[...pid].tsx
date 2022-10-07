@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface SellerPageProps {
-  seller: Seller | null;
+  seller: Seller;
   cashbackers: Cashbacker[] | null;
 }
 
@@ -102,9 +102,9 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
             className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
             withBorder
           >
-            <h1 className="m-0">MEILLEUR CASHBACK ALIZEA VOYAGES {seller && seller.name}</h1>
+            <h1 className="m-0">MEILLEUR CASHBACK {seller.name}</h1>
             <p className="m-0">
-              Vous vous apprêtez à faire un achat sur le site marchand de <b>ALIZEA VOYAGES</b> et
+              Vous vous apprêtez à faire un achat sur le site marchand de <b>{seller.name}</b> et
               vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
               comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
               pratiqué par
@@ -138,11 +138,12 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               </a>
               , le taux cashback indiqué dans le comparateur est le taux total.
             </p>
-            <h3 className="m-0 mt-4">TAUX DE CASHBACK POUR LE SITE ALIZEA VOYAGES</h3>
+            <h3 className="m-0 mt-4">TAUX DE CASHBACK POUR LE SITE {seller.name}</h3>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
               {cashbackers?.map((cashbacker, index) => (
                 <ItemCashbackerMobile
+                  displayRate={true}
                   key={`cashbacker-${index}`}
                   cashbacker={cashbacker}
                   rateData={getCashbackerRateData(seller, cashbacker.name)}
@@ -164,6 +165,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               <tbody>
                 {cashbackers?.map((cashbacker, index) => (
                   <ItemCashbackerDesktop
+                    displayRate={true}
                     key={`cashbacker-${index}`}
                     cashbacker={cashbacker}
                     rateData={getCashbackerRateData(seller, cashbacker.name)}
@@ -189,18 +191,33 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
             >
               <div>
                 <Group className="w-full">
-                  <Button variant="outline" className="w-full h-12" color="red">
-                    CE SITE NE FAIT PARTIE DU PANIER CASHBACK 40
-                  </Button>
-                  <Button variant="outline" className="w-full text-center h-12" color="red">
-                    CE SITE NE FAIT PARTIE
-                    <br />
-                    DU PANIER TOP MARCHAND
-                  </Button>
-                  <Button variant="outline" className="w-full text-center h-12" color="green">
-                    COMPATIBLE AVEC LE CASHBACK
-                    <br /> SUR BONS D'ACHAT EBUYCLUB
-                  </Button>
+                  {seller?.top40 ? (
+                    <Button variant="outline" className="w-full h-12" color="green">
+                      PANIER CASHBACK 40 👍
+                    </Button>
+                  ) : (
+                    <Button variant="outline" className="w-full h-12" color="red">
+                      PANIER CASHBACK 40 👎
+                    </Button>
+                  )}
+                  {seller?.topSeller ? (
+                    <Button variant="outline" className="w-full h-12" color="green">
+                      TOP MARCHAND 👍
+                    </Button>
+                  ) : (
+                    <Button variant="outline" className="w-full h-12" color="red">
+                      TOP MARCHAND 👎
+                    </Button>
+                  )}
+                  {seller?.coupon ? (
+                    <Button variant="outline" className="w-full h-12" color="green">
+                      SUR BONS D'ACHAT EBUYCLUB 👍
+                    </Button>
+                  ) : (
+                    <Button variant="outline" className="w-full h-12" color="red">
+                      SUR BONS D'ACHAT EBUYCLUB 👎
+                    </Button>
+                  )}
                 </Group>
               </div>
               <div>
@@ -253,14 +270,12 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
 export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: string}> = async (
   context
 ) => {
-  if (!context.params) return {notFound: true};
+  if (!context.params) {
+    return {notFound: true};
+  }
 
   try {
     const prisma = new PrismaClient();
-
-    if (!context.params) {
-      return {notFound: true};
-    }
 
     let pidStr: string | undefined = context.params.pid.toString();
     pidStr = extractSellerNameFromPid(pidStr);
@@ -272,6 +287,10 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
     const seller = await prisma.seller.findFirst({
       where: {name: {contains: pidStr}},
     });
+
+    if (!seller) {
+      return {notFound: true};
+    }
 
     const cashbackers = await prisma.cashbacker.findMany({
       orderBy: {rank: 'asc'},

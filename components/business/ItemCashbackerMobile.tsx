@@ -1,5 +1,6 @@
 import {Button, Card, createStyles, Group, Image} from '@mantine/core';
 import {FC} from 'react';
+import Link from 'next/link';
 import StarSvg from '../svg/StarSvg';
 import {ItemCashbackerProps} from './types';
 import {rankingIcons} from './_static';
@@ -23,7 +24,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({cashbacker, rateData}) => {
+export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
+  displayRate,
+  cashbacker,
+  rateData,
+}) => {
   const {classes} = useStyles();
 
   let stars = [];
@@ -32,11 +37,15 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({cashbacker, rateD
     stars.push(<StarSvg key={`star-${i}`} width={'10%'}></StarSvg>);
   }
 
-  const cashbackerUnit = rateData.unit === 'None' ? '' : rateData.unit === 'Euro' ? '€' : '%';
+  const cashbackerUnit = rateData?.unit === 'None' ? '' : rateData?.unit === 'Euro' ? '€' : '%';
 
-  const cashbackerRate = `${rateData.isRangeRate ? "Jusqu'a" : ''}${
-    rateData.rate
-  }${cashbackerUnit}`;
+  let cashbackerRate = '';
+
+  if (rateData && rateData?.rate > 0) {
+    cashbackerRate = `${rateData?.isRangeRate ? "Jusqu'a" : ''}${rateData?.rate}${cashbackerUnit}`;
+  } else {
+    cashbackerRate = '-';
+  }
 
   return (
     <Card shadow="sm" p="lg" radius="md" withBorder className="px-4 py-3">
@@ -65,16 +74,22 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({cashbacker, rateD
         <p>{cashbacker.signupBonus}€ à l'inscription</p>
       </Group>
       {/* Cashback rate */}
-      <Group className={classes.cashbackerItemRow}>
-        <p>Taux de cashback:</p>
-        <p>{cashbackerRate}</p>
-      </Group>
+      {displayRate ? (
+        <Group className={classes.cashbackerItemRow}>
+          <p>Taux de cashback:</p>
+          <p>{cashbackerRate}</p>
+        </Group>
+      ) : undefined}
       {/* More informations  ctas*/}
       <Group className={classes.cashbackerItemCol}>
         <p className="self-start m-0">Plus d'informations:</p>
         <Button.Group orientation="vertical" className="flex">
-          <Button className="my-2 w-48">Avis</Button>
-          <Button className="my-2 w-48">Visiter</Button>
+          <Link href={cashbacker.reviewsUrl} passHref>
+            <Button className="my-2 w-48">Avis</Button>
+          </Link>
+          <Link href={cashbacker.reviewsUrl} passHref>
+            <Button className="my-2 w-48">Visiter</Button>
+          </Link>
         </Button.Group>
       </Group>
     </Card>

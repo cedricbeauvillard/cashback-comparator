@@ -12,6 +12,8 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
+import {Cashbacker, PrismaClient} from '@prisma/client';
+import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import {FC} from 'react';
@@ -38,9 +40,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export interface HomePageProps {}
+export interface HomePageProps {
+  cashbackers: Cashbacker[] | null;
+}
 
-const HomePage: FC<HomePageProps> = () => {
+const HomePage: FC<HomePageProps> = ({cashbackers}) => {
   const {classes} = useStyles();
   const theme = useMantineTheme();
 
@@ -153,42 +157,16 @@ const HomePage: FC<HomePageProps> = () => {
                 <h4 className="m-0">Sites de cashback comparés</h4>
                 {/* Mobile table */}
                 <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-                  <ItemCashbackerInfosMobile
-                    image={
-                      'https://touteslesbox.fr/wp-content/uploads/2017/10/ebuyclub-achetez-malin.png'
-                    }
-                    name={'Ebuyclub'}
-                    bonus={'12€'}
-                    paymentThresold={0}
-                    paymentMethod={'PayPal, Chèque, Virement, Cartes cadeaux'}
-                  ></ItemCashbackerInfosMobile>
-                  <ItemCashbackerInfosMobile
-                    image={
-                      'https://touteslesbox.fr/wp-content/uploads/2017/10/ebuyclub-achetez-malin.png'
-                    }
-                    name={'Ebuyclub'}
-                    bonus={'12€'}
-                    paymentThresold={0}
-                    paymentMethod={'CB'}
-                  ></ItemCashbackerInfosMobile>
-                  <ItemCashbackerInfosMobile
-                    image={
-                      'https://touteslesbox.fr/wp-content/uploads/2017/10/ebuyclub-achetez-malin.png'
-                    }
-                    name={'Ebuyclub'}
-                    bonus={'12€'}
-                    paymentThresold={0}
-                    paymentMethod={'CB'}
-                  ></ItemCashbackerInfosMobile>
-                  <ItemCashbackerInfosMobile
-                    image={
-                      'https://touteslesbox.fr/wp-content/uploads/2017/10/ebuyclub-achetez-malin.png'
-                    }
-                    name={'Ebuyclub'}
-                    bonus={'12€'}
-                    paymentThresold={0}
-                    paymentMethod={'CB'}
-                  ></ItemCashbackerInfosMobile>
+                  {cashbackers?.map((cashbacker, index) => (
+                    <ItemCashbackerInfosMobile
+                      key={`cashbacker-${index}`}
+                      imageUrl={cashbacker.logoUrl}
+                      name={cashbacker.name}
+                      bonus={cashbacker.signupBonus}
+                      paymentThresold={cashbacker.paymentThreshold ?? 0}
+                      paymentMethod={'PayPal, Chèque, Virement, Cartes cadeaux'}
+                    ></ItemCashbackerInfosMobile>
+                  ))}
                 </SimpleGrid>
 
                 {/* Desktop table */}
@@ -202,16 +180,15 @@ const HomePage: FC<HomePageProps> = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
-                    <ItemCashbackerInfosDesktop></ItemCashbackerInfosDesktop>
+                    {cashbackers?.map((cashbacker, index) => (
+                      <ItemCashbackerInfosDesktop
+                        key={`cashbacker-${index}`}
+                        imageUrl={cashbacker.logoUrl}
+                        bonus={cashbacker.signupBonus}
+                        paymentThresold={cashbacker.paymentThreshold ?? 0}
+                        paymentMethod={'PayPal, Chèque, Virement, Cartes cadeaux'}
+                      ></ItemCashbackerInfosDesktop>
+                    ))}
                   </tbody>
                 </Table>
               </Card>
@@ -270,6 +247,24 @@ const HomePage: FC<HomePageProps> = () => {
       </footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
+  try {
+    const prisma = new PrismaClient();
+
+    const cashbackers = await prisma.cashbacker.findMany({
+      orderBy: {rank: 'asc'},
+    });
+
+    return {
+      props: {
+        cashbackers: cashbackers,
+      },
+    };
+  } catch (e) {
+    return {notFound: true};
+  }
 };
 
 export default HomePage;

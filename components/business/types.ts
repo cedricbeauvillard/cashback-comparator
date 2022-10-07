@@ -1,8 +1,9 @@
 import {Cashbacker, RateUnit} from '@prisma/client';
 
 export interface ItemCashbackerProps {
+  displayRate: boolean;
   cashbacker: Cashbacker;
-  rateData: RateData;
+  rateData?: RateData;
 }
 
 export type RateData = {

@@ -1,4 +1,6 @@
 import {Button, Card, createStyles, Group, SimpleGrid, Table} from '@mantine/core';
+import {Cashbacker, PrismaClient} from '@prisma/client';
+import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {VFC} from 'react';
 import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
@@ -10,8 +12,6 @@ import {SearchHeader} from '../components/generic/SearchHeader';
  * Cashbackers ranking
  */
 
-export interface CashbackerPageProps {}
-
 const useStyles = createStyles((theme) => ({
   mobileTable: {
     marginTop: '2rem',
@@ -20,13 +20,18 @@ const useStyles = createStyles((theme) => ({
     },
   },
   desktopTable: {
+    marginTop: '2rem',
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
     },
   },
 }));
 
-const CashbackerPage: VFC<CashbackerPageProps> = () => {
+export interface CashbackerPageProps {
+  cashbackers: Cashbacker[] | null;
+}
+
+const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
   const {classes} = useStyles();
 
   return (
@@ -79,10 +84,13 @@ const CashbackerPage: VFC<CashbackerPageProps> = () => {
             </p>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
+              {cashbackers?.map((cashbacker, index) => (
+                <ItemCashbackerMobile
+                  displayRate={false}
+                  key={`cashbacker-${index}`}
+                  cashbacker={cashbacker}
+                ></ItemCashbackerMobile>
+              ))}
             </SimpleGrid>
             {/* Desktop table */}
             <Table sx={{minWidth: 500}} className={classes.desktopTable}>
@@ -92,21 +100,17 @@ const CashbackerPage: VFC<CashbackerPageProps> = () => {
                   <th>Note (/5)</th>
                   <th>Classement</th>
                   <th>Bonus</th>
-                  <th>Taux de cashback</th>
                   <th>Plus d'infos</th>
                 </tr>
               </thead>
               <tbody>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                {cashbackers?.map((cashbacker, index) => (
+                  <ItemCashbackerDesktop
+                    displayRate={false}
+                    key={`cashbacker-${index}`}
+                    cashbacker={cashbacker}
+                  ></ItemCashbackerDesktop>
+                ))}
               </tbody>
             </Table>
             <p>
@@ -123,7 +127,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = () => {
             </p>
             <div className="mt-6 flex flex-col items-center justify-center sm:mt-4">
               <div className="w-full">
-                <h4 className="underline">Notre avis sur le site ebuyclub</h4>
+                <h4 className="underline">Notre avis sur le site Ebuyclub</h4>
               </div>
               <p>
                 Ebuyclub est un des sites pionniers du cashback depuis 1999, qui dispose d’une très
@@ -246,6 +250,24 @@ const CashbackerPage: VFC<CashbackerPageProps> = () => {
       </footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<CashbackerPageProps> = async () => {
+  try {
+    const prisma = new PrismaClient();
+
+    const cashbackers = await prisma.cashbacker.findMany({
+      orderBy: {rank: 'asc'},
+    });
+
+    return {
+      props: {
+        cashbackers: cashbackers,
+      },
+    };
+  } catch (e) {
+    return {notFound: true};
+  }
 };
 
 export default CashbackerPage;
