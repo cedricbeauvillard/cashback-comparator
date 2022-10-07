@@ -62,7 +62,7 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({cashbacker, rateD
       {/* Bonus */}
       <Group className={classes.cashbackerItemRow}>
         <p>Bonus:</p>
-        <td>{cashbacker.signupBonus}€ à l'inscription</td>
+        <p>{cashbacker.signupBonus}€ à l'inscription</p>
       </Group>
       {/* Cashback rate */}
       <Group className={classes.cashbackerItemRow}>
