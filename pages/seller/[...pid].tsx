@@ -1,12 +1,16 @@
 import {Button, Card, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
+import {Cashbacker, PrismaClient, RateUnit, Seller} from '@prisma/client';
+import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {VFC} from 'react';
-import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
-import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
-import {FooterLinks} from '../components/generic/FooterLinks';
-import {SearchHeader} from '../components/generic/SearchHeader';
-import AllSvg from '../components/svg/AllSvg';
-import SearchSvg from '../components/svg/SearchSvg';
+import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
+import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
+import {emptyRateData, RateData} from '../../components/business/types';
+import {FooterLinks} from '../../components/generic/FooterLinks';
+import {SearchHeader} from '../../components/generic/SearchHeader';
+import AllSvg from '../../components/svg/AllSvg';
+import SearchSvg from '../../components/svg/SearchSvg';
+import {extractSellerNameFromPid} from '../../lib/_urlManagement';
 
 /*
  * Template page for sellers
@@ -25,9 +29,63 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export interface SellerPageProps {}
+export interface SellerPageProps {
+  seller: Seller | null;
+  cashbackers: Cashbacker[] | null;
+}
 
-const SellerPage: VFC<SellerPageProps> = () => {
+/*
+ * Find column in seller that match current treated cashbacker
+ */
+const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): RateData => {
+  if (!seller) {
+    return emptyRateData;
+  }
+
+  // Remove space and get only first 3 chars
+  cashbackerName = cashbackerName.replace(' ', '').substring(0, 3);
+
+  const keys = Object.keys(seller) as Array<keyof typeof seller>;
+
+  let rateIndex = 0;
+
+  for (let i = 0; i < keys.length; ++i) {
+    if (keys[i].toLowerCase().includes(cashbackerName.toLowerCase())) {
+      rateIndex = i;
+      break;
+    }
+  }
+
+  let isRangeRate: boolean = false;
+  const possibleRangeRate = seller[keys[rateIndex]];
+
+  if (possibleRangeRate != null && typeof possibleRangeRate === 'boolean') {
+    isRangeRate = possibleRangeRate;
+  }
+
+  let rate: number = 0;
+  const possibleRate = seller[keys[rateIndex + 1]];
+
+  if (possibleRate != null && typeof possibleRate === 'number') {
+    rate = possibleRate;
+  }
+
+  let unit: RateUnit = RateUnit.None;
+
+  const possibleUnit = seller[keys[rateIndex + 2]];
+
+  if (possibleUnit && typeof possibleUnit === 'string') {
+    unit = RateUnit[possibleUnit as keyof typeof RateUnit];
+  }
+
+  return {
+    isRangeRate,
+    rate,
+    unit,
+  };
+};
+
+const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
 
   return (
@@ -44,7 +102,7 @@ const SellerPage: VFC<SellerPageProps> = () => {
             className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
             withBorder
           >
-            <h1 className="m-0">MEILLEUR CASHBACK ALIZEA VOYAGES</h1>
+            <h1 className="m-0">MEILLEUR CASHBACK ALIZEA VOYAGES {seller && seller.name}</h1>
             <p className="m-0">
               Vous vous apprêtez à faire un achat sur le site marchand de <b>ALIZEA VOYAGES</b> et
               vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
@@ -83,10 +141,13 @@ const SellerPage: VFC<SellerPageProps> = () => {
             <h3 className="m-0 mt-4">TAUX DE CASHBACK POUR LE SITE ALIZEA VOYAGES</h3>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
-              <ItemCashbackerMobile></ItemCashbackerMobile>
+              {cashbackers?.map((cashbacker, index) => (
+                <ItemCashbackerMobile
+                  key={`cashbacker-${index}`}
+                  cashbacker={cashbacker}
+                  rateData={getCashbackerRateData(seller, cashbacker.name)}
+                ></ItemCashbackerMobile>
+              ))}
             </SimpleGrid>
             {/* Desktop table */}
             <Table sx={{minWidth: 500}} className={classes.desktopTable}>
@@ -101,19 +162,16 @@ const SellerPage: VFC<SellerPageProps> = () => {
                 </tr>
               </thead>
               <tbody>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
-                <ItemCashbackerDesktop></ItemCashbackerDesktop>
+                {cashbackers?.map((cashbacker, index) => (
+                  <ItemCashbackerDesktop
+                    key={`cashbacker-${index}`}
+                    cashbacker={cashbacker}
+                    rateData={getCashbackerRateData(seller, cashbacker.name)}
+                  ></ItemCashbackerDesktop>
+                ))}
               </tbody>
             </Table>
-            <p className="m-0">
+            <p className="mt-4 md:mt-0">
               Même si nous nous efforçons de mettre à jour le plus fréquemment possible les taux de
               cashback présents dans nos comparatifs, nous vous conseillons de vérifier leur
               validité sur les sites concernés. Une erreur dans ces taux ne pourrait engager ni
@@ -190,6 +248,44 @@ const SellerPage: VFC<SellerPageProps> = () => {
       </footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: string}> = async (
+  context
+) => {
+  if (!context.params) return {notFound: true};
+
+  try {
+    const prisma = new PrismaClient();
+
+    if (!context.params) {
+      return {notFound: true};
+    }
+
+    let pidStr: string | undefined = context.params.pid.toString();
+    pidStr = extractSellerNameFromPid(pidStr);
+
+    if (!pidStr) {
+      return {notFound: true};
+    }
+
+    const seller = await prisma.seller.findFirst({
+      where: {name: {contains: pidStr}},
+    });
+
+    const cashbackers = await prisma.cashbacker.findMany({
+      orderBy: {rank: 'asc'},
+    });
+
+    return {
+      props: {
+        seller: seller,
+        cashbackers: cashbackers,
+      },
+    };
+  } catch (e) {
+    return {notFound: true};
+  }
 };
 
 export default SellerPage;

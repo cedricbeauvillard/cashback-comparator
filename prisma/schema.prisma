@@ -1,11 +1,98 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Cashbacker {
+  id               Int    @id @unique @default(autoincrement())
+  name             String @db.VarChar(255)
+  logoUrl          String
+  score            Int    @default(0)
+  rank             Int    @default(0)
+  signupBonus      Int    @default(0)
+  paymentThreshold Float? @default(0)
+  sponsorshipUrl   String
+  reviewsUrl       String
+}
+
+// The unit of rate
+enum RateUnit {
+  Euro    @map("EURO")
+  Percent @map("PERCENT")
+  None    @map("NONE")
+}
+
+model Category {
+  id   Int    @id @unique @default(autoincrement())
+  name String @db.VarChar(255)
+
+  sellers CategoriesOnSellers[]
+}
+
+model Seller {
+  id        Int      @id @unique @default(autoincrement())
+  name      String   @db.VarChar(255)
+  logoUrl   String?
+  top40     Boolean? @default(false)
+  topSeller Boolean? @default(false)
+  coupon    Boolean? @default(false)
+
+  categories CategoriesOnSellers[]
+
+  isRangeRateIgraal Boolean?  @default(false)
+  rateIgraal        Float?    @default(0)
+  unitRateIgraal    RateUnit?
+
+  isRangeRatePoulpeo Boolean?  @default(false)
+  ratePoulpeo        Float?    @default(0)
+  unitRatePoulpeo    RateUnit?
+
+  isRangeRateFunC Boolean?  @default(false)
+  rateFunC        Float?    @default(0)
+  unitRateFunC    RateUnit?
+
+  isRangeRateAuBonProfit Boolean?  @default(false)
+  rateAuBonProfit        Float?    @default(0)
+  unitRateAuBonProfit    RateUnit?
+
+  isRangeRateFlouzy Boolean?  @default(false)
+  rateFlouzy        Float?    @default(0)
+  unitRateFlouzy    RateUnit?
+
+  isRangeRateCapitalKoala Boolean?  @default(false)
+  rateCapitalKoala        Float?    @default(0)
+  unitRateCapitalKoala    RateUnit?
+
+  isRangeRateEbuyclub Boolean?  @default(false)
+  rateEbuyclub        Float?    @default(0)
+  unitRateEbuyclub    RateUnit?
+
+  isRangeRateWidilo Boolean?  @default(false)
+  rateWidilo        Float?    @default(0)
+  unitRateWidilo    RateUnit?
+
+  isRangeRateJoko Boolean?  @default(false)
+  rateJoko        Float?    @default(0)
+  unitRateJoko    RateUnit?
+
+  isRangeRateBoursorama Boolean?  @default(false)
+  rateBoursorama        Float?    @default(0)
+  unitRateBoursorama    RateUnit?
+
+  isRangeRateEbuyclubCoupon Boolean?  @default(false)
+  rateEbuyclubCoupon        Float?    @default(0)
+  unitRateEbuyclubCoupon    RateUnit?
+}
+
+model CategoriesOnSellers {
+  seller     Seller   @relation(fields: [sellerId], references: [id])
+  sellerId   Int // relation scalar field (used in the `@relation` attribute above)
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([sellerId, categoryId])
 }
