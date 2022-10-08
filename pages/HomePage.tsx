@@ -12,7 +12,7 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import {Cashbacker, PrismaClient, Seller} from '@prisma/client';
+import {Cashbacker, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ import {SearchHeader} from '../components/generic/SearchHeader';
 import AllSvg from '../components/svg/AllSvg';
 import RankingSvg from '../components/svg/RankingSvg';
 import SearchSvg from '../components/svg/SearchSvg';
-import {prisma} from '../db';
+import {prisma} from '../lib/db';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
