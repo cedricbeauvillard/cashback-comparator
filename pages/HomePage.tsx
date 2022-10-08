@@ -25,6 +25,7 @@ import {SearchHeader} from '../components/generic/SearchHeader';
 import AllSvg from '../components/svg/AllSvg';
 import RankingSvg from '../components/svg/RankingSvg';
 import SearchSvg from '../components/svg/SearchSvg';
+import {prisma} from '../db';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
