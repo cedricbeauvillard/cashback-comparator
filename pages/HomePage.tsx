@@ -252,7 +252,7 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
-    const prisma = new PrismaClient();
+    /*     const prisma = new PrismaClient();
 
     const cashbackers = await prisma.cashbacker.findMany({
       orderBy: {rank: 'asc'},
@@ -260,12 +260,12 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
 
     const topSellers = await prisma.seller.findMany({
       take: 20,
-    });
+    }); */
 
     return {
       props: {
-        cashbackers: cashbackers,
-        topSellers: topSellers,
+        cashbackers: [],
+        topSellers: [],
       },
     };
   } catch (e) {
