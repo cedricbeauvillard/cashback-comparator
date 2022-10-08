@@ -250,7 +250,7 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
   );
 };
 
-/* export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
     const prisma = new PrismaClient();
 
@@ -272,5 +272,5 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
     return {notFound: true};
   }
 };
- */
+
 export default HomePage;
