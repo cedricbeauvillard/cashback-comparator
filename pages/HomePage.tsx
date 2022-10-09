@@ -12,7 +12,7 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import {Cashbacker, Seller} from '@prisma/client';
+import {Cashbacker, PrismaClient, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -253,6 +253,8 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
+    const prisma = new PrismaClient();
+
     if (!prisma) {
       return {notFound: true, redirect: 'https://www.youtube.com/watch?v=5OGpV1rzbGI'};
     }
@@ -264,6 +266,9 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
     const topSellers = await prisma.seller.findMany({
       take: 20,
     });
+
+    console.log(cashbackers);
+    console.log(topSellers);
 
     return {
       props: {
