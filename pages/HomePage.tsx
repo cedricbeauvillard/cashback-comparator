@@ -260,7 +260,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
     if (!prisma || !p2) {
       return {
         props: {
-          test: `cant load prisma => ${process.env}`,
+          test: `cant load prisma => ${process.env.DATABASE_URL}`,
           cashbackers: null,
           topSellers: null,
         },
@@ -278,7 +278,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
 
     return {
       props: {
-        test: `cant load prisma => ${process.env}`,
+        test: `cant load prisma => ${process.env.DATABASE_URL}`,
         cashbackers: null,
         topSellers: null,
       },
