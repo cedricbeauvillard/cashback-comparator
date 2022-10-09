@@ -268,19 +268,19 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       /*       return {notFound: true}; */
     }
 
-    const cashbackers = await prisma.cashbacker.findMany({
+    /*     const cashbackers = await prisma.cashbacker.findMany({
       orderBy: {rank: 'asc'},
     });
 
     const topSellers = await prisma.seller.findMany({
       take: 20,
-    });
+    }); */
 
     return {
       props: {
-        test: 'sdsdsdsd',
-        cashbackers,
-        topSellers,
+        test: `cant load prisma => ${process.env}`,
+        cashbackers: null,
+        topSellers: null,
       },
     };
   } catch (e) {
