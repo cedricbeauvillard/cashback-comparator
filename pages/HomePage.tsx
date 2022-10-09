@@ -12,7 +12,7 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import {Cashbacker, PrismaClient, Seller} from '@prisma/client';
+import {Cashbacker, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -25,6 +25,7 @@ import {SearchHeader} from '../components/generic/SearchHeader';
 import AllSvg from '../components/svg/AllSvg';
 import RankingSvg from '../components/svg/RankingSvg';
 import SearchSvg from '../components/svg/SearchSvg';
+import prisma from '../lib/prisma';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
@@ -252,10 +253,8 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
-    const prisma = new PrismaClient();
-
     if (!prisma) {
-      return {notFound: true};
+      return {notFound: true, redirect: 'https://www.youtube.com/watch?v=5OGpV1rzbGI'};
     }
 
     const cashbackers = await prisma.cashbacker.findMany({

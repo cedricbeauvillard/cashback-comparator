@@ -1,5 +1,5 @@
 import {Button, Card, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
-import {Cashbacker, PrismaClient, RateUnit, Seller} from '@prisma/client';
+import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {VFC} from 'react';
@@ -10,6 +10,7 @@ import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
 import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
+import prisma from '../../lib/prisma';
 import {extractSellerNameFromPid} from '../../lib/_urlManagement';
 
 /*
@@ -275,8 +276,6 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
   }
 
   try {
-    const prisma = new PrismaClient();
-
     let pidStr: string | undefined = context.params.pid.toString();
     pidStr = extractSellerNameFromPid(pidStr);
 
