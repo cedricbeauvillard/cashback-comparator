@@ -252,33 +252,33 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
 };
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
-  /*   try { */
-  const prisma = new PrismaClient();
+  try {
+    const prisma = new PrismaClient();
 
-  if (!prisma) {
-    return {notFound: true, redirect: 'https://www.youtube.com/watch?v=5OGpV1rzbGI'};
-  }
+    if (!prisma) {
+      return {notFound: true, redirect: 'https://www.youtube.com/watch?v=5OGpV1rzbGI'};
+    }
 
-  const cashbackers = await prisma.cashbacker.findMany({
-    orderBy: {rank: 'asc'},
-  });
+    const cashbackers = await prisma.cashbacker.findMany({
+      orderBy: {rank: 'asc'},
+    });
 
-  const topSellers = await prisma.seller.findMany({
-    take: 20,
-  });
+    const topSellers = await prisma.seller.findMany({
+      take: 20,
+    });
 
-  console.log(cashbackers);
-  console.log(topSellers);
+    console.log(cashbackers);
+    console.log(topSellers);
 
-  return {
-    props: {
-      cashbackers,
-      topSellers,
-    },
-  };
-  /*   } catch (e) {
+    return {
+      props: {
+        cashbackers,
+        topSellers,
+      },
+    };
+  } catch (e) {
     return {notFound: true};
-  } */
+  }
 };
 
 export default HomePage;
