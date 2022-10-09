@@ -25,7 +25,6 @@ import {SearchHeader} from '../components/generic/SearchHeader';
 import AllSvg from '../components/svg/AllSvg';
 import RankingSvg from '../components/svg/RankingSvg';
 import SearchSvg from '../components/svg/SearchSvg';
-import {prisma} from '../lib/db';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
@@ -42,12 +41,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
-  test?: string;
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
 }
 
-const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
+const HomePage: FC<HomePageProps> = ({cashbackers}) => {
   const {classes} = useStyles();
   const theme = useMantineTheme();
 
@@ -79,8 +77,7 @@ const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
               className="text-5xl"
               style={{fontFamily: 'Greycliff CF, sans-serif'}}
             >
-              {/* Comparateur cashback */}
-              {test}
+              Comparateur cashback
             </Text>
             <h3 className="m-0 p-0 text-white text-2xl">
               Comparez les taux de cashbacks de plus de 8000 marchands en ligne
@@ -255,32 +252,24 @@ const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
-    const p2 = new PrismaClient();
+    const prisma = new PrismaClient();
 
-    if (!prisma || !p2) {
-      return {
-        props: {
-          test: `cant load prisma => ${process.env.DATABASE_URL}`,
-          cashbackers: null,
-          topSellers: null,
-        },
-      };
-      /*       return {notFound: true}; */
+    if (!prisma) {
+      return {notFound: true};
     }
 
-    /*     const cashbackers = await prisma.cashbacker.findMany({
+    const cashbackers = await prisma.cashbacker.findMany({
       orderBy: {rank: 'asc'},
     });
 
     const topSellers = await prisma.seller.findMany({
       take: 20,
-    }); */
+    });
 
     return {
       props: {
-        test: `cant load prisma => ${process.env.DATABASE_URL}`,
-        cashbackers: null,
-        topSellers: null,
+        cashbackers,
+        topSellers,
       },
     };
   } catch (e) {
