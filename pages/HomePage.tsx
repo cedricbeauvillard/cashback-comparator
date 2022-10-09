@@ -42,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
-  test: string;
+  test?: string;
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
 }
