@@ -14,7 +14,7 @@
     "@mantine/core": "^5.2.6",
     "@mantine/hooks": "^5.2.6",
     "@mantine/next": "^5.2.6",
-    "@prisma/client": "4.3.1",
+    "@prisma/client": "^4.4.0",
     "@svgr/webpack": "^6.3.1",
     "next": "12.2.5",
     "prisma": "^4.3.1",
