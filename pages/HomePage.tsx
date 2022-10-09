@@ -12,7 +12,7 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import {Cashbacker, Seller} from '@prisma/client';
+import {Cashbacker, PrismaClient, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -42,11 +42,12 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
+  test: string;
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
 }
 
-const HomePage: FC<HomePageProps> = ({cashbackers}) => {
+const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
   const {classes} = useStyles();
   const theme = useMantineTheme();
 
@@ -78,7 +79,8 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
               className="text-5xl"
               style={{fontFamily: 'Greycliff CF, sans-serif'}}
             >
-              Comparateur cashback
+              {/* Comparateur cashback */}
+              {test}
             </Text>
             <h3 className="m-0 p-0 text-white text-2xl">
               Comparez les taux de cashbacks de plus de 8000 marchands en ligne
@@ -253,8 +255,17 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
   try {
-    if (!prisma) {
-      return {notFound: true};
+    const p2 = new PrismaClient();
+
+    if (!prisma || !p2) {
+      return {
+        props: {
+          test: `cant load prisma => ${process.env}`,
+          cashbackers: null,
+          topSellers: null,
+        },
+      };
+      /*       return {notFound: true}; */
     }
 
     const cashbackers = await prisma.cashbacker.findMany({
@@ -267,6 +278,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
 
     return {
       props: {
+        test: 'sdsdsdsd',
         cashbackers,
         topSellers,
       },
