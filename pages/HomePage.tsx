@@ -42,11 +42,12 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
+  test?: any;
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
 }
 
-const HomePage: FC<HomePageProps> = ({cashbackers}) => {
+const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
   const {classes} = useStyles();
   const theme = useMantineTheme();
 
@@ -78,7 +79,7 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
               className="text-5xl"
               style={{fontFamily: 'Greycliff CF, sans-serif'}}
             >
-              Comparateur cashback
+              Comparateur cashback = {test}
             </Text>
             <h3 className="m-0 p-0 text-white text-2xl">
               Comparez les taux de cashbacks de plus de 8000 marchands en ligne
@@ -277,7 +278,14 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       },
     };
   } catch (e) {
-    return {notFound: true};
+    return {
+      props: {
+        test: e,
+        cashbackers: null,
+        topSellers: null,
+      },
+    };
+    /*  return {notFound: true}; */
   }
 };
 
