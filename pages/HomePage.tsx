@@ -280,7 +280,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
   } catch (e) {
     return {
       props: {
-        test: e,
+        test: `${e.stack}${e.message}${e.name}`,
         cashbackers: null,
         topSellers: null,
       },
