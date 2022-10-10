@@ -3,7 +3,13 @@ import {FC} from 'react';
 
 const useStyles = createStyles((theme) => ({}));
 
-export const ItemTopSeller: FC = () => {
+export interface ItemTopSellerProps {
+  logoUrl: string | null;
+  name: string;
+  pageUrl: string;
+}
+
+export const ItemTopSeller: FC<ItemTopSellerProps> = ({logoUrl, name, pageUrl}) => {
   const {classes} = useStyles();
 
   return (
@@ -16,14 +22,14 @@ export const ItemTopSeller: FC = () => {
     >
       <Card.Section>
         <Image
-          src="https://www.lerevenu.com/sites/site/files/field/image/fnac-darty.jpg"
+          src={logoUrl ?? 'https://www.lerevenu.com/sites/site/files/field/image/fnac-darty.jpg'}
           height={180}
           fit="contain"
           alt="sellerLogo"
         />
       </Card.Section>
       <Text weight={500} size="lg" mt="md" align="center">
-        Amazon
+        {name}
       </Text>
     </Card>
   );

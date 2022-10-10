@@ -16,15 +16,15 @@ import {Cashbacker, Seller} from '@prisma/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import {FC} from 'react';
-import {ItemCashbackerInfosDesktop} from './business/ItemCashbackerInfosDesktop';
-import {ItemCashbackerInfosMobile} from './business/ItemCashbackerInfosMobile';
-import {ItemTopSeller} from './business/ItemTopSeller';
-import {FooterLinks} from './generic/FooterLinks';
-import {SearchHeader} from './generic/SearchHeader';
+import {ItemCashbackerInfosDesktop} from './ItemCashbackerInfosDesktop';
+import {ItemCashbackerInfosMobile} from './ItemCashbackerInfosMobile';
+import {ItemTopSeller} from './ItemTopSeller';
+import {FooterLinks} from '../generic/FooterLinks';
+import {SearchHeader} from '../generic/SearchHeader';
 
-import AllSvg from './svg/AllSvg';
-import RankingSvg from './svg/RankingSvg';
-import SearchSvg from './svg/SearchSvg';
+import AllSvg from '../svg/AllSvg';
+import RankingSvg from '../svg/RankingSvg';
+import SearchSvg from '../svg/SearchSvg';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
@@ -134,8 +134,13 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                       {maxWidth: 600, cols: 2, spacing: 'sm'},
                     ]}
                   >
-                    {topSellers?.map((topSeller) => (
-                      <ItemTopSeller></ItemTopSeller>
+                    {topSellers?.map((topSeller, i) => (
+                      <ItemTopSeller
+                        logoUrl={topSeller.logoUrl ?? null}
+                        name={topSeller.name}
+                        pageUrl={topSeller.logoUrl ?? 'None'}
+                        key={`topSellers-${i}`}
+                      ></ItemTopSeller>
                     ))}
                   </SimpleGrid>
                   <Link href="/TopSellerPage" passHref>

@@ -1,13 +1,46 @@
 import {Button, Card, Group, SimpleGrid} from '@mantine/core';
+import {Seller} from '@prisma/client';
+import {copyFile} from 'fs';
+import {GetServerSideProps} from 'next';
 import Head from 'next/head';
-import {VFC} from 'react';
+import {useState, VFC} from 'react';
 import {ItemTopSeller} from '../components/business/ItemTopSeller';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
+import {prisma} from '../lib/prisma';
 
-export interface TopSellersPageProps {}
+export interface TopSellersPageProps {
+  initialTopSellers: Seller[];
+}
 
-const TopSellerPage: VFC<TopSellersPageProps> = () => {
+/* const loadMoreTopSellers = async (
+  current: Seller[],
+  setTopSellers: Dispatch<SetStateAction<Seller[]>>
+) => {
+  const idList = current.map((currentSeller) => currentSeller.id);
+
+  const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
+    // DO NOT pass in or accept user input here
+    `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE (topSeller = 1 OR top40=1 OR coupon=1) AND id NOT IN (${idList}) ORDER BY RAND() LIMIT 20;`
+  );
+}; */
+
+const fetchTopSellers = async (currentTopSellerAmount: number, fetchAmount: number) => {
+  const res = await fetch(
+    `http://localhost:3000/api/topSeller?limit=${currentTopSellerAmount + fetchAmount}`
+  );
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
+const TopSellerPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
+  const [topSellers, setTopSellers] = useState<Seller[]>(initialTopSellers);
+
   return (
     <div>
       <Head>
@@ -36,24 +69,23 @@ const TopSellerPage: VFC<TopSellersPageProps> = () => {
                 {maxWidth: 600, cols: 2, spacing: 'sm'},
               ]}
             >
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
-              <ItemTopSeller></ItemTopSeller>
+              {topSellers?.map((topSeller, i) => (
+                <ItemTopSeller
+                  logoUrl={topSeller.logoUrl ?? null}
+                  name={topSeller.name}
+                  pageUrl={topSeller.logoUrl ?? 'None'}
+                  key={`topSellers-${i}`}
+                ></ItemTopSeller>
+              ))}
             </SimpleGrid>
-            <Button color="red">Charger plus</Button>
+            <Button
+              color="red"
+              onClick={async () => {
+                setTopSellers(await fetchTopSellers(topSellers.length, 20));
+              }}
+            >
+              Charger plus
+            </Button>
           </Group>
         </Card>
       </main>
@@ -85,6 +117,23 @@ const TopSellerPage: VFC<TopSellersPageProps> = () => {
       </footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async () => {
+  try {
+    const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
+      // DO NOT pass in or accept user input here
+      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 ORDER BY RAND() LIMIT 20;`
+    );
+
+    return {
+      props: {
+        initialTopSellers: topSellers,
+      },
+    };
+  } catch (e) {
+    return {notFound: true};
+  }
 };
 
 export default TopSellerPage;

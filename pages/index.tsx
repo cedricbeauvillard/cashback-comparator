@@ -1,6 +1,7 @@
+import {Seller} from '@prisma/client';
 import type {GetServerSideProps, NextPage} from 'next';
+import HomePage, {HomePageProps} from '../components/business/HomePage';
 import {prisma} from '../lib/prisma';
-import HomePage, {HomePageProps} from '../components/HomePage';
 
 const Home: NextPage<HomePageProps> = ({topSellers, cashbackers}) => {
   // TODO: check ssr with index (should i load data from index to Home Page ?)
@@ -13,9 +14,10 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       orderBy: {rank: 'asc'},
     });
 
-    const topSellers = await prisma.seller.findMany({
-      take: 20,
-    });
+    const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
+      // DO NOT pass in or accept user input here
+      `SELECT DISTINCT name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 ORDER BY RAND() LIMIT 20;`
+    );
 
     return {
       props: {
@@ -24,24 +26,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       },
     };
   } catch (e) {
-    /*     if (e instanceof Error) {
-      // ✅ TypeScript knows err is Error
-      return {
-        props: {
-          test: `${e.stack}${e.message}${e.name}`,
-          cashbackers: null,
-          topSellers: null,
-        },
-      };
-    } else {
-      return {
-        props: {
-          test: `unexpected error: ${e}`,
-          cashbackers: null,
-          topSellers: null,
-        },
-      };
-    } */ return {notFound: true};
+    return {notFound: true};
   }
 };
 
