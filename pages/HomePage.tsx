@@ -42,12 +42,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
-  test?: string;
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
 }
 
-const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
+const HomePage: FC<HomePageProps> = ({cashbackers}) => {
   const {classes} = useStyles();
   const theme = useMantineTheme();
 
@@ -79,7 +78,7 @@ const HomePage: FC<HomePageProps> = ({test, cashbackers}) => {
               className="text-5xl"
               style={{fontFamily: 'Greycliff CF, sans-serif'}}
             >
-              Comparateur cashback = {test}
+              Comparateur cashback
             </Text>
             <h3 className="m-0 p-0 text-white text-2xl">
               Comparez les taux de cashbacks de plus de 8000 marchands en ligne
@@ -257,7 +256,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
     const prisma = new PrismaClient();
 
     if (!prisma) {
-      return {notFound: true, redirect: 'https://www.youtube.com/watch?v=5OGpV1rzbGI'};
+      return {notFound: true};
     }
 
     const cashbackers = await prisma.cashbacker.findMany({
@@ -268,9 +267,6 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       take: 20,
     });
 
-    console.log(cashbackers);
-    console.log(topSellers);
-
     return {
       props: {
         cashbackers,
@@ -278,7 +274,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       },
     };
   } catch (e) {
-    if (e instanceof Error) {
+    /*     if (e instanceof Error) {
       // ✅ TypeScript knows err is Error
       return {
         props: {
@@ -295,9 +291,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
           topSellers: null,
         },
       };
-    }
-
-    /*  return {notFound: true}; */
+    } */ return {notFound: true};
   }
 };
 
