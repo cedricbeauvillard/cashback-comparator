@@ -48,6 +48,23 @@ import {prisma, Prisma, PrismaClient, RateUnit} from '@prisma/client';
   
   [true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO']*/
 
+function shuffle(array: any) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 function isUntil(rowData: string): Boolean {
   const regex = new RegExp('jusqu');
 
@@ -139,7 +156,7 @@ async function main() {
   console.log(exDatabaseSecondPartData.length);
   console.log(firstPartData.length);
 
-  const finalResult = [];
+  let finalResult = [];
 
   // Read rows
   for (let i = 0; i < exDatabaseSecondPartData.length; ++i) {
@@ -179,7 +196,9 @@ async function main() {
     finalResult.push(row);
   }
 
-  for (let i = 4000; i < finalResult.length; ++i) {
+  finalResult = shuffle(finalResult);
+
+  for (let i = 0; i < finalResult.length; ++i) {
     const item = finalResult[i];
 
     await prisma.seller.create({

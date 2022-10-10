@@ -123,7 +123,8 @@ export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async
   try {
     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
-      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 ORDER BY RAND() LIMIT 20;`
+      // TODO: Check and remove ORDER BY RAND() before
+      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 LIMIT 20;`
     );
 
     return {

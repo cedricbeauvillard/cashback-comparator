@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
-      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 ORDER BY RAND() LIMIT ${limit};`
+      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 LIMIT ${limit};`
     );
 
     res.status(200).json(topSellers);

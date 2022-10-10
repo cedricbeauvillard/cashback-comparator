@@ -14,7 +14,7 @@ model Cashbacker {
   score            Int    @default(0)
   rank             Int    @default(0)
   signupBonus      Int    @default(0)
-  paymentThreshold Float? @default(0)
+  paymentThreshold Float  @default(0)
   sponsorshipUrl   String
   reviewsUrl       String
 }

@@ -10906,7 +10906,7 @@ export const firstPartData: [string, string, number, number, number, string][] =
   ['ABORDAGE', '', 0, 0, 0, '11'],
   ['AbracadaRoom', '', 0, 0, 0, '1'],
   ['Acacia Location', '', 0, 0, 0, '11'],
-  ['Académie Du Goût', '', 0, 0, 0, ' 6'],
+  ['Académie Du Goût', '', 0, 0, 0, ' 6'], 
   ['Advanced MP3 Players', '', 0, 0, 0, '3'],
   ['AEGIS-Pharma', '', 0, 0, 0, '9'],
   ['Aerosus', '', 0, 0, 0, '10'],
