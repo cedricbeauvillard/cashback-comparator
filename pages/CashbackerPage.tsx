@@ -7,7 +7,7 @@ import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDeskto
 import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
-import prisma from '../lib/prisma';
+import {prisma} from '../lib/prisma';
 
 /*
  * Cashbackers ranking

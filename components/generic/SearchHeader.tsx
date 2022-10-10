@@ -93,7 +93,7 @@ export const SearchHeader: FC = () => {
         </Group>
         <Group>
           <Group ml={50} spacing={5} className={classes.links}>
-            <Link key="HomePage" href="/HomePage" className={classes.link}>
+            <Link key="HomePage" href="/" className={classes.link}>
               <a className={classes.link}>Accueil</a>
             </Link>
             <Link key="BestCashbackSites" href="/CashbackerPage" className={classes.link}>

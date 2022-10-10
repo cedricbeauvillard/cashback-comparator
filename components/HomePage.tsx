@@ -12,20 +12,19 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import {Cashbacker, PrismaClient, Seller} from '@prisma/client';
-import {GetServerSideProps} from 'next';
+import {Cashbacker, Seller} from '@prisma/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import {FC} from 'react';
-import {ItemCashbackerInfosDesktop} from '../components/business/ItemCashbackerInfosDesktop';
-import {ItemCashbackerInfosMobile} from '../components/business/ItemCashbackerInfosMobile';
-import {ItemTopSeller} from '../components/business/ItemTopSeller';
-import {FooterLinks} from '../components/generic/FooterLinks';
-import {SearchHeader} from '../components/generic/SearchHeader';
-import AllSvg from '../components/svg/AllSvg';
-import RankingSvg from '../components/svg/RankingSvg';
-import SearchSvg from '../components/svg/SearchSvg';
-import prisma from '../lib/prisma';
+import {ItemCashbackerInfosDesktop} from './business/ItemCashbackerInfosDesktop';
+import {ItemCashbackerInfosMobile} from './business/ItemCashbackerInfosMobile';
+import {ItemTopSeller} from './business/ItemTopSeller';
+import {FooterLinks} from './generic/FooterLinks';
+import {SearchHeader} from './generic/SearchHeader';
+
+import AllSvg from './svg/AllSvg';
+import RankingSvg from './svg/RankingSvg';
+import SearchSvg from './svg/SearchSvg';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
@@ -46,7 +45,7 @@ export interface HomePageProps {
   topSellers?: Seller[] | null;
 }
 
-const HomePage: FC<HomePageProps> = ({cashbackers}) => {
+const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
   const {classes} = useStyles();
   const theme = useMantineTheme();
 
@@ -135,16 +134,9 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
                       {maxWidth: 600, cols: 2, spacing: 'sm'},
                     ]}
                   >
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
-                    <ItemTopSeller></ItemTopSeller>
+                    {topSellers?.map((topSeller) => (
+                      <ItemTopSeller></ItemTopSeller>
+                    ))}
                   </SimpleGrid>
                   <Link href="/TopSellerPage" passHref>
                     <Button color="red" size="xs" className="m-auto mt-4 self-center">
@@ -249,50 +241,6 @@ const HomePage: FC<HomePageProps> = ({cashbackers}) => {
       </footer>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
-  try {
-    const prisma = new PrismaClient();
-
-    if (!prisma) {
-      return {notFound: true};
-    }
-
-    const cashbackers = await prisma.cashbacker.findMany({
-      orderBy: {rank: 'asc'},
-    });
-
-    const topSellers = await prisma.seller.findMany({
-      take: 20,
-    });
-
-    return {
-      props: {
-        cashbackers,
-        topSellers,
-      },
-    };
-  } catch (e) {
-    /*     if (e instanceof Error) {
-      // ✅ TypeScript knows err is Error
-      return {
-        props: {
-          test: `${e.stack}${e.message}${e.name}`,
-          cashbackers: null,
-          topSellers: null,
-        },
-      };
-    } else {
-      return {
-        props: {
-          test: `unexpected error: ${e}`,
-          cashbackers: null,
-          topSellers: null,
-        },
-      };
-    } */ return {notFound: true};
-  }
 };
 
 export default HomePage;

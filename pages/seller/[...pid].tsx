@@ -8,9 +8,9 @@ import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobi
 import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
+import {prisma} from '../../lib/prisma';
 import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
-import prisma from '../../lib/prisma';
 import {extractSellerNameFromPid} from '../../lib/_urlManagement';
 
 /*
