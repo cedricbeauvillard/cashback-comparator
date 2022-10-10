@@ -42,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface HomePageProps {
-  test?: any;
+  test?: string;
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
 }
@@ -278,13 +278,25 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       },
     };
   } catch (e) {
-    return {
-      props: {
-        /*         test: `${e.stack}${e.message}${e.name}`, */
-        cashbackers: null,
-        topSellers: null,
-      },
-    };
+    if (e instanceof Error) {
+      // ✅ TypeScript knows err is Error
+      return {
+        props: {
+          test: `${e.stack}${e.message}${e.name}`,
+          cashbackers: null,
+          topSellers: null,
+        },
+      };
+    } else {
+      return {
+        props: {
+          test: `unexpected error: ${e}`,
+          cashbackers: null,
+          topSellers: null,
+        },
+      };
+    }
+
     /*  return {notFound: true}; */
   }
 };
