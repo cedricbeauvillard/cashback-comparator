@@ -288,7 +288,6 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
     if (!seller || !seller.name) {
       return {
         notFound: true,
-        redirect: 'https://www.prisma.io/docs/concepts/components/prisma-client/crud#update',
       };
     }
 
