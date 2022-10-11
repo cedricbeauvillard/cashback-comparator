@@ -14,8 +14,6 @@ export interface SellerListPageProps {
 }
 
 const SellerListPage: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
-  console.log(alphabeticalSellers);
-
   return (
     <div>
       <Head>
@@ -115,7 +113,7 @@ export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async
       const letter = String.fromCharCode('A'.charCodeAt(0) + i);
 
       const sellers = await prisma.$queryRawUnsafe<Seller[]>(
-        `SELECT DISTINCT name, slug  FROM Seller WHERE slug IS NOT NULL AND name LIKE '${letter}%'`
+        `SELECT DISTINCT name, slug FROM Seller WHERE slug IS NOT NULL AND name LIKE '${letter}%'`
       );
 
       alphabeticalSellers.push(sellers);

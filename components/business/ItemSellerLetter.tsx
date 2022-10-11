@@ -30,11 +30,21 @@ export const ItemSellerLetter: FC<ItemSellerLetterProps> = ({letter, sellers}) =
           {maxWidth: 600, cols: 2, spacing: 'sm'},
         ]}
       >
-        {sellers?.map((seller, index) => (
-          <Link key={`seller-${index}`} href={`./seller/meilleur-cashback-${seller.slug}`} passHref>
-            <a className="m-0">{seller.name}</a>
-          </Link>
-        ))}
+        {sellers?.map((seller, index) => {
+          if (!seller.slug) {
+            return <a className="m-0">{seller.name}</a>;
+          }
+
+          return (
+            <Link
+              key={`seller-${index}`}
+              href={`./seller/meilleur-cashback-${seller.slug}`}
+              passHref
+            >
+              <a className="m-0">{seller.name}</a>
+            </Link>
+          );
+        })}
       </SimpleGrid>
     </Group>
   );
