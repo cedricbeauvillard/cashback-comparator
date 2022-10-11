@@ -8,10 +8,9 @@ import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobi
 import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
-import {prisma} from '../../lib/prisma';
 import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
-import {extractSellerNameFromPid} from '../../lib/_urlManagement';
+import {prisma} from '../../lib/prisma';
 
 /*
  * Template page for sellers
@@ -276,19 +275,21 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
   }
 
   try {
-    let pidStr: string | undefined = context.params.pid.toString();
-    pidStr = extractSellerNameFromPid(pidStr);
+    let slug: string | undefined = context.params.pid.toString().slice(18);
 
-    if (!pidStr) {
+    if (!slug) {
       return {notFound: true};
     }
 
     const seller = await prisma.seller.findFirst({
-      where: {name: {contains: pidStr}},
+      where: {slug},
     });
 
-    if (!seller) {
-      return {notFound: true};
+    if (!seller || !seller.name) {
+      return {
+        notFound: true,
+        redirect: 'https://www.prisma.io/docs/concepts/components/prisma-client/crud#update',
+      };
     }
 
     const cashbackers = await prisma.cashbacker.findMany({
@@ -302,7 +303,9 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
       },
     };
   } catch (e) {
-    return {notFound: true};
+    return {
+      notFound: true,
+    };
   }
 };
 

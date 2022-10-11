@@ -1,6 +1,5 @@
 import {Button, Card, Group, SimpleGrid} from '@mantine/core';
 import {Seller} from '@prisma/client';
-import {copyFile} from 'fs';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {useState, VFC} from 'react';
@@ -12,18 +11,6 @@ import {prisma} from '../lib/prisma';
 export interface TopSellersPageProps {
   initialTopSellers: Seller[];
 }
-
-/* const loadMoreTopSellers = async (
-  current: Seller[],
-  setTopSellers: Dispatch<SetStateAction<Seller[]>>
-) => {
-  const idList = current.map((currentSeller) => currentSeller.id);
-
-  const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
-    // DO NOT pass in or accept user input here
-    `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE (topSeller = 1 OR top40=1 OR coupon=1) AND id NOT IN (${idList}) ORDER BY RAND() LIMIT 20;`
-  );
-}; */
 
 const fetchTopSellers = async (currentTopSellerAmount: number, fetchAmount: number) => {
   const res = await fetch(`./api/topSeller?limit=${currentTopSellerAmount + fetchAmount}`);

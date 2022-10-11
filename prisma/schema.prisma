@@ -37,6 +37,7 @@ model Seller {
   id        Int      @id @unique @default(autoincrement())
   name      String   @db.VarChar(255)
   logoUrl   String?
+  slug      String?
   top40     Boolean? @default(false)
   topSeller Boolean? @default(false)
   coupon    Boolean? @default(false)
