@@ -1,14 +1,32 @@
 import {Button, Card, Group, SimpleGrid} from '@mantine/core';
+import {Seller} from '@prisma/client';
+import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import {VFC} from 'react';
 import {ItemSellerLetter} from '../components/business/ItemSellerLetter';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
+import {prisma} from '../lib/prisma';
 
-export interface SellerListPageProps {}
+const fetchAlphabeticalSellers = async (letter: string) => {
+  const res = await fetch(`./api/seller/alphabeticalSeller?letter=${letter}`);
+  const data = await res.json();
 
-const SellerListPage: VFC<SellerListPageProps> = () => {
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
+export interface SellerListPageProps {
+  alphabeticalSellers: Seller[][];
+}
+
+const SellerListPage: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
+  console.log(alphabeticalSellers);
+
   return (
     <div>
       <Head>
@@ -32,12 +50,12 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
               nom dans la barre de recherche cidessous.
             </p>
             <SimpleGrid
-              className="w-full"
-              cols={22}
+              className="w-full md:px-16"
+              cols={27}
               spacing={6}
               breakpoints={[
-                {maxWidth: 980, cols: 16, spacing: 8},
-                {maxWidth: 755, cols: 16, spacing: 8},
+                {maxWidth: 1800, cols: 16, spacing: 8},
+                {maxWidth: 1000, cols: 10, spacing: 8},
                 {maxWidth: 600, cols: 8, spacing: 8},
               ]}
             >
@@ -45,26 +63,26 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
                 const letter = String.fromCharCode('A'.charCodeAt(0) + i);
 
                 return (
-                  <Link href={`#${letter}`} scroll={false} key={`letter${i}`}>
-                    <Button
-                      size="xs"
-                      radius="xs"
-                      color={'red'}
-                      className="p-0 whitespace-nowrap w-9 h-9"
-                    >
+                  <Link href={`#${letter}`} scroll={false} key={`letter-${i}`}>
+                    <Button size="xs" radius="xs" color={'red'} className="p-0 whitespace-nowrap">
                       {letter}
                     </Button>
                   </Link>
                 );
               })}
+              <Link href={'#other'} scroll={true} key={`letter-other`}>
+                <Button size="xs" radius="xs" color={'red'} className="p-0 whitespace-nowrap">
+                  #
+                </Button>
+              </Link>
             </SimpleGrid>
             <Group className="flex-col flex-1 mt-4">
-              <ItemSellerLetter letter="A"></ItemSellerLetter>
-              <ItemSellerLetter letter="B"></ItemSellerLetter>
-              <ItemSellerLetter letter="C"></ItemSellerLetter>
-              <ItemSellerLetter letter="D"></ItemSellerLetter>
-              <ItemSellerLetter letter="E"></ItemSellerLetter>
-              <ItemSellerLetter letter="F"></ItemSellerLetter>
+              {alphabeticalSellers.map((seller, index) => (
+                <ItemSellerLetter
+                  sellers={seller}
+                  letter={index < 26 ? String.fromCharCode('A'.charCodeAt(0) + index) : 'other'}
+                ></ItemSellerLetter>
+              ))}
             </Group>
           </Card>
         </div>
@@ -97,6 +115,64 @@ const SellerListPage: VFC<SellerListPageProps> = () => {
       </footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async () => {
+  try {
+    const alphabeticalSellers: Seller[][] = [];
+
+    for (let i = 0; i < 26; ++i) {
+      const letter = String.fromCharCode('A'.charCodeAt(0) + i);
+
+      const sellers = await prisma.$queryRawUnsafe<Seller[]>(
+        `SELECT DISTINCT name, slug  FROM Seller WHERE slug IS NOT NULL AND name LIKE '${letter}%'`
+      );
+
+      alphabeticalSellers.push(sellers);
+    }
+
+    const otherSellers = await prisma.$queryRawUnsafe<Seller[]>(
+      `SELECT DISTINCT name, slug
+      FROM Seller
+      WHERE slug IS NOT NULL
+        AND name NOT LIKE 'a%'
+        AND name NOT LIKE 'b%'
+        AND name NOT LIKE 'c%'
+        AND name NOT LIKE 'd%'
+        AND name NOT LIKE 'e%'
+        AND name NOT LIKE 'f%'
+        AND name NOT LIKE 'g%'
+        AND name NOT LIKE 'h%'
+        AND name NOT LIKE 'i%'
+        AND name NOT LIKE 'j%'
+        AND name NOT LIKE 'k%'
+        AND name NOT LIKE 'l%'
+        AND name NOT LIKE 'm%'
+        AND name NOT LIKE 'n%'
+        AND name NOT LIKE 'o%'
+        AND name NOT LIKE 'p%'
+        AND name NOT LIKE 'q%'
+        AND name NOT LIKE 'r%'
+        AND name NOT LIKE 's%'
+        AND name NOT LIKE 't%'
+        AND name NOT LIKE 'u%'
+        AND name NOT LIKE 'v%'
+        AND name NOT LIKE 'w%'
+        AND name NOT LIKE 'x%'
+        AND name NOT LIKE 'y%'
+        AND name NOT LIKE 'z%'`
+    );
+
+    alphabeticalSellers.push(otherSellers);
+
+    return {
+      props: {
+        alphabeticalSellers,
+      },
+    };
+  } catch (e) {
+    return {notFound: true};
+  }
 };
 
 export default SellerListPage;

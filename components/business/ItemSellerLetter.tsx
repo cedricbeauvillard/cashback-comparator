@@ -1,4 +1,5 @@
-import {Button, createStyles, Group, SimpleGrid} from '@mantine/core';
+import {createStyles, Group, SimpleGrid} from '@mantine/core';
+import {Seller} from '@prisma/client';
 import {FC} from 'react';
 
 /*
@@ -9,14 +10,15 @@ const useStyles = createStyles((theme) => ({}));
 
 export interface ItemSellerLetterProps {
   letter: string;
+  sellers?: Seller[];
 }
 
-export const ItemSellerLetter: FC<ItemSellerLetterProps> = ({letter}) => {
+export const ItemSellerLetter: FC<ItemSellerLetterProps> = ({letter, sellers}) => {
   const {classes} = useStyles();
 
   return (
     <Group className="w-full" id={letter}>
-      <h1 className="underline my-2">{letter}</h1>
+      <h1 className="underline my-2">{letter === 'other' ? '#' : letter}</h1>
       <SimpleGrid
         className="w-full"
         cols={3}
@@ -27,16 +29,10 @@ export const ItemSellerLetter: FC<ItemSellerLetterProps> = ({letter}) => {
           {maxWidth: 600, cols: 2, spacing: 'sm'},
         ]}
       >
-        <p className="m-0">Castorama</p>
-        <p className="m-0">Castorama</p>
-        <p className="m-0">Castorama</p>
-        <p className="m-0">Castorama</p>
-        <p className="m-0">Castorama</p>
-        <p className="m-0">Castorama</p>
+        {sellers?.map((seller) => (
+          <p className="m-0">{seller.name}</p>
+        ))}
       </SimpleGrid>
-      <Button color="red" size="xs" className="m-auto">
-        Voir plus
-      </Button>
     </Group>
   );
 };

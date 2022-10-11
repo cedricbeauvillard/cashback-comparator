@@ -13,7 +13,7 @@ export interface TopSellersPageProps {
 }
 
 const fetchTopSellers = async (currentTopSellerAmount: number, fetchAmount: number) => {
-  const res = await fetch(`./api/topSeller?limit=${currentTopSellerAmount + fetchAmount}`);
+  const res = await fetch(`./api/seller/topSeller?limit=${currentTopSellerAmount + fetchAmount}`);
   const data = await res.json();
 
   if (res.status !== 200) {

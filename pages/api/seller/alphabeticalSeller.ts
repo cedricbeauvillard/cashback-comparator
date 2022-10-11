@@ -1,31 +1,27 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import {Seller} from '@prisma/client';
-import {prisma} from '../../lib/prisma';
+import {prisma} from '../../../lib/prisma';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
-/* type Data = {
-  name: string
-} */
-
-export type topSellerReq = {};
+export type alphabeticalSellerReq = {};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Seller[] | null>) {
   try {
     const query = req.query;
 
-    const {limit} = query;
+    const {letter} = query;
 
     // Avoid attacks
-    if (limit && typeof limit === 'string' && parseInt(limit) > 200) {
+    if (letter && typeof letter === 'string' && !/^[a-zA-Z]+$/.test(letter) && letter !== 'other') {
       res.status(400).json(null);
     }
 
-    const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
+    const alphabeticalSeller = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
-      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 LIMIT ${limit};`
+      `SELECT DISTINCT name, slug  FROM Seller WHERE slug IS NOT NULL AND name LIKE '${letter}%'`
     );
 
-    res.status(200).json(topSellers);
+    res.status(200).json(alphabeticalSeller);
   } catch (e) {
     res.status(400);
   }

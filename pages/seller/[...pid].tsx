@@ -298,8 +298,8 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
 
     return {
       props: {
-        seller: seller,
-        cashbackers: cashbackers,
+        seller,
+        cashbackers,
       },
     };
   } catch (e) {
