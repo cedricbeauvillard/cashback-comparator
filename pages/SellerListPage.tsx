@@ -68,6 +68,7 @@ const SellerListPage: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
             <Group className="flex-col flex-1 mt-4">
               {alphabeticalSellers.map((seller, index) => (
                 <ItemSellerLetter
+                  key={`seller-letter-item-${index}`}
                   sellers={seller}
                   letter={index < 26 ? String.fromCharCode('A'.charCodeAt(0) + index) : 'other'}
                 ></ItemSellerLetter>

@@ -1,9 +1,10 @@
-import {Autocomplete, Burger, Button, createStyles, Group, Header, Input} from '@mantine/core';
+import {Burger, Button, createStyles, Group, Header, Image, Input} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import {FC, useState} from 'react';
+import {findSellerSlug} from '../business/HomePage';
 import SearchSvg from '../svg/SearchSvg';
-import {Image} from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -71,6 +72,8 @@ const useStyles = createStyles((theme) => ({
 export const SearchHeader: FC = () => {
   const [pagePanelOpened, {toggle}] = useDisclosure(false);
   const [searchPanelOpened, toggleSearchPanel] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const router = useRouter();
   const {classes} = useStyles();
 
   const onSearchButtonClicked = () => {
@@ -112,11 +115,21 @@ export const SearchHeader: FC = () => {
               <a className={classes.link}>Mentions légales</a>
             </Link>
           </Group>
-          <Autocomplete
+          <Input
             className={classes.search}
             placeholder="Chercher un vendeur"
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
-            data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
+            onChange={(event: any) => setSearchValue(event.currentTarget.value)}
+            onKeyDown={async (e: any) => {
+              if (e.key === 'Enter') {
+                const sellerSlug = await findSellerSlug(searchValue);
+
+                console.log('Seller slug => ', sellerSlug);
+                if (sellerSlug) {
+                  router.push(`/seller/meilleur-cashback-${sellerSlug}`);
+                }
+              }
+            }}
           />
         </Group>
       </div>

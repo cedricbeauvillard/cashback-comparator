@@ -282,7 +282,7 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
     }
 
     const seller = await prisma.seller.findFirst({
-      where: {slug},
+      where: {slug: slug},
     });
 
     if (!seller || !seller.name) {
