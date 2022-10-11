@@ -9,17 +9,6 @@ import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
 
-const fetchAlphabeticalSellers = async (letter: string) => {
-  const res = await fetch(`./api/seller/alphabeticalSeller?letter=${letter}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  return data;
-};
-
 export interface SellerListPageProps {
   alphabeticalSellers: Seller[][];
 }

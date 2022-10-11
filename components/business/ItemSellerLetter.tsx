@@ -1,5 +1,6 @@
 import {createStyles, Group, SimpleGrid} from '@mantine/core';
 import {Seller} from '@prisma/client';
+import Link from 'next/link';
 import {FC} from 'react';
 
 /*
@@ -30,7 +31,9 @@ export const ItemSellerLetter: FC<ItemSellerLetterProps> = ({letter, sellers}) =
         ]}
       >
         {sellers?.map((seller) => (
-          <p className="m-0">{seller.name}</p>
+          <Link href={`./seller/meilleur-cashback-${seller.slug}`} passHref>
+            <a className="m-0">{seller.name}</a>
+          </Link>
         ))}
       </SimpleGrid>
     </Group>
