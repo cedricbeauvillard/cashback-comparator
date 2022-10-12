@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import {VFC} from 'react';
 import {ItemSellerLetter} from '../components/business/ItemSellerLetter';
+import {footerData} from '../components/business/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
@@ -77,28 +78,7 @@ const SellerListPage: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
       </main>
       <footer>
         <footer>
-          <FooterLinks
-            data={[
-              {
-                title: 'About',
-                links: [
-                  {
-                    label: 'Comment faire du café',
-                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                  },
-                ],
-              },
-              {
-                title: 'Menu',
-                links: [
-                  {
-                    label: 'Comment faire du café',
-                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                  },
-                ],
-              },
-            ]}
-          ></FooterLinks>
+          <FooterLinks data={footerData}></FooterLinks>
         </footer>
       </footer>
     </div>

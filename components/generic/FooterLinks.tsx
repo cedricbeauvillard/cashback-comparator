@@ -1,4 +1,5 @@
 import {createStyles, Text, Container, ActionIcon, Group, Image} from '@mantine/core';
+import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -108,15 +109,11 @@ export function FooterLinks({data}: FooterLinksProps) {
 
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
-      <Text<'a'>
-        key={index}
-        className={classes.link}
-        component="a"
-        href={link.link}
-        onClick={(event) => event.preventDefault()}
-      >
-        {link.label}
-      </Text>
+      <Link href={link.link}>
+        <a key={index} className={classes.link}>
+          {link.label}
+        </a>
+      </Link>
     ));
 
     return (
@@ -132,17 +129,17 @@ export function FooterLinks({data}: FooterLinksProps) {
       <Container className={classes.inner}>
         <div className={classes.logo}>
           <div style={{width: '4.5rem'}}>
-            <Image src="/logo.png" alt="logo" />
+            <Image width={'100%'} height={'100%'} src="/logo.webp" alt="logo" />
           </div>
           <Text size="xs" color="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+            MeilleursCashback - Comparez le taux de cashback de plus de 8000 marchands
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-          © 2020 mantine.dev. All rights reserved.
+          © 2022 meilleurscashback.com, une société de sitescashback.com. Tous droits réservés.
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>

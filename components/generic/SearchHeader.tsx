@@ -69,7 +69,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const searchForSeller = async (router: NextRouter, searchValue: string) => {
+const searchAndGoToSeller = async (router: NextRouter, searchValue: string) => {
   const sellerSlug = await findSellerSlug(searchValue);
 
   if (sellerSlug) {
@@ -132,7 +132,7 @@ export const SearchHeader: FC = () => {
             onChange={(event: any) => setSearchValue(event.currentTarget.value)}
             onKeyDown={async (e: any) => {
               if (e.key === 'Enter') {
-                searchForSeller(router, searchValue);
+                searchAndGoToSeller(router, searchValue);
               }
             }}
           />
@@ -183,7 +183,7 @@ export const SearchHeader: FC = () => {
             onChange={(event: any) => setSearchValue(event.currentTarget.value)}
             onKeyDown={async (e: any) => {
               if (e.key === 'Enter') {
-                searchForSeller(router, searchValue);
+                searchAndGoToSeller(router, searchValue);
               }
             }}
           />

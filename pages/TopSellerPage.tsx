@@ -1,5 +1,6 @@
 import {Button, Card, Group, SimpleGrid} from '@mantine/core';
 import {Seller} from '@prisma/client';
+import Link from 'next/link';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {useState, VFC} from 'react';
@@ -7,6 +8,7 @@ import {ItemTopSeller} from '../components/business/ItemTopSeller';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
+import {footerData} from '../components/business/_static';
 
 export interface TopSellersPageProps {
   initialTopSellers: Seller[];
@@ -63,41 +65,15 @@ const TopSellerPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
                 ></ItemTopSeller>
               ))}
             </SimpleGrid>
-            <Button
-              color="red"
-              onClick={async () => {
-                setTopSellers(await fetchTopSellers(topSellers.length, 20));
-              }}
-            >
-              Charger plus
-            </Button>
+            <Link key="SellerList" href="/SellerListPage" className="w-full bg-white">
+              <Button color="red">Charger plus</Button>
+            </Link>
           </Group>
         </Card>
       </main>
       <footer>
         <footer>
-          <FooterLinks
-            data={[
-              {
-                title: 'About',
-                links: [
-                  {
-                    label: 'Comment faire du café',
-                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                  },
-                ],
-              },
-              {
-                title: 'Menu',
-                links: [
-                  {
-                    label: 'Comment faire du café',
-                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                  },
-                ],
-              },
-            ]}
-          ></FooterLinks>
+          <FooterLinks data={footerData}></FooterLinks>
         </footer>
       </footer>
     </div>

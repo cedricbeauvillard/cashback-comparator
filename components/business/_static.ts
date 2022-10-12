@@ -10,3 +10,40 @@ export const rankingIcons = [
   '/ranking/9eme.webp',
   '/ranking/10eme.webp',
 ];
+
+export const footerData = [
+  {
+    title: 'Pages',
+    links: [
+      {
+        label: 'Accueil',
+        link: '/',
+      },
+      {
+        label: 'Meilleurs sites de cashback',
+        link: '/CashbackerPage',
+      },
+      {
+        label: 'Liste des marchands',
+        link: '/SellerListPage',
+      },
+      {
+        label: 'Top marchands',
+        link: '/TopSellerPage',
+      },
+    ],
+  },
+  {
+    title: 'Info',
+    links: [
+      {
+        label: 'Contact',
+        link: '/ContactPage',
+      },
+      {
+        label: 'Mentions légales',
+        link: '/GCUPage',
+      },
+    ],
+  },
+];

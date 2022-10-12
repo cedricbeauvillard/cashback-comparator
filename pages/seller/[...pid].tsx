@@ -1,8 +1,11 @@
 import {Button, Card, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
+import Link from 'next/link';
 import Head from 'next/head';
-import {VFC} from 'react';
+import {useRouter} from 'next/router';
+import {useState, VFC} from 'react';
+import {findSellerSlug} from '../../components/business/HomePage';
 import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
 import {emptyRateData, RateData} from '../../components/business/types';
@@ -11,6 +14,7 @@ import {SearchHeader} from '../../components/generic/SearchHeader';
 import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
 import {prisma} from '../../lib/prisma';
+import {footerData} from '../../components/business/_static';
 
 /*
  * Template page for sellers
@@ -87,6 +91,8 @@ const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): R
 
 const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
+  const [searchValue, setSearchValue] = useState('');
+  const router = useRouter();
 
   return (
     <div>
@@ -227,11 +233,23 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                     className="w-full mt-2"
                     icon={<SearchSvg width={'1rem'}></SearchSvg>}
                     placeholder="Je cherche un site marchand"
+                    onChange={(event: any) => setSearchValue(event.currentTarget.value)}
+                    onKeyDown={async (e: any) => {
+                      if (e.key === 'Enter') {
+                        const sellerSlug = await findSellerSlug(searchValue);
+
+                        if (sellerSlug) {
+                          router.push(`/seller/meilleur-cashback-${sellerSlug}`);
+                        }
+                      }
+                    }}
                   />
                 </Group>
-                <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>
-                  Voir la liste complète des marchands
-                </Button>
+                <Link key="SellerList" href="/SellerListPage" className="w-full bg-white">
+                  <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>
+                    Voir la liste complète des marchands
+                  </Button>
+                </Link>
               </div>
             </SimpleGrid>
           </Card>
@@ -239,28 +257,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
       </main>
       <footer>
         <footer>
-          <FooterLinks
-            data={[
-              {
-                title: 'About',
-                links: [
-                  {
-                    label: 'Comment faire du café',
-                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                  },
-                ],
-              },
-              {
-                title: 'Menu',
-                links: [
-                  {
-                    label: 'Comment faire du café',
-                    link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                  },
-                ],
-              },
-            ]}
-          ></FooterLinks>
+          <FooterLinks data={footerData}></FooterLinks>
         </footer>
       </footer>
     </div>

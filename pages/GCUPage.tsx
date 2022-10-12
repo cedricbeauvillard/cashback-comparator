@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import {VFC} from 'react';
+import {footerData} from '../components/business/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 
@@ -20,28 +21,7 @@ const GCUPage: VFC<CGUPageProps> = () => {
         </h1>
       </main>
       <footer>
-        <FooterLinks
-          data={[
-            {
-              title: 'About',
-              links: [
-                {
-                  label: 'Comment faire du café',
-                  link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                },
-              ],
-            },
-            {
-              title: 'Menu',
-              links: [
-                {
-                  label: 'Comment faire du café',
-                  link: 'https://sitescashback.com/comparateur-cashback/meilleur-cashback-alizea-voyages/',
-                },
-              ],
-            },
-          ]}
-        ></FooterLinks>
+        <FooterLinks data={footerData}></FooterLinks>
       </footer>
     </div>
   );
