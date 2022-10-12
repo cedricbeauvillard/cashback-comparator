@@ -103,7 +103,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
             withBorder
           >
             <h1 className="m-0">MEILLEUR CASHBACK {seller.name}</h1>
-            <p className="m-0">
+            <p className="mx-0 mt-4">
               Vous vous apprêtez à faire un achat sur le site marchand de <b>{seller.name}</b> et
               vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
               comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
@@ -138,7 +138,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               </a>
               , le taux cashback indiqué dans le comparateur est le taux total.
             </p>
-            <h3 className="m-0 mt-4">TAUX DE CASHBACK POUR LE SITE {seller.name}</h3>
+            <h3 className="mt-8">TAUX DE CASHBACK POUR LE SITE {seller.name}</h3>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
               {cashbackers?.map((cashbacker, index) => (

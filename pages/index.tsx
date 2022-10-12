@@ -14,9 +14,11 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       orderBy: {rank: 'asc'},
     });
 
+    const homePageTopSellers = [6728, 5568, 5413, 172, 7274, 4887, 2396, 4883, 6250, 2485];
+
     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
-      `SELECT DISTINCT name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 ORDER BY RAND() LIMIT 20;`
+      `SELECT DISTINCT name,slug FROM Seller WHERE id IN (${homePageTopSellers})`
     );
 
     return {

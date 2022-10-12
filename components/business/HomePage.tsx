@@ -158,9 +158,9 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   >
                     {topSellers?.map((topSeller, i) => (
                       <ItemTopSeller
-                        logoUrl={topSeller.logoUrl ?? null}
+                        logoUrl={topSeller.slug ? `/sellers/logo-${topSeller.slug}.webp` : ''}
                         name={topSeller.name}
-                        pageUrl={topSeller.logoUrl ?? 'None'}
+                        pageUrl={`/seller/meilleur-cashback-${topSeller.slug}`}
                         key={`topSellers-${i}`}
                       ></ItemTopSeller>
                     ))}

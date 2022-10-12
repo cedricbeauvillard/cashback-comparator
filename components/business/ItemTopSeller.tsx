@@ -13,13 +13,7 @@ export const ItemTopSeller: FC<ItemTopSellerProps> = ({logoUrl, name, pageUrl}) 
   const {classes} = useStyles();
 
   return (
-    <Card
-      shadow="sm"
-      p="xs"
-      component="a"
-      href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-      target="_blank"
-    >
+    <Card shadow="sm" p="xs" component="a" href={pageUrl} target="_blank">
       <Card.Section>
         <Image
           src={logoUrl ?? 'https://www.lerevenu.com/sites/site/files/field/image/fnac-darty.jpg'}

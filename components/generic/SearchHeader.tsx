@@ -1,7 +1,7 @@
 import {Burger, Button, createStyles, Group, Header, Image, Input} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
+import {NextRouter, useRouter} from 'next/router';
 import {FC, useState} from 'react';
 import {findSellerSlug} from '../business/HomePage';
 import SearchSvg from '../svg/SearchSvg';
@@ -39,7 +39,7 @@ const useStyles = createStyles((theme) => ({
 
   mobilePanel: {
     backgroundColor: 'white',
-    zIndex: 1,
+    zIndex: 1000,
     gap: 0,
     position: 'absolute',
     width: '100%',
@@ -68,6 +68,15 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
+
+const searchForSeller = async (router: NextRouter, searchValue: string) => {
+  const sellerSlug = await findSellerSlug(searchValue);
+
+  console.log('Seller slug => ', sellerSlug);
+  if (sellerSlug) {
+    router.push(`/seller/meilleur-cashback-${sellerSlug}`);
+  }
+};
 
 export const SearchHeader: FC = () => {
   const [pagePanelOpened, {toggle}] = useDisclosure(false);
@@ -122,12 +131,7 @@ export const SearchHeader: FC = () => {
             onChange={(event: any) => setSearchValue(event.currentTarget.value)}
             onKeyDown={async (e: any) => {
               if (e.key === 'Enter') {
-                const sellerSlug = await findSellerSlug(searchValue);
-
-                console.log('Seller slug => ', sellerSlug);
-                if (sellerSlug) {
-                  router.push(`/seller/meilleur-cashback-${sellerSlug}`);
-                }
+                searchForSeller(router, searchValue);
               }
             }}
           />
@@ -138,7 +142,7 @@ export const SearchHeader: FC = () => {
       {pagePanelOpened && (
         <Group className={classes.mobilePanel}>
           <div className="flex flex-row w-full py-2">
-            <Link key="HomePage" href="/HomePage" className="w-full bg-white">
+            <Link key="HomePage" href="/" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">Accueil</p>
             </Link>
           </div>
@@ -170,11 +174,17 @@ export const SearchHeader: FC = () => {
         </Group>
       )}
       {searchPanelOpened && (
-        <Group className="w-full" style={{position: 'absolute', top: 56, left: 0}}>
+        <Group className="w-full" style={{position: 'absolute', top: 56, left: 0, zIndex: 1000}}>
           <Input
             className="w-full"
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
             placeholder="Rechercher un vendeur"
+            onChange={(event: any) => setSearchValue(event.currentTarget.value)}
+            onKeyDown={async (e: any) => {
+              if (e.key === 'Enter') {
+                searchForSeller(router, searchValue);
+              }
+            }}
           />
         </Group>
       )}
