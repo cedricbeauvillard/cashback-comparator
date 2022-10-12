@@ -10,13 +10,13 @@ export interface ItemTopSellerProps {
 }
 
 export const ItemTopSeller: FC<ItemTopSellerProps> = ({logoUrl, name, pageUrl}) => {
-  const {classes} = useStyles();
-
   return (
     <Card shadow="sm" p="xs" component="a" href={pageUrl} target="_blank">
       <Card.Section>
         <Image
+          className="p-2"
           src={logoUrl ?? 'https://www.lerevenu.com/sites/site/files/field/image/fnac-darty.jpg'}
+          width={'100%'}
           height={180}
           fit="contain"
           alt="sellerLogo"

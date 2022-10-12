@@ -72,7 +72,6 @@ const useStyles = createStyles((theme) => ({
 const searchForSeller = async (router: NextRouter, searchValue: string) => {
   const sellerSlug = await findSellerSlug(searchValue);
 
-  console.log('Seller slug => ', sellerSlug);
   if (sellerSlug) {
     router.push(`/seller/meilleur-cashback-${sellerSlug}`);
   }
@@ -94,8 +93,10 @@ export const SearchHeader: FC = () => {
       <div className={classes.inner}>
         <Group className="w-full sm:w-auto">
           <Burger className={classes.burger} opened={pagePanelOpened} onClick={toggle} size="sm" />
-          <div style={{width: '4.5rem'}}>
-            <Image src="/logo.png" alt="logo" />
+          <div className="hover:cursor-pointer" style={{width: '4.5rem'}}>
+            <Link href="/" passHref>
+              <Image width={'100%'} height={'100%'} src="/logo.webp" alt="logo" />
+            </Link>
           </div>
         </Group>
         <Group>
