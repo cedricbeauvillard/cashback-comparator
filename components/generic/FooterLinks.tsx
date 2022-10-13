@@ -132,7 +132,7 @@ export function FooterLinks({data}: FooterLinksProps) {
             <Image width={'100%'} height={'100%'} src="/logo.webp" alt="logo" />
           </div>
           <Text size="xs" color="dimmed" className={classes.description}>
-            MeilleursCashback - Comparez le taux de cashback de plus de 8000 marchands
+            MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
