@@ -1,4 +1,4 @@
-import {Button, Card, Group, SimpleGrid} from '@mantine/core';
+import {Button, Card, createStyles, Group, SimpleGrid} from '@mantine/core';
 import {Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
@@ -14,7 +14,27 @@ export interface SellerListPageProps {
   alphabeticalSellers: Seller[][];
 }
 
+const useStyles = createStyles((theme) => ({
+  // TODO: Generize that to declare only once
+  cardBody: {
+    marginLeft: '1rem',
+    marginRight: '1rem',
+    marginTop: '1rem',
+    marginBottom: '0.5rem',
+
+    [theme.fn.largerThan('xs')]: {
+      maxWidth: 1210,
+      borderRadius: '0.6rem',
+      padding: '1.5rem',
+      backgroundColor: 'white',
+      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    },
+  },
+}));
+
 const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
+  const {classes} = useStyles();
+
   return (
     <div>
       <Head>
@@ -37,10 +57,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
       <main className="justify-center">
         <SearchHeader></SearchHeader>
         <div className="flex flex-col items-center justify-center">
-          <Card
-            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
-            withBorder
-          >
+          <Card className={classes.cardBody} withBorder>
             <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'center'}}>
               Liste des marchands
             </h1>

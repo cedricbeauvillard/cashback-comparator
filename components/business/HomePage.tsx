@@ -84,6 +84,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
       </Head>
       <main className="w-auto h-auto justify-center">
         <SearchHeader></SearchHeader>
+
         {/* Jumbotron */}
         <Center
           sx={(theme) => ({

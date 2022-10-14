@@ -21,6 +21,21 @@ import {findManySellerSlug} from '../../components/business/HomePage';
  */
 
 const useStyles = createStyles((theme) => ({
+  cardBody: {
+    marginLeft: '1rem',
+    marginRight: '1rem',
+    marginTop: '1rem',
+    marginBottom: '0.5rem',
+
+    [theme.fn.largerThan('xs')]: {
+      maxWidth: 1210,
+      borderRadius: '0.6rem',
+      padding: '1.5rem',
+      backgroundColor: 'white',
+      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    },
+  },
+
   mobileTable: {
     [theme.fn.largerThan('xs')]: {
       display: 'none',
@@ -111,10 +126,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
       <main>
         <SearchHeader></SearchHeader>
         <div className="flex items-center justify-center">
-          <Card
-            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
-            withBorder
-          >
+          <Card className={classes.cardBody} withBorder>
             <h1 className="m-0">MEILLEUR CASHBACK {seller.name}</h1>
             <p className="mx-0 mt-4">
               Vous vous apprêtez à faire un achat sur le site marchand de <b>{seller.name}</b> et

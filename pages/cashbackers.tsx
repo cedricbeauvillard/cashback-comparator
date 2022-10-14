@@ -1,4 +1,4 @@
-import {Button, Card, createStyles, List, SimpleGrid, Table} from '@mantine/core';
+import {Button, Card, CardSection, createStyles, List, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
@@ -18,6 +18,22 @@ import Link from 'next/link';
  */
 
 const useStyles = createStyles((theme) => ({
+  // TODO: Generize that to declare only once
+  cardBody: {
+    marginLeft: '1rem',
+    marginRight: '1rem',
+    marginTop: '1rem',
+    marginBottom: '0.5rem',
+
+    [theme.fn.largerThan('xs')]: {
+      maxWidth: 1210,
+      borderRadius: '0.6rem',
+      padding: '1.5rem',
+      backgroundColor: 'white',
+      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    },
+  },
+
   mobileTable: {
     marginTop: '2rem',
     [theme.fn.largerThan('xs')]: {
@@ -62,7 +78,8 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
         <SearchHeader></SearchHeader>
         <div className="flex items-center justify-center">
           <Card
-            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
+            className={classes.cardBody}
+            /* className="mx-4 mb-2 mt-4 sm:max-w-6xl sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4" */
             withBorder
           >
             <h1 className="m-0">Classement des meilleurs sites de cashback</h1>
