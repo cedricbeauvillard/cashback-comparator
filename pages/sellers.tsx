@@ -5,7 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import {VFC} from 'react';
 import {ItemSellerLetter} from '../components/business/ItemSellerLetter';
-import {footerData} from '../components/business/_static';
+import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
@@ -14,7 +14,7 @@ export interface SellerListPageProps {
   alphabeticalSellers: Seller[][];
 }
 
-const SellerListPage: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
+const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
   return (
     <div>
       <Head>
@@ -155,4 +155,4 @@ export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async
   }
 };
 
-export default SellerListPage;
+export default sellers;

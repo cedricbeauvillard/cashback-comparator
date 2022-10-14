@@ -3,7 +3,7 @@ import {FC} from 'react';
 import Link from 'next/link';
 import StarSvg from '../svg/StarSvg';
 import {ItemCashbackerProps} from './types';
-import {rankingIcons} from './_static';
+import {rankingIcons} from '../_static';
 
 /*
  * Used seller page to details advantages for each cashbackers (mobile view)

@@ -109,19 +109,19 @@ export const SearchHeader: FC = () => {
             <Link key="HomePage" href="/" className={classes.link}>
               <a className={classes.link}>Accueil</a>
             </Link>
-            <Link key="BestCashbackSites" href="/CashbackerPage" className={classes.link}>
+            <Link key="BestCashbackSites" href="/cashbackers" className={classes.link}>
               <a className={classes.link}>Meilleurs sites de cashback</a>
             </Link>
-            <Link key="SellerList" href="/SellerListPage" className={classes.link}>
+            <Link key="SellerList" href="/sellers" className={classes.link}>
               <a className={classes.link}>Liste des marchands</a>
             </Link>
-            <Link key="TopSeller" href="/TopSellerPage" className={classes.link}>
+            <Link key="TopSeller" href="/topsellers" className={classes.link}>
               <a className={classes.link}>Top marchands</a>
             </Link>
-            <Link key="Contact" href="/ContactPage" className={classes.link}>
+            <Link key="Contact" href="/contact" className={classes.link}>
               <a className={classes.link}>Contact</a>
             </Link>
-            <Link key="GCU" href="/GCUPage" className={classes.link}>
+            <Link key="GCU" href="/cgu" className={classes.link}>
               <a className={classes.link}>Mentions légales</a>
             </Link>
           </Group>
@@ -148,27 +148,27 @@ export const SearchHeader: FC = () => {
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="BestCashbackers" href="/CashbackerPage" className="w-full bg-white">
+            <Link key="BestCashbackers" href="/cashbackers" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">Meilleurs sites de cashback</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="SellerList" href="/SellerListPage" className="w-full bg-white">
+            <Link key="SellerList" href="/sellers" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">Liste des marchands</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="TopSeller" href="/TopSellerPage" className="w-full bg-white">
+            <Link key="TopSeller" href="/topsellers" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">Top marchands</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="Contact" href="/ContactPage" className="w-full bg-white">
+            <Link key="Contact" href="/contact" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">Contact</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="GCU" href="/GCUPage" className="w-full bg-white">
+            <Link key="GCU" href="/cgu" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">CGU</p>
             </Link>
           </div>

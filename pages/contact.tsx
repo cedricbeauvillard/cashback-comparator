@@ -1,22 +1,22 @@
 import Head from 'next/head';
 import {VFC} from 'react';
-import {footerData} from '../components/business/_static';
+import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 
-export interface CGUPageProps {}
+export interface ContactPageProps {}
 
-const GCUPage: VFC<CGUPageProps> = () => {
+const ContactPage: VFC<ContactPageProps> = () => {
   return (
     <div>
       <Head>
-        <title>CGU - MeilleursCashback - Comparez plus de 8000 marchands</title>
+        <title>Contact - MeilleursCashback - Comparez plus de 8000 marchands</title>
         <meta name="description" content="Description" />
         <link rel="icon" href="/logo.webp" />
         <meta
           property="og:title"
           content={
-            "Conditions Générales d'Utilisation - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands"
+            'Contact - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands'
           }
         />
         <meta property="og:type" content="website" />
@@ -33,10 +33,12 @@ const GCUPage: VFC<CGUPageProps> = () => {
         </h1>
       </main>
       <footer>
-        <FooterLinks data={footerData}></FooterLinks>
+        <footer>
+          <FooterLinks data={footerData}></FooterLinks>
+        </footer>
       </footer>
     </div>
   );
 };
 
-export default GCUPage;
+export default ContactPage;

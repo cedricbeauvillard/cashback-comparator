@@ -4,7 +4,7 @@ import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {useState, VFC} from 'react';
 import {ItemTopSeller} from '../components/business/ItemTopSeller';
-import {footerData} from '../components/business/_static';
+import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
@@ -24,7 +24,7 @@ const fetchTopSellers = async (currentTopSellerAmount: number, fetchAmount: numb
   return data;
 };
 
-const TopSellerPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
+const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
   const [topSellers, setTopSellers] = useState<Seller[]>(initialTopSellers);
 
   return (
@@ -114,4 +114,4 @@ export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async
   }
 };
 
-export default TopSellerPage;
+export default TopSellersPage;

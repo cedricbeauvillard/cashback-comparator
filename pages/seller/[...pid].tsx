@@ -14,7 +14,7 @@ import {SearchHeader} from '../../components/generic/SearchHeader';
 import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
 import {prisma} from '../../lib/prisma';
-import {footerData} from '../../components/business/_static';
+import {footerData} from '../../components/_static';
 
 /*
  * Template page for sellers

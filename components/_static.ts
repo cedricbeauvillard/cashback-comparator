@@ -21,15 +21,15 @@ export const footerData = [
       },
       {
         label: 'Meilleurs sites de cashback',
-        link: '/CashbackerPage',
+        link: '/cashbackers',
       },
       {
         label: 'Liste des marchands',
-        link: '/SellerListPage',
+        link: '/sellers',
       },
       {
         label: 'Top marchands',
-        link: '/TopSellerPage',
+        link: '/topsellers',
       },
     ],
   },
@@ -38,11 +38,11 @@ export const footerData = [
     links: [
       {
         label: 'Contact',
-        link: '/ContactPage',
+        link: '/contact',
       },
       {
         label: 'Mentions légales',
-        link: '/GCUPage',
+        link: '/cgu',
       },
     ],
   },

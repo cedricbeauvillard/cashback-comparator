@@ -25,7 +25,7 @@ import {useRouter} from 'next/router';
 import AllSvg from '../svg/AllSvg';
 import RankingSvg from '../svg/RankingSvg';
 import SearchSvg from '../svg/SearchSvg';
-import {footerData} from './_static';
+import {footerData} from '../_static';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
@@ -188,7 +188,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                       ></ItemTopSeller>
                     ))}
                   </SimpleGrid>
-                  <Link href="/TopSellerPage" passHref>
+                  <Link href="/top-sellers" passHref>
                     <Button color="red" size="xs" className="m-auto mt-4 self-center">
                       Voir plus
                     </Button>

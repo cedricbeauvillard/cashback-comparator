@@ -109,7 +109,7 @@ export function FooterLinks({data}: FooterLinksProps) {
 
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
-      <Link href={`link-${link.link}`} key={index}>
+      <Link href={link.link} key={`link-${index}`}>
         <a key={index} className={classes.link}>
           {link.label}
         </a>

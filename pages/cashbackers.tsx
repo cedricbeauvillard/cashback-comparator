@@ -5,7 +5,7 @@ import Head from 'next/head';
 import {VFC} from 'react';
 import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
-import {footerData} from '../components/business/_static';
+import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
