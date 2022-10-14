@@ -6,7 +6,7 @@ import {
   createStyles,
   Grid,
   Group,
-  Input,
+  Select,
   SimpleGrid,
   Table,
   Text,
@@ -21,11 +21,11 @@ import {ItemCashbackerInfosDesktop} from './ItemCashbackerInfosDesktop';
 import {ItemCashbackerInfosMobile} from './ItemCashbackerInfosMobile';
 import {ItemTopSeller} from './ItemTopSeller';
 
-import {useRouter} from 'next/router';
 import AllSvg from '../svg/AllSvg';
 import RankingSvg from '../svg/RankingSvg';
-import SearchSvg from '../svg/SearchSvg';
 import {footerData} from '../_static';
+import {useRouter} from 'next/router';
+import SearchSvg from '../svg/SearchSvg';
 
 const useStyles = createStyles((theme) => ({
   mobileTable: {
@@ -52,6 +52,17 @@ export const findSellerSlug = async (name: string) => {
   return data[0].slug;
 };
 
+export const findManySellerSlug = async (name: string) => {
+  const res = await fetch(`/api/seller/findManyByName?name=${name}`);
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
 export interface HomePageProps {
   cashbackers?: Cashbacker[] | null;
   topSellers?: Seller[] | null;
@@ -59,7 +70,7 @@ export interface HomePageProps {
 
 const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
   const {classes} = useStyles();
-  const [searchValue, setSearchValue] = useState('');
+  const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
 
   return (
@@ -117,22 +128,34 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
             >
               Comparez les taux de cashback de plus de 8000 marchands en ligne
             </h3>
-            <Input
+            <Select
               size="lg"
               className="w-full sm:w-1/2 mt-4"
               radius={'lg'}
               icon={<SearchSvg width={'1.5rem'}></SearchSvg>}
-              onChange={(event: any) => setSearchValue(event.currentTarget.value)}
-              onKeyDown={async (e: any) => {
-                if (e.key === 'Enter') {
-                  const sellerSlug = await findSellerSlug(searchValue);
-
-                  if (sellerSlug) {
-                    router.push(`/seller/meilleur-cashback-${sellerSlug}`);
-                  }
-                }
-              }}
               placeholder="Rechercher un vendeur"
+              searchable
+              rightSection={<></>}
+              maxLength={120}
+              onSearchChange={async (searchValue: string) => {
+                if (searchValue.length <= 0) {
+                  return;
+                }
+
+                setFoundedSellers(await findManySellerSlug(searchValue));
+              }}
+              onChange={(value) => {
+                router.push(`/seller/meilleur-cashback-${value}`);
+              }}
+              nothingFound={null}
+              data={
+                foundedSellers
+                  ? foundedSellers.map((seller) => ({
+                      value: seller.slug ? seller.slug : 'error',
+                      label: seller.name,
+                    }))
+                  : []
+              }
             />
             <Group className="flex-col mt-4 w-full sm:mt-8 sm:w-auto sm:flex-row" spacing={'md'}>
               <Link href="/SellerListPage" passHref>
