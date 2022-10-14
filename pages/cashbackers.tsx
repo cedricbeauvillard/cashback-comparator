@@ -140,7 +140,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 ))}
               </tbody>
             </Table>
-            <p>
+            <p className="mt-8">
               Voici une présentation plus en détail de chacun des sites. Si vous souhaitez avoir de
               plus amples renseignements ou consulter des preuves de paiement, nous vous invitons à
               lire l’article complet du
@@ -156,7 +156,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
             {/* EbuyClub */}
             <div className="mt-6 flex flex-col sm:mt-4" id={`siteopinion`}>
               <div className="w-full">
-                <h4 className="underline">Notre avis sur le site Ebuyclub</h4>
+                <h4 className="underline m-0">Notre avis sur le site Ebuyclub</h4>
               </div>
               <p>
                 Ebuyclub est un des sites pionniers du cashback depuis 1999, qui dispose d’une très

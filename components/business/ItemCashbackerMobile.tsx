@@ -34,7 +34,7 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
   let stars = [];
 
   for (let i = 0; i < cashbacker.score; ++i) {
-    stars.push(<StarSvg key={`star-${i}`} width={'10%'}></StarSvg>);
+    stars.push(<StarSvg key={`star-${i}`} width={'8%'}></StarSvg>);
   }
 
   const cashbackerUnit = rateData?.unit === 'None' ? '' : rateData?.unit === 'Euro' ? '€' : '%';
@@ -52,8 +52,8 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       {/* Cashbacker name */}
       <Group className={classes.cashbackerItemCol} style={{marginTop: 0}}>
         <p className="self-start m-0">Nom du site</p>
-        <div style={{width: '55%'}}>
-          <Image alt="logo ebuyclub" src={cashbacker.logoUrl} className="self-center" />
+        <div style={{width: '50%'}}>
+          <Image alt={`logo ${cashbacker.name}`} src={cashbacker.logoUrl} className="self-center" />
         </div>
       </Group>
       {/* Rating */}
@@ -64,7 +64,7 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       {/* Ranking */}
       <Group className={classes.cashbackerItemCol}>
         <p className="self-start m-0">Rang</p>
-        <div style={{width: '30%'}}>
+        <div style={{width: '25%'}}>
           <Image alt="rang or" src={rankingIcons[cashbacker.rank - 1]} className="self-center" />
         </div>
       </Group>

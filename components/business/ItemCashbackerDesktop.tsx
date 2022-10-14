@@ -46,7 +46,7 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       <td className="w-32">{stars}</td>
       {/* Ranking */}
       <td>
-        <div style={{width: '50%'}}>
+        <div style={{width: '30%'}}>
           <Image alt="rang or" src={rankingIcons[cashbacker.rank - 1]} className="self-center" />
         </div>
       </td>
