@@ -81,12 +81,6 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
         <meta property="og:image:alt" content="M" />*/}
         <meta property="og:description" content={'Description'} />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <main className="w-auto h-auto justify-center">
         <SearchHeader></SearchHeader>
@@ -107,13 +101,19 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
               size="xl"
               weight={700}
               className="text-5xl"
-              style={{fontFamily: 'Montserrat, sans-serif'}}
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: 700,
+              }}
             >
               Meilleurs Cashback
             </Text>
             <h3
               className="m-0 p-0 text-white text-2xl"
-              style={{fontFamily: 'Montserrat, sans-serif'}}
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: 700,
+              }}
             >
               Comparez les taux de cashback de plus de 8000 marchands en ligne
             </h3>

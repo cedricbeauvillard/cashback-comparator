@@ -33,12 +33,6 @@ const SellerListPage: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
         <meta property="og:image:alt" content="M" />*/}
         <meta property="og:description" content={'Description'} />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <main className="justify-center">
         <SearchHeader></SearchHeader>
