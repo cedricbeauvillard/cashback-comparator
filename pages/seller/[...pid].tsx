@@ -1,11 +1,10 @@
-import {Button, Card, createStyles, Group, Input, SimpleGrid, Table} from '@mantine/core';
+import {Button, Card, createStyles, Group, Input, Select, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useState, VFC} from 'react';
-import {findSellerSlug} from '../../components/business/HomePage';
 import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
 import {emptyRateData, RateData} from '../../components/business/types';
@@ -15,6 +14,7 @@ import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
 import {prisma} from '../../lib/prisma';
 import {footerData} from '../../components/_static';
+import {findManySellerSlug} from '../../components/business/HomePage';
 
 /*
  * Template page for sellers
@@ -91,7 +91,7 @@ const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): R
 
 const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
-  const [searchValue, setSearchValue] = useState('');
+  const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
 
   return (
@@ -236,23 +236,35 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               <div>
                 <Group spacing={0} className="my-2 w-full sm:m-0">
                   <h3 className="m-0">Chercher un marchand</h3>
-                  <Input
+                  <Select
                     className="w-full mt-2"
                     icon={<SearchSvg width={'1rem'}></SearchSvg>}
-                    placeholder="Je cherche un site marchand"
-                    onChange={(event: any) => setSearchValue(event.currentTarget.value)}
-                    onKeyDown={async (e: any) => {
-                      if (e.key === 'Enter') {
-                        const sellerSlug = await findSellerSlug(searchValue);
-
-                        if (sellerSlug) {
-                          router.push(`/seller/meilleur-cashback-${sellerSlug}`);
-                        }
+                    placeholder="Rechercher un vendeur"
+                    searchable
+                    rightSection={<></>}
+                    maxLength={120}
+                    onSearchChange={async (searchValue: string) => {
+                      if (searchValue.length <= 0) {
+                        return;
                       }
+
+                      setFoundedSellers(await findManySellerSlug(searchValue));
                     }}
+                    onChange={(value) => {
+                      router.push(`/seller/meilleur-cashback-${value}`);
+                    }}
+                    nothingFound={null}
+                    data={
+                      foundedSellers
+                        ? foundedSellers.map((seller) => ({
+                            value: seller.slug ? seller.slug : 'error',
+                            label: seller.name,
+                          }))
+                        : []
+                    }
                   />
                 </Group>
-                <Link key="SellerList" href="/SellerListPage" className="w-full bg-white">
+                <Link key="SellerList" href="/sellers" className="w-full bg-white">
                   <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>
                     Voir la liste complète des marchands
                   </Button>

@@ -1,9 +1,10 @@
-import {Burger, Button, createStyles, Group, Header, Image, Input} from '@mantine/core';
+import {Burger, Button, createStyles, Group, Header, Image, Select} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
+import {Seller} from '@prisma/client';
 import Link from 'next/link';
-import {NextRouter, useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 import {FC, useState} from 'react';
-import {findSellerSlug} from '../business/HomePage';
+import {findManySellerSlug} from '../business/HomePage';
 import SearchSvg from '../svg/SearchSvg';
 
 const useStyles = createStyles((theme) => ({
@@ -69,18 +70,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const searchAndGoToSeller = async (router: NextRouter, searchValue: string) => {
-  const sellerSlug = await findSellerSlug(searchValue);
-
-  if (sellerSlug) {
-    router.push(`/seller/meilleur-cashback-${sellerSlug}`);
-  }
-};
-
 export const SearchHeader: FC = () => {
   const [pagePanelOpened, {toggle}] = useDisclosure(false);
   const [searchPanelOpened, toggleSearchPanel] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
   const {classes} = useStyles();
 
@@ -125,16 +118,32 @@ export const SearchHeader: FC = () => {
               <a className={classes.link}>Mentions légales</a>
             </Link>
           </Group>
-          <Input
+          <Select
             className={classes.search}
-            placeholder="Chercher un vendeur"
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
-            onChange={(event: any) => setSearchValue(event.currentTarget.value)}
-            onKeyDown={async (e: any) => {
-              if (e.key === 'Enter') {
-                searchAndGoToSeller(router, searchValue);
+            placeholder="Rechercher un vendeur"
+            searchable
+            rightSection={<></>}
+            maxLength={120}
+            onSearchChange={async (searchValue: string) => {
+              if (searchValue.length <= 0) {
+                return;
               }
+
+              setFoundedSellers(await findManySellerSlug(searchValue));
             }}
+            onChange={(value: string) => {
+              router.push(`/seller/meilleur-cashback-${value}`);
+            }}
+            nothingFound={null}
+            data={
+              foundedSellers
+                ? foundedSellers.map((seller) => ({
+                    value: seller.slug ? seller.slug : 'error',
+                    label: seller.name,
+                  }))
+                : []
+            }
           />
         </Group>
       </div>
@@ -176,16 +185,32 @@ export const SearchHeader: FC = () => {
       )}
       {searchPanelOpened && (
         <Group className="w-full" style={{position: 'absolute', top: 56, left: 0, zIndex: 1000}}>
-          <Input
+          <Select
             className="w-full"
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
             placeholder="Rechercher un vendeur"
-            onChange={(event: any) => setSearchValue(event.currentTarget.value)}
-            onKeyDown={async (e: any) => {
-              if (e.key === 'Enter') {
-                searchAndGoToSeller(router, searchValue);
+            searchable
+            rightSection={<></>}
+            maxLength={120}
+            onSearchChange={async (searchValue: string) => {
+              if (searchValue.length <= 0) {
+                return;
               }
+
+              setFoundedSellers(await findManySellerSlug(searchValue));
             }}
+            onChange={(value: string) => {
+              router.push(`/seller/meilleur-cashback-${value}`);
+            }}
+            nothingFound={null}
+            data={
+              foundedSellers
+                ? foundedSellers.map((seller) => ({
+                    value: seller.slug ? seller.slug : 'error',
+                    label: seller.name,
+                  }))
+                : []
+            }
           />
         </Group>
       )}

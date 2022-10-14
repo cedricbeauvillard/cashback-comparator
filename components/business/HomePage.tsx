@@ -41,19 +41,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const findSellerSlug = async (name: string) => {
-  const res = await fetch(`/api/seller/findByName?name=${name}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  return data[0].slug;
-};
-
 export const findManySellerSlug = async (name: string) => {
-  const res = await fetch(`/api/seller/findManyByName?name=${name}`);
+  const res = await fetch(`/api/seller/findManySellersByName?name=${name}`);
   const data = await res.json();
 
   if (res.status !== 200) {
@@ -158,7 +147,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
               }
             />
             <Group className="flex-col mt-4 w-full sm:mt-8 sm:w-auto sm:flex-row" spacing={'md'}>
-              <Link href="/SellerListPage" passHref>
+              <Link href="/sellers" passHref>
                 <Button
                   size="md"
                   color="red"
@@ -169,7 +158,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   Voir la liste complète des marchands
                 </Button>
               </Link>
-              <Link href="/CashbackerPage" passHref>
+              <Link href="/cashbackers" passHref>
                 <Button
                   size="md"
                   color="red"
@@ -211,7 +200,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                       ></ItemTopSeller>
                     ))}
                   </SimpleGrid>
-                  <Link href="/top-sellers" passHref>
+                  <Link href="/topsellers" passHref>
                     <Button color="red" size="xs" className="m-auto mt-4 self-center">
                       Voir plus
                     </Button>
