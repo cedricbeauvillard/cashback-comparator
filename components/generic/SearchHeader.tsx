@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   inner: {
-    height: 56,
+    height: 80,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
     gap: 0,
     position: 'absolute',
     width: '100%',
-    top: 56,
+    top: 80,
     left: 0,
   },
 
@@ -82,11 +82,11 @@ export const SearchHeader: FC = () => {
   };
 
   return (
-    <Header height={56} className={classes.header}>
+    <Header height={80} className={classes.header}>
       <div className={classes.inner}>
         <Group className="w-full sm:w-auto">
           <Burger className={classes.burger} opened={pagePanelOpened} onClick={toggle} size="sm" />
-          <div className="hover:cursor-pointer" style={{width: '4.5rem'}}>
+          <div className="hover:cursor-pointer" style={{width: '8rem'}}>
             <Link href="/" passHref>
               <Image width={'100%'} height={'100%'} src="/logo.webp" alt="logo" />
             </Link>
