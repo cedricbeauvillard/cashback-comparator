@@ -10,6 +10,11 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ['localhost', 'meilleurscashback.com'],
+  },
+  poweredByHeader: false,
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
