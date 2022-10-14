@@ -48,44 +48,46 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
       </Head>
       <main className="w-auto h-auto bg-red-600 justify-center">
         <SearchHeader></SearchHeader>
-        <Card
-          className="flex flex-col mx-4 mb-2 mt-2 sm:m-auto sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
-          withBorder
-        >
-          <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'left'}}>Les top marchands</h1>
-          <p>
-            Nous avons répertorié pour vous une liste des principaux marchands (web ou magasin) qui
-            sont les plus consultés sur notre comparateur.
-          </p>
-          <Group className="items-center justify-center">
-            <SimpleGrid
-              cols={4}
-              spacing="lg"
-              breakpoints={[
-                {maxWidth: 980, cols: 4, spacing: 'md'},
-                {maxWidth: 755, cols: 3, spacing: 'sm'},
-                {maxWidth: 600, cols: 2, spacing: 'sm'},
-              ]}
-            >
-              {topSellers?.map((topSeller, i) => (
-                <ItemTopSeller
-                  logoUrl={topSeller.logoUrl ?? null}
-                  name={topSeller.name}
-                  pageUrl={topSeller.logoUrl ?? 'None'}
-                  key={`topSellers-${i}`}
-                ></ItemTopSeller>
-              ))}
-            </SimpleGrid>
-            <Button
-              color="red"
-              onClick={async () => {
-                setTopSellers(await fetchTopSellers(topSellers.length, 20));
-              }}
-            >
-              Charger plus
-            </Button>
-          </Group>
-        </Card>
+        <div className="flex flex-col items-center justify-center">
+          <Card
+            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
+            withBorder
+          >
+            <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'left'}}>Les top marchands</h1>
+            <p>
+              Nous avons répertorié pour vous une liste des principaux marchands (web ou magasin)
+              qui sont les plus consultés sur notre comparateur.
+            </p>
+            <Group className="items-center justify-center">
+              <SimpleGrid
+                cols={4}
+                spacing="lg"
+                breakpoints={[
+                  {maxWidth: 980, cols: 4, spacing: 'md'},
+                  {maxWidth: 755, cols: 3, spacing: 'sm'},
+                  {maxWidth: 600, cols: 2, spacing: 'sm'},
+                ]}
+              >
+                {topSellers?.map((topSeller, i) => (
+                  <ItemTopSeller
+                    logoUrl={topSeller.logoUrl ?? null}
+                    name={topSeller.name}
+                    pageUrl={topSeller.logoUrl ?? 'None'}
+                    key={`topSellers-${i}`}
+                  ></ItemTopSeller>
+                ))}
+              </SimpleGrid>
+              <Button
+                color="red"
+                onClick={async () => {
+                  setTopSellers(await fetchTopSellers(topSellers.length, 20));
+                }}
+              >
+                Charger plus
+              </Button>
+            </Group>
+          </Card>
+        </div>
       </main>
       <footer>
         <footer>

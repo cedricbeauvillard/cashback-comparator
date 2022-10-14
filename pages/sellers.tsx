@@ -38,7 +38,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
         <SearchHeader></SearchHeader>
         <div className="flex flex-col items-center justify-center">
           <Card
-            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:mb-12 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
+            className="mx-4 mb-2 mt-4 sm:w-2/3 sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4"
             withBorder
           >
             <h1 style={{zIndex: 0, fontSize: '1.5rem', textAlign: 'center'}}>
