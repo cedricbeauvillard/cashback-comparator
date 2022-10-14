@@ -99,11 +99,11 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
               variant="gradient"
               gradient={{from: 'red', to: 'orange', deg: 45}}
               size="xl"
-              weight={700}
+              weight={900}
               className="text-5xl"
               style={{
                 fontFamily: 'Montserrat',
-                fontWeight: 700,
+                fontWeight: 900,
               }}
             >
               Meilleurs Cashback
@@ -239,10 +239,21 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
             </Grid.Col>
             <Grid.Col md={24} lg={24} xs={24}>
               <Card shadow={'xs'} withBorder className="justify-center">
-                <h3 className="underline m-0" style={{fontFamily: 'Montserrat, sans-serif'}}>
+                <h3
+                  className="underline m-0"
+                  style={{
+                    fontFamily: 'Montserrat',
+                    fontWeight: 700,
+                  }}
+                >
                   A quoi sert le comparateur meilleurcashback.com
                 </h3>
-                <p style={{fontFamily: 'Montserrat, sans-serif'}}>
+                <p
+                  style={{
+                    fontFamily: 'Montserrat',
+                    fontWeight: 700,
+                  }}
+                >
                   Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup
                   d'oeil quel est le taux de cashback pratiqué par les meilleurs sites de cashback
                   du marché sur le marchand chez lequel vous envisagez de réaliser votre achat. Vous
@@ -250,10 +261,21 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   toutes les informations nécessaires pour faire votre choix (note, bonus de
                   bienvenue, notre avis...) pour faire votre choix en fonction de vos critères.
                 </p>
-                <h3 style={{fontFamily: 'Montserrat, sans-serif'}} className="underline m-0">
+                <h3
+                  style={{
+                    fontFamily: 'Montserrat',
+                    fontWeight: 700,
+                  }}
+                  className="underline m-0"
+                >
                   Je veux en savoir plus sur le cashback et son fonctionnement
                 </h3>
-                <p style={{fontFamily: 'Montserrat, sans-serif'}}>
+                <p
+                  style={{
+                    fontFamily: 'Montserrat',
+                    fontWeight: 700,
+                  }}
+                >
                   Ce comparateur a été conçu en collaboration avec le blog sitescashback.com, blog
                   de reference sur le cashback depuis plus de 10 ans, ce qui a valus a sitescashback
                   un passage en expert du cashback dans l'émission TV Capital sur M6 fin 2021. Pour

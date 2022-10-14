@@ -14,7 +14,9 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
       orderBy: {rank: 'asc'},
     });
 
-    const homePageTopSellers = [6728, 5568, 5413, 172, 7274, 4887, 2396, 4883, 6250, 2485];
+    const homePageTopSellers = [
+      6728, 5568, 5413, 172, 7274, 4887, 2396, 4883, 6250, 2485, 2448, 817,
+    ];
 
     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
