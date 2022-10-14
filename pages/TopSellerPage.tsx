@@ -1,14 +1,13 @@
 import {Button, Card, Group, SimpleGrid} from '@mantine/core';
 import {Seller} from '@prisma/client';
-import Link from 'next/link';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {useState, VFC} from 'react';
 import {ItemTopSeller} from '../components/business/ItemTopSeller';
+import {footerData} from '../components/business/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
-import {footerData} from '../components/business/_static';
 
 export interface TopSellersPageProps {
   initialTopSellers: Seller[];

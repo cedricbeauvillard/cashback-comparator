@@ -1,5 +1,5 @@
-import {Button, Card, createStyles, Group, SimpleGrid, Table} from '@mantine/core';
-import {Cashbacker, PrismaClient} from '@prisma/client';
+import {Button, Card, createStyles, SimpleGrid, Table} from '@mantine/core';
+import {Cashbacker} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import {VFC} from 'react';
