@@ -121,7 +121,7 @@ export const SearchHeader: FC = () => {
           <Select
             className={classes.search}
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
-            placeholder="Rechercher un vendeur"
+            placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
             searchable
             rightSection={<></>}
             maxLength={120}
@@ -188,7 +188,7 @@ export const SearchHeader: FC = () => {
           <Select
             className="w-full"
             icon={<SearchSvg width={'1rem'}></SearchSvg>}
-            placeholder="Rechercher un vendeur"
+            placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
             searchable
             rightSection={<></>}
             maxLength={120}

@@ -71,7 +71,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
               cols={27}
               spacing={6}
               breakpoints={[
-                {maxWidth: 1800, cols: 16, spacing: 8},
+                {maxWidth: 1800, cols: 22, spacing: 8},
                 {maxWidth: 1000, cols: 10, spacing: 8},
                 {maxWidth: 600, cols: 8, spacing: 8},
               ]}

@@ -65,7 +65,7 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
         <meta property="og:description" content={'Description'} />
         <meta property="og:site_name" content="MeilleursCashback" />
       </Head>
-      <main className="w-auto h-auto bg-red-600 justify-center">
+      <main>
         <SearchHeader></SearchHeader>
         <div className="flex flex-col items-center justify-center">
           <Card className={classes.cardBody} withBorder>
@@ -74,7 +74,7 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
               Nous avons répertorié pour vous une liste des principaux marchands (web ou magasin)
               qui sont les plus consultés sur notre comparateur.
             </p>
-            <Group className="items-center justify-center">
+            <Group className="flex flex-col items-center justify-center">
               <SimpleGrid
                 cols={4}
                 spacing="lg"
@@ -86,14 +86,14 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
               >
                 {topSellers?.map((topSeller, i) => (
                   <ItemTopSeller
-                    logoUrl={topSeller.logoUrl ?? null}
                     name={topSeller.name}
-                    pageUrl={topSeller.logoUrl ?? 'None'}
+                    pageUrl={`/seller/meilleur-cashback-${topSeller.slug}`}
                     key={`topSellers-${i}`}
                   ></ItemTopSeller>
                 ))}
               </SimpleGrid>
               <Button
+                className="mt-2"
                 color="red"
                 onClick={async () => {
                   setTopSellers(await fetchTopSellers(topSellers.length, 20));
@@ -119,7 +119,7 @@ export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async
     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
       // TODO: Check and remove ORDER BY RAND() before
-      `SELECT DISTINCT id,name,logoUrl FROM Seller WHERE topSeller = 1 OR top40=1 OR coupon=1 LIMIT 20;`
+      `SELECT DISTINCT id,name, slug FROM Seller WHERE (topSeller = 1 OR top40=1 OR coupon=1) ORDER BY name ASC LIMIT 20;`
     );
 
     return {

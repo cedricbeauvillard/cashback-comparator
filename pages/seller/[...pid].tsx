@@ -251,7 +251,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                   <Select
                     className="w-full mt-2"
                     icon={<SearchSvg width={'1rem'}></SearchSvg>}
-                    placeholder="Rechercher un vendeur"
+                    placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
                     searchable
                     rightSection={<></>}
                     maxLength={120}

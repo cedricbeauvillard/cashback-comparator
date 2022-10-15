@@ -76,7 +76,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
       </Head>
       <main>
         <SearchHeader></SearchHeader>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <Card
             className={classes.cardBody}
             /* className="mx-4 mb-2 mt-4 sm:max-w-6xl sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4" */

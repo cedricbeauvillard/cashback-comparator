@@ -123,7 +123,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
               className="w-full sm:w-1/2 mt-4"
               radius={'lg'}
               icon={<SearchSvg width={'1.5rem'}></SearchSvg>}
-              placeholder="Rechercher un vendeur"
+              placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
               searchable
               rightSection={<></>}
               maxLength={120}
