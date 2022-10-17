@@ -1,52 +1,5 @@
+import {PrismaClient, RateUnit} from '@prisma/client';
 import {exDatabaseSecondPartData, firstPartData} from './_static';
-import {prisma, Prisma, PrismaClient, RateUnit} from '@prisma/client';
-
-/*   isRangeRateIgraal Boolean  @default(false)
-  rateIgraal        Float    @default(0)
-  unitRateIgraal    RateUnit
-
-  isRangeRatePoulpeo Boolean  @default(false)
-  ratePoulpeo        Float    @default(0)
-  unitRatePoulpeo    RateUnit
-
-  isRangeRateFunC Boolean  @default(false)
-  rateFunC        Float    @default(0)
-  unitRateFunC    RateUnit
-
-  isRangeRateAuBonProfit Boolean  @default(false)
-  rateAuBonProfit        Float    @default(0)
-  unitRateAuBonProfit    RateUnit
-
-  isRangeRateFlouzy Boolean  @default(false)
-  rateFlouzy        Float    @default(0)
-  unitRateFlouzy    RateUnit
-
-  isRangeRateCapitalKoala Boolean  @default(false)
-  rateCapitalKoala        Float    @default(0)
-  unitRateCapitalKoala    RateUnit
-
-  isRangeRateEbuyclub Boolean  @default(false)
-  rateEbuyclub        Float    @default(0)
-  unitRateEbuyclub    RateUnit
-
-  isRangeRateWidilo Boolean  @default(false)
-  rateWidilo        Float    @default(0)
-  unitRateWidilo    RateUnit
-
-  isRangeRateJoko Boolean  @default(false)
-  rateJoko        Float    @default(0)
-  unitRateJoko    RateUnit
-
-  isRangeRateBoursorama Boolean  @default(false)
-  rateBoursorama        Float    @default(0)
-  unitRateBoursorama    RateUnit
-
-  isRangeRateEbuyclubCoupon Boolean  @default(false)
-  rateEbuyclubCoupon        Float    @default(0)
-  unitRateEbuyclubCoupon    RateUnit
-  
-  
-  [true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO', true, 2.5, 'EURO']*/
 
 function shuffle(array: any) {
   let currentIndex = array.length,
@@ -223,13 +176,17 @@ async function main() {
         ratePoulpeo: item[10],
         unitRatePoulpeo: item[11],
 
+        /*
+        Supprimé le 17/10
         isRangeRateFunC: item[12],
         rateFunC: item[13],
-        unitRateFunC: item[14],
+        unitRateFunC: item[14], */
 
+        /*        
+        Supprimé le 17/10
         isRangeRateAuBonProfit: item[15],
         rateAuBonProfit: item[16],
-        unitRateAuBonProfit: item[17],
+        unitRateAuBonProfit: item[17], */
 
         isRangeRateFlouzy: item[18],
         rateFlouzy: item[19],

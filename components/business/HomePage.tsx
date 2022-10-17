@@ -221,7 +221,8 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                       name={cashbacker.name}
                       bonus={cashbacker.signupBonus}
                       paymentThresold={cashbacker.paymentThreshold ?? 0}
-                      paymentMethod={'PayPal, Chèque, Virement, Cartes cadeaux'}
+                      paymentMethod={cashbacker.paymentMethod ?? '0'}
+                      sponsorshipUrl={cashbacker.sponsorshipUrl}
                     ></ItemCashbackerInfosMobile>
                   ))}
                 </SimpleGrid>
@@ -243,7 +244,8 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                         imageUrl={cashbacker.logoUrl}
                         bonus={cashbacker.signupBonus}
                         paymentThresold={cashbacker.paymentThreshold ?? 0}
-                        paymentMethod={'PayPal, Chèque, Virement, Cartes cadeaux'}
+                        paymentMethod={cashbacker.paymentMethod ?? '0'}
+                        sponsorshipUrl={cashbacker.sponsorshipUrl}
                       ></ItemCashbackerInfosDesktop>
                     ))}
                   </tbody>

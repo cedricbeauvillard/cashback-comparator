@@ -13,6 +13,7 @@ interface ItemCashbackerInfosDesktopProps {
   bonus: number;
   paymentThresold: number;
   paymentMethod: string;
+  sponsorshipUrl: string;
 }
 
 export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = ({
@@ -20,17 +21,20 @@ export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = (
   bonus,
   paymentThresold,
   paymentMethod,
+  sponsorshipUrl,
 }) => {
   return (
     <tr key="ebuyclub">
       <td>
         <div style={{width: 100, flex: 1, flexDirection: 'column'}}>
-          <Image alt="logo ebuyclub" src={imageUrl} className="self-center" />
+          <a href={sponsorshipUrl} target="_blank">
+            <Image alt="logo ebuyclub" src={imageUrl} className="self-center" />
+          </a>
         </div>
       </td>
       <td>{bonus}€ à l'inscription</td>
       <td>{paymentThresold}€</td>
-      <td>{paymentMethod}€</td>
+      <td>{paymentMethod}</td>
     </tr>
   );
 };

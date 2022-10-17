@@ -218,32 +218,18 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
             >
               <div>
                 <Group className="w-full">
-                  {seller?.top40 ? (
-                    <Button variant="outline" className="w-full h-12" color="green">
-                      PANIER CASHBACK 40 👍
-                    </Button>
-                  ) : (
-                    <Button variant="outline" className="w-full h-12" color="red">
-                      PANIER CASHBACK 40 👎
-                    </Button>
-                  )}
                   {seller?.topSeller ? (
-                    <Button variant="outline" className="w-full h-12" color="green">
-                      TOP MARCHAND 👍
-                    </Button>
+                    <Link href={'/topsellers'}>
+                      <Button variant="outline" className="w-full" color="green">
+                        CE SITE FAIT PARTIE DU TOP MARCHAND (voir la liste)
+                      </Button>
+                    </Link>
                   ) : (
-                    <Button variant="outline" className="w-full h-12" color="red">
-                      TOP MARCHAND 👎
-                    </Button>
-                  )}
-                  {seller?.coupon ? (
-                    <Button variant="outline" className="w-full h-12" color="green">
-                      SUR BONS D'ACHAT EBUYCLUB 👍
-                    </Button>
-                  ) : (
-                    <Button variant="outline" className="w-full h-12" color="red">
-                      SUR BONS D'ACHAT EBUYCLUB 👎
-                    </Button>
+                    <Link href={'/topsellers'}>
+                      <Button variant="outline" className="w-full" color="red">
+                        CE SITE NE FAIT PAS PARTIE DU TOP MARCHAND (voir la liste)
+                      </Button>
+                    </Link>
                   )}
                 </Group>
               </div>
@@ -313,7 +299,9 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
     let slug: string | undefined = context.params.pid.toString().slice(18);
 
     if (!slug) {
-      return {notFound: true};
+      return {
+        notFound: true,
+      };
     }
 
     const seller = await prisma.seller.findFirst({

@@ -17,10 +17,8 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (cont
   }
 
   try {
+    // TODO: make a good select (opti)
     const cashbackers = await prisma.cashbacker.findMany({
-      /*       select: {
-
-      } */
       orderBy: {rank: 'asc'},
     });
 

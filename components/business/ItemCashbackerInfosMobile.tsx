@@ -40,6 +40,7 @@ interface ItemCashbackerInfosMobileProps {
   bonus: number;
   paymentThresold: number;
   paymentMethod: string;
+  sponsorshipUrl: string;
 }
 
 export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
@@ -48,30 +49,38 @@ export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
   bonus,
   paymentThresold,
   paymentMethod,
+  sponsorshipUrl,
 }) => {
   const {classes} = useStyles();
 
   return (
-    <Link href="/sellers" passHref>
-      <Card withBorder radius="md" shadow={'sm'} p={0} className={classes.card}>
-        <Group noWrap spacing={0}>
-          <Image src={imageUrl} height={140} width={140} fit="contain" />
-          <div className={classes.title}>
-            <Text transform="uppercase" color="dimmed" weight={900} size="md" className="mt-2">
-              {name}
-            </Text>
-            <Text mt="xs" mb="xs" weight={400}>
-              Bonus d'inscription: {bonus}€
-            </Text>
-            <Text mt="xs" mb="xs" weight={400}>
-              Seuil de paiement: {paymentThresold}€
-            </Text>
-            <Text mt="xs" mb="xs" weight={400}>
-              Mode de paiement: {paymentMethod}
-            </Text>
-          </div>
-        </Group>
-      </Card>
-    </Link>
+    <Card
+      withBorder
+      radius="md"
+      shadow={'sm'}
+      p={0}
+      component="a"
+      href={sponsorshipUrl}
+      target="_blank"
+      className={classes.card}
+    >
+      <Group noWrap spacing={0}>
+        <Image src={imageUrl} height={140} width={140} fit="contain" />
+        <div className={classes.title}>
+          <Text transform="uppercase" color="dimmed" weight={900} size="md" className="mt-2">
+            {name}
+          </Text>
+          <Text mt="xs" mb="xs" weight={400}>
+            Bonus d'inscription: {bonus}€
+          </Text>
+          <Text mt="xs" mb="xs" weight={400}>
+            Seuil de paiement: {paymentThresold}€
+          </Text>
+          <Text mt="xs" mb="xs" weight={400}>
+            Mode de paiement: {paymentMethod}
+          </Text>
+        </div>
+      </Group>
+    </Card>
   );
 };

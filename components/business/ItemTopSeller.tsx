@@ -1,7 +1,5 @@
-import {Card, createStyles, Image, Text} from '@mantine/core';
+import {Card, Image, Text} from '@mantine/core';
 import {FC} from 'react';
-
-const useStyles = createStyles((theme) => ({}));
 
 export interface ItemTopSellerProps {
   logoUrl?: string | null;
@@ -11,14 +9,7 @@ export interface ItemTopSellerProps {
 
 export const ItemTopSeller: FC<ItemTopSellerProps> = ({logoUrl, name, pageUrl}) => {
   return (
-    <Card
-      shadow="sm"
-      p="xs"
-      component="a"
-      href={pageUrl}
-      withBorder
-      /* className="flex col "items-center justify-center" */
-    >
+    <Card shadow="sm" p="xs" component="a" href={pageUrl} target="_blank" withBorder>
       {logoUrl ? (
         <div>
           <Card.Section>
@@ -33,13 +24,13 @@ export const ItemTopSeller: FC<ItemTopSellerProps> = ({logoUrl, name, pageUrl}) 
               alt="sellerLogo"
             />
           </Card.Section>
-          <Text weight={500} size="lg" align="center" /* className="w-auto" */>
+          <Text weight={500} size="lg" align="center">
             {name}
           </Text>
         </div>
       ) : (
         <div className="h-full flex col items-center justify-center">
-          <Text weight={500} size="lg" align="center" /* className="w-auto" */>
+          <Text weight={500} size="lg" align="center">
             {name}
           </Text>
         </div>
