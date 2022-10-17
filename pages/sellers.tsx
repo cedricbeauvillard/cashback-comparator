@@ -114,7 +114,12 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async (context) => {
+  // Avoid soft 404
+  if (Object.keys(context.query).length !== 0) {
+    return {notFound: true};
+  }
+
   try {
     const alphabeticalSellers: Seller[][] = [];
 

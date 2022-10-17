@@ -452,7 +452,12 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<CashbackerPageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<CashbackerPageProps> = async (context) => {
+  // Avoid soft 404
+  if (Object.keys(context.query).length !== 0) {
+    return {notFound: true};
+  }
+
   try {
     const cashbackers = await prisma.cashbacker.findMany({
       orderBy: {rank: 'asc'},

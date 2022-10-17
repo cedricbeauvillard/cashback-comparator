@@ -114,7 +114,12 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async (context) => {
+  // Avoid soft 404
+  if (Object.keys(context.query).length !== 0) {
+    return {notFound: true};
+  }
+
   try {
     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here

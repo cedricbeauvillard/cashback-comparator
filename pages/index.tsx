@@ -1,5 +1,7 @@
 import {Seller} from '@prisma/client';
 import type {GetServerSideProps, NextPage} from 'next';
+import {useRouter} from 'next/router';
+import {convertToObject} from 'typescript';
 import HomePage, {HomePageProps} from '../components/business/HomePage';
 import {prisma} from '../lib/prisma';
 
@@ -8,7 +10,12 @@ const Home: NextPage<HomePageProps> = ({topSellers, cashbackers}) => {
   return <HomePage topSellers={topSellers} cashbackers={cashbackers}></HomePage>;
 };
 
-export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async (context) => {
+  // Avoid soft 404
+  if (Object.keys(context.query).length !== 0) {
+    return {notFound: true};
+  }
+
   try {
     const cashbackers = await prisma.cashbacker.findMany({
       orderBy: {rank: 'asc'},
