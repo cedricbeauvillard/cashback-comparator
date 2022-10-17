@@ -74,7 +74,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
             <Select
               size="md"
               className="w-full my-6"
-              radius={'lg'}
+              radius={'md'}
               icon={<SearchSvg width={'1.5rem'}></SearchSvg>}
               placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
               searchable
