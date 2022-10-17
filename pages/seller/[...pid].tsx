@@ -134,6 +134,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
               pratiqué par
               <a
+                target="_blank"
                 className="text-hyperlink"
                 href="https://sitescashback.com/classement-des-meilleurs-sites-de-cashback/"
               >
@@ -141,12 +142,12 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                 chacun des meilleurs sites de notre classement sitescashback
               </a>
               , mais également toutes les informations nécessaires pour faire votre choix (note,
-              bonus de bienvenue, notre avis...) car il n'y a pas que le taux qui compte. Pour
-              gagner encore plus, vous pouvez utiliser les <b>codes promos</b> disponibles sur le
-              site de cashback, sans oublier le <b>bonus de bienvenue</b> à votre inscription sur le
-              site de cashback. Pour les sites permettant de cumuler plusieurs types de cashback
-              tels que le
+              bonus de bienvenue, notre avis...).<br></br>Pour gagner encore plus, vous pouvez
+              utiliser les <b>codes promos</b> disponibles sur le site de cashback, sans oublier le{' '}
+              <b>bonus de bienvenue</b> à votre inscription sur le site de cashback. Pour les sites
+              permettant de cumuler plusieurs types de cashback tels que le
               <a
+                target="_blank"
                 className="text-hyperlink"
                 href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
               >
@@ -155,6 +156,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               </a>
               et le
               <a
+                target="_blank"
                 className="text-hyperlink"
                 href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
               >

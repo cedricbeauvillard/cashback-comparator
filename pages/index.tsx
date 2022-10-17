@@ -18,6 +18,9 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (cont
 
   try {
     const cashbackers = await prisma.cashbacker.findMany({
+      /*       select: {
+
+      } */
       orderBy: {rank: 'asc'},
     });
 

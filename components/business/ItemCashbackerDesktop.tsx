@@ -57,12 +57,12 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       {/* More informations  cta's*/}
       <td>
         <Button.Group orientation="vertical" className="flex">
-          <Link href={cashbacker.reviewsUrl} passHref>
+          <a target="_blank" href={cashbacker.reviewsUrl} rel="noopener noreferrer">
             <Button className="my-2 w-24">Avis</Button>
-          </Link>
-          <Link href={cashbacker.sponsorshipUrl} passHref>
+          </a>
+          <a target="_blank" href={cashbacker.sponsorshipUrl} rel="noopener noreferrer">
             <Button className="my-2 w-24">Visiter</Button>
-          </Link>
+          </a>
         </Button.Group>
       </td>
     </tr>

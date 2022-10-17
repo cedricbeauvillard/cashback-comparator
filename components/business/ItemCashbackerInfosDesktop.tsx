@@ -1,6 +1,6 @@
-import {Button, createStyles, Image} from '@mantine/core';
+import {createStyles, Image} from '@mantine/core';
+import Link from 'next/link';
 import {FC} from 'react';
-import StarSvg from '../svg/StarSvg';
 
 /*
  * Used seller page to details advantages for each cashbackers (desktop view)
@@ -8,21 +8,19 @@ import StarSvg from '../svg/StarSvg';
 
 const useStyles = createStyles((theme) => ({}));
 
-interface ItemCashbackerInfosMobileProps {
+interface ItemCashbackerInfosDesktopProps {
   imageUrl: string;
   bonus: number;
   paymentThresold: number;
   paymentMethod: string;
 }
 
-export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosMobileProps> = ({
+export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = ({
   imageUrl,
   bonus,
   paymentThresold,
   paymentMethod,
 }) => {
-  const {classes} = useStyles();
-
   return (
     <tr key="ebuyclub">
       <td>

@@ -1,4 +1,5 @@
 import {Card, createStyles, Group, Image, Text} from '@mantine/core';
+import Link from 'next/link';
 import {FC} from 'react';
 
 /*
@@ -51,24 +52,26 @@ export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
   const {classes} = useStyles();
 
   return (
-    <Card withBorder radius="md" shadow={'sm'} p={0} className={classes.card}>
-      <Group noWrap spacing={0}>
-        <Image src={imageUrl} height={140} width={140} fit="contain" />
-        <div className={classes.title}>
-          <Text transform="uppercase" color="dimmed" weight={900} size="md" className="mt-2">
-            {name}
-          </Text>
-          <Text mt="xs" mb="xs" weight={400}>
-            Bonus d'inscription: {bonus}€
-          </Text>
-          <Text mt="xs" mb="xs" weight={400}>
-            Seuil de paiement: {paymentThresold}€
-          </Text>
-          <Text mt="xs" mb="xs" weight={400}>
-            Mode de paiement: {paymentMethod}
-          </Text>
-        </div>
-      </Group>
-    </Card>
+    <Link href="/sellers" passHref>
+      <Card withBorder radius="md" shadow={'sm'} p={0} className={classes.card}>
+        <Group noWrap spacing={0}>
+          <Image src={imageUrl} height={140} width={140} fit="contain" />
+          <div className={classes.title}>
+            <Text transform="uppercase" color="dimmed" weight={900} size="md" className="mt-2">
+              {name}
+            </Text>
+            <Text mt="xs" mb="xs" weight={400}>
+              Bonus d'inscription: {bonus}€
+            </Text>
+            <Text mt="xs" mb="xs" weight={400}>
+              Seuil de paiement: {paymentThresold}€
+            </Text>
+            <Text mt="xs" mb="xs" weight={400}>
+              Mode de paiement: {paymentMethod}
+            </Text>
+          </div>
+        </Group>
+      </Card>
+    </Link>
   );
 };
