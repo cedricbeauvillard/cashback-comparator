@@ -25,7 +25,7 @@ const fetchTopSellers = async (currentTopSellerAmount: number, fetchAmount: numb
 };
 
 const useStyles = createStyles((theme) => ({
-  // TODO: Generize that to declare only once
+  // TODO: Generize that to declare only once, clean VIEWS!!! Simplify!!
   cardBody: {
     marginLeft: '1rem',
     marginRight: '1rem',

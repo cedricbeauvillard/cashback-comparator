@@ -84,12 +84,16 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       <Group className={classes.cashbackerItemCol}>
         <p className="self-start m-0">Plus d'informations:</p>
         <Button.Group orientation="vertical" className="flex">
-          <Link href={cashbacker.reviewsUrl} passHref>
-            <Button className="my-2 w-48">Avis</Button>
-          </Link>
-          <Link href={cashbacker.reviewsUrl} passHref>
-            <Button className="my-2 w-48">Visiter</Button>
-          </Link>
+          <Button className="my-2 w-48">
+            <a href={cashbacker.reviewsUrl} target="_blank">
+              Avis
+            </a>
+          </Button>
+          <Button className="my-2 w-48">
+            <a href={cashbacker.sponsorshipUrl} target="_blank">
+              Visiter
+            </a>
+          </Button>
         </Button.Group>
       </Group>
     </Card>

@@ -41,7 +41,9 @@ export const ItemSellerLetter: FC<ItemSellerLetterProps> = ({letter, sellers}) =
               href={`./seller/meilleur-cashback-${seller.slug}`}
               passHref
             >
-              <a className="m-0">{seller.name}</a>
+              <a target="_blank" className="m-0">
+                {seller.name}
+              </a>
             </Link>
           );
         })}
