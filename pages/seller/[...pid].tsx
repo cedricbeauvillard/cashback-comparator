@@ -298,7 +298,12 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
 export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: string}> = async (
   context
 ) => {
-  if (!context.params) {
+  // Avoid soft 404
+  if (Object.keys(context.query).length > 1) {
+    return {notFound: true};
+  }
+
+  if (!context.params || !context.params.pid) {
     return {notFound: true};
   }
 
