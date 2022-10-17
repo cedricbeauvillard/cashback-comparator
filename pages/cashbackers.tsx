@@ -111,10 +111,10 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
               </a>
               , après votre inscription vous aurez directement 7 € dans votre cagnotte donc il ne
               vous reste plus qu’à collecter 3 € de cashback pour demander un paiement de 10 € sur
-              votre compte bancaire ou par bon cadeau. Pour faire partie du classement et assurer de
-              leur sérieux nous avons déjà obtenu à minima 3 paiements sur chacun d’entre eux.
-              Toutefois les sites qui ont les meilleurs notes sont les plus sérieux car ils existent
-              depuis de nombreuses années et comptent plusieurs millions de membres.
+              votre compte bancaire ou par bon cadeau.<br></br>Pour faire partie du classement et
+              assurer de leur sérieux nous avons déjà obtenu à minima 3 paiements sur chacun d’entre
+              eux. Toutefois les sites qui ont les meilleures notes sont les plus sérieux car ils
+              existent depuis de nombreuses années et comptent plusieurs millions de membres.
             </p>
             <div className="flex items-center justify-center my-10">
               <Link href={`#siteopinion`}>

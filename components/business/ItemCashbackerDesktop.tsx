@@ -1,23 +1,18 @@
-import {Button, createStyles, Image} from '@mantine/core';
-import Link from 'next/link';
+import {Button, Image} from '@mantine/core';
 import {FC} from 'react';
 import StarSvg from '../svg/StarSvg';
-import {ItemCashbackerProps} from './types';
 import {rankingIcons} from '../_static';
+import {ItemCashbackerProps} from './types';
 
 /*
  * Used seller page to details advantages for each cashbackers (desktop view)
  */
-
-const useStyles = createStyles((theme) => ({}));
 
 export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
   displayRate,
   cashbacker,
   rateData,
 }) => {
-  const {classes} = useStyles();
-
   let stars = [];
 
   for (let i = 0; i < cashbacker.score; ++i) {
