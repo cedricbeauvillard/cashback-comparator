@@ -114,9 +114,6 @@ export const SearchHeader: FC = () => {
             <Link key="Contact" href="/contact" className={classes.link}>
               <a className={classes.link}>Contact</a>
             </Link>
-            <Link key="GCU" href="/cgu" className={classes.link}>
-              <a className={classes.link}>Mentions légales</a>
-            </Link>
           </Group>
           <Select
             className={classes.search}
@@ -174,11 +171,6 @@ export const SearchHeader: FC = () => {
           <div className="flex flex-row w-full py-2">
             <Link key="Contact" href="/contact" className="w-full bg-white">
               <p className="ml-8 text-textColor self-center">Contact</p>
-            </Link>
-          </div>
-          <div className="flex flex-row w-full py-2">
-            <Link key="GCU" href="/cgu" className="w-full bg-white">
-              <p className="ml-8 text-textColor self-center">CGU</p>
             </Link>
           </div>
         </Group>
