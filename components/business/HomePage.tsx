@@ -270,7 +270,15 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   }}
                 >
                   Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup
-                  d'oeil quel est le taux de cashback pratiqué par les meilleurs sites de cashback
+                  d'oeil quel est le taux de cashback pratiqué par les
+                  <a
+                    className="text-hyperlink"
+                    target="_blank"
+                    href="https://meilleurscashback.com/cashbackers"
+                  >
+                    {' '}
+                    meilleurs sites de cashback{' '}
+                  </a>
                   du marché sur le marchand chez lequel vous envisagez de réaliser votre achat. Vous
                   pourrez alors savoir quel site pratique le meilleur taux, mais également avoir
                   toutes les informations nécessaires pour faire votre choix (note, bonus de
@@ -283,7 +291,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   }}
                   className="underline m-0"
                 >
-                  <a href="https://sitescashback.com/">
+                  <a href="https://sitescashback.com/" target="_blank">
                     Je veux en savoir plus sur le cashback et son fonctionnement
                   </a>
                 </h3>
@@ -293,14 +301,32 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                     fontWeight: 700,
                   }}
                 >
-                  Ce comparateur a été conçu en collaboration avec le blog sitescashback.com, blog
-                  de reference sur le cashback depuis plus de 10 ans, ce qui lui a valu un passage
-                  en expert du cashback dans l'émission TV Capital sur M6 fin 2021. Pour trouver de
-                  nombreux articles détaillés sur le cashback et ses différents sites, je vous
-                  invite à vous rendre sur sitescashback.com. Si vous souhaitez pour commencer
-                  comprendre ce qu'est le cashback et comment ça marche vous pouvez lire{' '}
+                  Ce comparateur a été conçu en collaboration avec le{' '}
                   <a
                     className="text-hyperlink"
+                    target="_blank"
+                    href="https://meilleurscashback.com/cashbackers"
+                  >
+                    {' '}
+                    blog sitescashback.com
+                  </a>
+                  , blog de reference sur le cashback depuis plus de 10 ans, ce qui lui a valu un
+                  passage en expert du cashback dans{' '}
+                  <a
+                    className="text-hyperlink"
+                    target="_blank"
+                    href="https://sitescashback.com/notre-site-blog-dans-emission-tv-capital-sur-m6-dimanche-5-septembre-2021-cashback/"
+                  >
+                    {' '}
+                    l'émission TV Capital{' '}
+                  </a>
+                  sur M6 fin 2021. Pour trouver de nombreux articles détaillés sur le cashback et
+                  ses différents sites, je vous invite à vous rendre sur sitescashback.com. Si vous
+                  souhaitez pour commencer comprendre ce qu'est le cashback et comment ça marche
+                  vous pouvez lire{' '}
+                  <a
+                    className="text-hyperlink"
+                    target="_blank"
                     href="https://sitescashback.com/le-cashback-explique/"
                   >
                     cet article.

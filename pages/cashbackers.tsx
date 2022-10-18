@@ -85,14 +85,52 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
             <h1 className="m-0">Classement des meilleurs sites de cashback</h1>
             <p className="m-0">
               Le cashback, c’est le meilleur plan pour gagner de l’argent en économisant sur ses
-              achats de la décennie. Vous voulez acheter des vêtements à décathlon, réserver une
-              nuit d’hotel sur booking ou encore acheter une enceinte chez fnac ou darty, et bien
-              grâce au cashback vous obtiendrez un remboursement de 1 à 10 % de vos achats sans
-              effort, juste en passant par le site de cashback avant de vous rendre sur le site du
-              marchand. Cela fonctionne également en boutique / magasin chez une centaine
-              d’enseignes telles que Carrefour, Primark ou encore Ikea. Si jamais vous voulez en
-              savoir plus sur le fonctionnement du cashback nous vous invitons à lire
-              <a className="text-hyperlink" href="https://sitescashback.com/le-cashback-explique/">
+              achats de la décennie. Vous voulez acheter des vêtements à{' '}
+              <Link href={'/seller/meilleur-cashback-decathlon'}>
+                <a className="text-hyperlink" target={'_blank'}>
+                  Decathlon
+                </a>
+              </Link>
+              , réserver une nuit d’hotel sur{' '}
+              <Link href={'/seller/meilleur-cashback-booking'}>
+                <a className="text-hyperlink" target={'_blank'}>
+                  Booking
+                </a>
+              </Link>{' '}
+              ou encore acheter une enceinte chez{' '}
+              <Link href={'/seller/meilleur-cashback-fnac'}>
+                <a className="text-hyperlink" target={'_blank'}>
+                  Fnac
+                </a>
+              </Link>{' '}
+              ou{' '}
+              <Link href={'/seller/meilleur-cashback-darty'}>
+                <a className="text-hyperlink" target={'_blank'}>
+                  Darty
+                </a>
+              </Link>
+              , et bien grâce au cashback vous obtiendrez un remboursement de 1 à 10 % de vos achats
+              sans effort, juste en passant par le site de cashback avant de vous rendre sur le site
+              du marchand. Cela fonctionne également en boutique / magasin chez une centaine
+              d’enseignes telles que{' '}
+              <Link href={'/seller/meilleur-cashback-carrefour'}>
+                <a className="text-hyperlink" target={'_blank'}>
+                  Carrefour
+                </a>
+              </Link>
+              , Primark ou encore{' '}
+              <Link href={'/seller/meilleur-cashback-ikea'}>
+                <a className="text-hyperlink" target={'_blank'}>
+                  Ikea
+                </a>
+              </Link>
+              . Si jamais vous voulez en savoir plus sur le fonctionnement du cashback nous vous
+              invitons à lire
+              <a
+                className="text-hyperlink"
+                href="https://sitescashback.com/le-cashback-explique/"
+                target={'_blank'}
+              >
                 {' '}
                 cet article.
                 <br />
@@ -105,6 +143,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
               seuil et mode de paiement pour récupérer votre cagnotte. Si l’on prend l’exemple d’
               <a
                 className="text-hyperlink"
+                target={'_blank'}
                 href="https://www.ebuyclub.com/inscription?h=1&parrain=contact934&affilie=comparateur-sites-cb"
               >
                 ebuyclub
@@ -163,6 +202,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
               lire l’article complet du
               <a
                 className="text-hyperlink"
+                target={'_blank'}
                 href="https://sitescashback.com/classement-des-meilleurs-sites-de-cashback/"
               >
                 {' '}
@@ -193,8 +233,37 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 icon={<PlusSvg width={'1rem'}></PlusSvg>}
               >
                 <List.Item>
-                  Propose du cashback sur bons d’achats sur +100 enseignes (Ikea, Decathlon,
-                  Primark, Airbnb, Carrefour, Intermarché…)
+                  Propose du cashback sur bons d’achats sur +100 enseignes (
+                  <Link href={'/seller/meilleur-cashback-ikea'}>
+                    <a className="text-hyperlink" target={'_blank'}>
+                      Ikea
+                    </a>
+                  </Link>
+                  ,{' '}
+                  <Link href={'/seller/meilleur-cashback-decathlon'}>
+                    <a className="text-hyperlink" target={'_blank'}>
+                      Decathlon
+                    </a>
+                  </Link>
+                  , Primark,{' '}
+                  <Link href={'/seller/meilleur-cashback-carrefour'}>
+                    <a className="text-hyperlink" target={'_blank'}>
+                      Airbnb
+                    </a>
+                  </Link>
+                  ,{' '}
+                  <Link href={'/seller/meilleur-cashback-carrefour'}>
+                    <a className="text-hyperlink" target={'_blank'}>
+                      Carrefour
+                    </a>
+                  </Link>
+                  ,{' '}
+                  <Link href={'/seller/meilleur-cashback-intermarché'}>
+                    <a className="text-hyperlink" target={'_blank'}>
+                      Intermarché
+                    </a>
+                  </Link>
+                  )
                 </List.Item>
                 <List.Item>
                   Un seuil de paiement très bas à 10 €, ce qui permet d’encaisser sa cagnotte avec
@@ -285,10 +354,6 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                   Une offre de cashback automatique sur vos achats magasins dans certaines enseignes
                   (Starbucks, Subway, Burger King…)
                 </List.Item>
-                <List.Item>
-                  Une offre de cashback automatique sur vos achats magasins dans certaines enseignes
-                  (Starbucks, Subway, Burger King…)
-                </List.Item>
               </List>
               <Button variant="outline" className="w-full h-12 sm:w-1/3" style={{margin: 'auto'}}>
                 Je m'inscris à Poulpeo avec
@@ -335,6 +400,41 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
               </Button>
             </div>
 
+            {/* The Corner Boursorama */}
+            <div className="mt-6 flex flex-col sm:mt-10">
+              <div className="w-full">
+                <h4 className="underline m-0">Notre avis sur le site The Corner de Boursorama</h4>
+              </div>
+              <p>
+                Au-delà d’être la banque en ligne la plus complète et la moins chère du marché,
+                Boursorama propose également une offre de cashback de très bon niveau.
+                <br />
+                <br />
+                Les points forts de The corner - Boursorama :
+              </p>
+              <List
+                spacing="md"
+                size="md"
+                center
+                className="mb-8"
+                icon={<PlusSvg width={'1rem'}></PlusSvg>}
+              >
+                <List.Item>Du cashback sur l’achat de chèques cadeaux amazon</List.Item>
+                <List.Item>
+                  Des taux supérieurs aux autres sur les bons d’achat des grandes enseignes
+                </List.Item>
+                <List.Item>
+                  Un parcours d’achat très simple car on peut débiter directement son compte
+                  boursorama pour le paiement des bons d’achat
+                </List.Item>
+              </List>
+              <Button variant="outline" className="w-full h-12 sm:w-1/3" style={{margin: 'auto'}}>
+                Je m'inscris à Boursorama Banque avec
+                <br />
+                le code CEBE1272 pour avoir 80 € de bonus
+              </Button>
+            </div>
+
             {/* Joko */}
             <div className="mt-6 flex flex-col sm:mt-10">
               <div className="w-full">
@@ -358,7 +458,15 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
               >
                 <List.Item>
                   Le seul qui permet d’avoir du cashback sur vos courses dans toutes les enseignes
-                  (Leclerc, Aldi, Carrefour, Intermarché, Lidl, Super U, Cora, Franprix, Cora…)
+                  (Leclerc, Aldi,{' '}
+                  <a
+                    className="text-hyperlink"
+                    href="http://localhost:3000/seller/meilleur-cashback-carrefour"
+                    target={'_blank'}
+                  >
+                    Carrefour
+                  </a>
+                  , Intermarché, Lidl, Super U, Cora, Franprix, Cora…)
                 </List.Item>
                 <List.Item>Des marchands exclusifs tels que manomano</List.Item>
               </List>
@@ -370,7 +478,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
             </div>
 
             {/* Capital Koala */}
-            <div className="mt-6 flex flex-col sm:mt-10">
+            <div className="mt-6 flex flex-col sm:mt-10 sm:mb-6">
               <div className="w-full">
                 <h4 className="underline m-0">Notre avis sur le site Capital Koala</h4>
               </div>
@@ -403,41 +511,6 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 Je m'inscris à Capital Koala avec
                 <br />
                 un bonus de bienvenue de 3 €
-              </Button>
-            </div>
-
-            {/* Capital Boursorama */}
-            <div className="mt-6 flex flex-col sm:mt-10">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site The Corner de Boursorama</h4>
-              </div>
-              <p>
-                Au-delà d’être la banque en ligne la plus complète et la moins chère du marché,
-                Boursorama propose également une offre de cashback de très bon niveau.
-                <br />
-                <br />
-                Les points forts de The corner - Boursorama :
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>Du cashback sur l’achat de chèques cadeaux amazon</List.Item>
-                <List.Item>
-                  Des taux supérieurs aux autres sur les bons d’achat des grandes enseignes
-                </List.Item>
-                <List.Item>
-                  Un parcours d’achat très simple car on peut débiter directement son compte
-                  boursorama pour le paiement des bons d’achat
-                </List.Item>
-              </List>
-              <Button variant="outline" className="w-full h-12 sm:w-1/3" style={{margin: 'auto'}}>
-                Je m'inscris à Boursorama Banque avec
-                <br />
-                le code CEBE1272 pour avoir 80 € de bonus
               </Button>
             </div>
           </Card>
