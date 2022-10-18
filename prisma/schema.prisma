@@ -90,3 +90,12 @@ model CategoriesOnSellers {
 
   @@id([sellerId, categoryId])
 }
+
+model UserMessage {
+  id      Int    @id @unique @default(autoincrement())
+  email   String @db.VarChar(255)
+  name    String @db.VarChar(255)
+  message String @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+}
