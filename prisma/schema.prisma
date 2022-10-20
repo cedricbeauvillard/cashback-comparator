@@ -99,3 +99,15 @@ model UserMessage {
 
   createdAt DateTime @default(now())
 }
+
+model Administrator {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  email    String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+
+  connectionToken String? @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+}
