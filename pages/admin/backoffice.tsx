@@ -11,7 +11,6 @@ import {prisma} from '../../lib/prisma';
 export interface BackOfficeProps {}
 
 const logout = async (router: NextRouter) => {
-  console.log(`/api/admin/logout?token=${router.query.token}`);
   const res = await fetch(`/api/admin/logout?token=${router.query.token}`);
   const data = await res.json();
 
