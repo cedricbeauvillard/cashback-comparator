@@ -46,7 +46,7 @@ const BackOffice: VFC<BackOfficeProps> = (props: BackOfficeProps) => {
       <main className="flex flex-col items-center">
         <Card
           className="w-1/2 mt-24"
-          style={{height: 700}}
+          style={{height: 'auto'}}
           radius="md"
           p="xl"
           withBorder
