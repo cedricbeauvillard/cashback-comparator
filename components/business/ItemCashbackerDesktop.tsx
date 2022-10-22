@@ -46,7 +46,7 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
         </div>
       </td>
       {/* Bonus */}
-      <td>{cashbacker.signupBonus}€ à l'inscription</td>
+      <td>{cashbacker.signupBonus}€ offerts</td>
       {/* Cashback rate */}
       {displayRate ? <td>{cashbackerRate}</td> : undefined}
       {/* More informations  cta's*/}

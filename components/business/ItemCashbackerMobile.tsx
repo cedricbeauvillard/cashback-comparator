@@ -71,7 +71,7 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       {/* Bonus */}
       <Group className={classes.cashbackerItemRow}>
         <p>Bonus:</p>
-        <p>{cashbacker.signupBonus}€ à l'inscription</p>
+        <p>{cashbacker.signupBonus}€ offerts</p>
       </Group>
       {/* Cashback rate */}
       {displayRate ? (
@@ -84,15 +84,23 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       <Group className={classes.cashbackerItemCol}>
         <p className="self-start m-0">Plus d'informations:</p>
         <Button.Group orientation="vertical" className="flex">
-          <Button className="my-2 w-48">
-            <a href={cashbacker.reviewsUrl} target="_blank">
-              Avis
-            </a>
+          <Button
+            component="a"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={cashbacker.reviewsUrl}
+            className="my-2 w-48"
+          >
+            Avis
           </Button>
-          <Button className="my-2 w-48">
-            <a href={cashbacker.sponsorshipUrl} target="_blank">
-              Visiter
-            </a>
+          <Button
+            component="a"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={cashbacker.sponsorshipUrl}
+            className="my-2 w-48"
+          >
+            Visiter
           </Button>
         </Button.Group>
       </Group>

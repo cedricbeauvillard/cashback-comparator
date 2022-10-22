@@ -32,7 +32,7 @@ export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = (
           </a>
         </div>
       </td>
-      <td>{bonus}€ à l'inscription</td>
+      <td>{bonus}€ offerts</td>
       <td>{paymentThresold}€</td>
       <td>{paymentMethod}</td>
     </tr>

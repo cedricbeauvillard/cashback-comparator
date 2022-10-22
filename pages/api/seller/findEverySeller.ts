@@ -1,0 +1,27 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import {Seller} from '@prisma/client';
+import {prisma} from '../../../lib/prisma';
+import type {NextApiRequest, NextApiResponse} from 'next';
+
+export type topSellerReq = {};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Seller[] | null>) {
+  try {
+    const query = req.query;
+
+    const {limit} = query;
+
+    // Avoid attacks
+    if (limit && typeof limit === 'string' && parseInt(limit) > 8000) {
+      res.status(400).json(null);
+    }
+
+    const sellers = await prisma.$queryRawUnsafe<Seller[]>(
+      `SELECT DISTINCT slug FROM Seller WHERE slug IS NOT NULL LIMIT ${limit}`
+    );
+
+    res.status(200).json(sellers);
+  } catch (e) {
+    res.status(400);
+  }
+}

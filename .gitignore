@@ -72,3 +72,10 @@ typings/
 # dotenv environment variables file
 .env
 
+# Sitemap file
+sitemap.xml
+sitemap-0.xml
+
+
+# Robots.txt
+robots.txt

@@ -302,11 +302,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   }}
                 >
                   Ce comparateur a été conçu en collaboration avec le{' '}
-                  <a
-                    className="text-hyperlink"
-                    target="_blank"
-                    href="https://meilleurscashback.com/cashbackers"
-                  >
+                  <a className="text-hyperlink" target="_blank" href="https://sitescashback.com">
                     {' '}
                     blog sitescashback.com
                   </a>

@@ -1,7 +1,6 @@
 import {Button, SimpleGrid} from '@mantine/core';
 import {FC} from 'react';
 import {AdderRow} from './AdderRow';
-import {UpdaterRow} from './UpdaterRow';
 
 export interface DbUpdaterProps {}
 
