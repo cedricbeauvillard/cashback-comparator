@@ -498,14 +498,13 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
               >
                 <List.Item>
                   Le seul qui permet d’avoir du cashback sur vos courses dans toutes les enseignes
-                  (Leclerc, Aldi,{' '}
-                  <a
-                    className="text-hyperlink"
-                    href="http://localhost:3000/seller/meilleur-cashback-carrefour"
-                    target={'_blank'}
-                  >
-                    Carrefour
-                  </a>
+                  (Leclerc, Aldi,
+                  <Link href={'/seller/meilleur-cashback-carrefour'}>
+                    <a className="text-hyperlink" target={'_blank'}>
+                      {' '}
+                      Carrefour
+                    </a>
+                  </Link>{' '}
                   , Intermarché, Lidl, Super U, Cora, Franprix, Cora…)
                 </List.Item>
                 <List.Item>Des marchands exclusifs tels que manomano</List.Item>

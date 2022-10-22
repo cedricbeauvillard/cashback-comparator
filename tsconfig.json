@@ -28,7 +28,7 @@
     "**/*.tsx",
     "pages/seller/[...pid].tsx",
     "pages/seller/[pid].tsxTEST",
-    "pages/server-sitemap.xml/index.js"
+    "pages/server-sitemap.xml/index.tsx"
   ],
   "exclude": ["node_modules"]
 }
