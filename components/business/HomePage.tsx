@@ -41,7 +41,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const findManySellerSlug = async (name: string) => {
+// TODO: Put every fetch in clean architecture (apiCalls.ts or divided in files inside a folder)
+export const findManySeller = async (name: string) => {
   const res = await fetch(`/api/seller/findManySellersByName?name=${name}`);
   const data = await res.json();
 
@@ -118,6 +119,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
             >
               Comparez les taux de cashback de plus de 8000 marchands en ligne
             </h3>
+            {/* TODO: Generize it because used a lot ! */}
             <Select
               size="lg"
               className="w-full sm:w-1/2 mt-4"
@@ -132,7 +134,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   return;
                 }
 
-                setFoundedSellers(await findManySellerSlug(searchValue));
+                setFoundedSellers(await findManySeller(searchValue));
               }}
               onChange={(value) => {
                 router.push(`/seller/meilleur-cashback-${value}`);

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import {NextRouter, useRouter} from 'next/router';
 import {VFC} from 'react';
-import {DbUpdater} from '../../components/business/DbUpdater';
+import {SellerUpdater} from '../../components/business/SellerUpdater';
 import LogoutSvg from '../../components/svg/LogoutSvg';
 import {prisma} from '../../lib/prisma';
 
@@ -45,7 +45,7 @@ const BackOffice: VFC<BackOfficeProps> = (props: BackOfficeProps) => {
       </Head>
       <main className="flex flex-col items-center">
         <Card
-          className="w-1/2 mt-24"
+          className="w-3/4 mt-24"
           style={{height: 'auto'}}
           radius="md"
           p="xl"
@@ -72,10 +72,10 @@ const BackOffice: VFC<BackOfficeProps> = (props: BackOfficeProps) => {
 
           <Tabs defaultValue="gallery" className="h-full mt-6">
             <Tabs.List>
-              <Tabs.Tab value="gallery">Modificateur</Tabs.Tab>
+              <Tabs.Tab value="gallery">Recherche & Modificateur Seller</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="gallery" pt="xs" className="h-full">
-              <DbUpdater></DbUpdater>
+              <SellerUpdater></SellerUpdater>
             </Tabs.Panel>
 
             <Tabs.Panel value="messages" pt="xs">

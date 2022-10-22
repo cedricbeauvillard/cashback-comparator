@@ -113,10 +113,10 @@ const GCUPage: VFC<CGUPageProps> = () => {
               (etc.) consultés à partir du blog Meilleurscashback.com sont seuls responsables du
               respect par eux de l’ensemble des réglementations s’appliquant dans le cadre des
               prestations offertes aux clients finaux, et notamment, des lois et règlements relatifs
-              à : <br></br>– La vente à distance, <br></br>– La protection du consommateur,
+              à : <br></br>– La vente à distance<br></br>– La protection du consommateur
               <br></br>– La publicité mensongère ou trompeuse<br></br>– Les prix <br></br>– La
-              conformité des produits.<br></br>– Toutes les marques citées sont déposées par leurs
-              propriétaires respectifs.
+              conformité des produits<br></br>– Toutes les marques citées sont déposées par leurs
+              propriétaires respectifs
             </p>
             <h3 className="m-0 mt-4">Utilisation de Cookies :</h3>
             <p className="m-0">
@@ -134,7 +134,7 @@ const GCUPage: VFC<CGUPageProps> = () => {
             <h3 className="m-0 mt-4">Crédits et copyright photos:</h3>
             <p className="m-0">
               Les crédits et copyright des visuels et des photos présents sur le blog
-              Meilleurscashback.com ( Meilleurscashback.com (
+              Meilleurscashback.com (
               <a className="text-hyperlink" target="_blank" href="https://meilleurscashback.com">
                 https://meilleurscashback.com
               </a>
@@ -146,7 +146,7 @@ const GCUPage: VFC<CGUPageProps> = () => {
             </p>
             <h3 className="m-0 mt-4">Parrainage et affiliation:</h3>
             <p className="m-0">
-              Le blog Meilleurscashback.com ( Meilleurscashback.com (
+              Le blog Meilleurscashback.com (
               <a className="text-hyperlink" target="_blank" href="https://meilleurscashback.com">
                 https://meilleurscashback.com
               </a>

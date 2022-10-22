@@ -4,7 +4,7 @@ import {Seller} from '@prisma/client';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {FC, useState} from 'react';
-import {findManySellerSlug} from '../business/HomePage';
+import {findManySeller} from '../business/HomePage';
 import SearchSvg from '../svg/SearchSvg';
 
 const useStyles = createStyles((theme) => ({
@@ -127,7 +127,7 @@ export const SearchHeader: FC = () => {
                 return;
               }
 
-              setFoundedSellers(await findManySellerSlug(searchValue));
+              setFoundedSellers(await findManySeller(searchValue));
             }}
             onChange={(value: string) => {
               router.push(`/seller/meilleur-cashback-${value}`);
@@ -189,7 +189,7 @@ export const SearchHeader: FC = () => {
                 return;
               }
 
-              setFoundedSellers(await findManySellerSlug(searchValue));
+              setFoundedSellers(await findManySeller(searchValue));
             }}
             onChange={(value: string) => {
               router.push(`/seller/meilleur-cashback-${value}`);

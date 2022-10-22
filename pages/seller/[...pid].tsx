@@ -14,7 +14,7 @@ import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
 import {prisma} from '../../lib/prisma';
 import {footerData} from '../../components/_static';
-import {findManySellerSlug} from '../../components/business/HomePage';
+import {findManySeller} from '../../components/business/HomePage';
 
 /*
  * Template page for sellers
@@ -248,7 +248,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                         return;
                       }
 
-                      setFoundedSellers(await findManySellerSlug(searchValue));
+                      setFoundedSellers(await findManySeller(searchValue));
                     }}
                     onChange={(value) => {
                       router.push(`/seller/meilleur-cashback-${value}`);

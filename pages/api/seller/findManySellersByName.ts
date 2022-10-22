@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const sellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
-      `SELECT DISTINCT name, slug FROM Seller WHERE slug IS NOT NULL AND NAME LIKE '%${name}%' ORDER BY name ASC LIMIT 10;`
+      `SELECT DISTINCT id, name, slug FROM Seller WHERE slug IS NOT NULL AND NAME LIKE '%${name}%' ORDER BY name ASC LIMIT 10;`
     );
 
     if (!sellers) {

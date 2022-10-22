@@ -11,7 +11,7 @@ import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
 import {useRouter} from 'next/router';
 import SearchSvg from '../components/svg/SearchSvg';
-import {findManySellerSlug} from '../components/business/HomePage';
+import {findManySeller} from '../components/business/HomePage';
 
 export interface SellerListPageProps {
   alphabeticalSellers: Seller[][];
@@ -85,7 +85,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
                   return;
                 }
 
-                setFoundedSellers(await findManySellerSlug(searchValue));
+                setFoundedSellers(await findManySeller(searchValue));
               }}
               onChange={(value) => {
                 router.push(`/seller/meilleur-cashback-${value}`);
