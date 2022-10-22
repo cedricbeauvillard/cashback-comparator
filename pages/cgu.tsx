@@ -78,7 +78,7 @@ const GCUPage: VFC<CGUPageProps> = () => {
               La structure générale ainsi que les logiciels, textes, images animées ou non, son
               savoir-faire et tous les autres éléments composant le site sont la propriété exclusive
               de meilleurscashback.com. Les logos et marques des sociétés citées sur le blog
-              Meilleurscashback.com ({' '}
+              Meilleurscashback.com({' '}
               <a className="text-hyperlink" target="_blank" href="https://meilleurscashback.com">
                 https://meilleurscashback.com
               </a>
