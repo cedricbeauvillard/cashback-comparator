@@ -1,17 +1,17 @@
-import {Button, Card, CardSection, createStyles, List, SimpleGrid, Table} from '@mantine/core';
+import {Button, Card, createStyles, List, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import {VFC} from 'react';
 import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
-import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
-import {prisma} from '../lib/prisma';
-import PlusSvg from '../components/svg/PlusSvg';
 import ArrowSvg from '../components/svg/ArrowSvg';
-import Link from 'next/link';
+import PlusSvg from '../components/svg/PlusSvg';
+import {footerData} from '../components/_static';
+import {prisma} from '../lib/prisma';
 
 /*
  * Cashbackers ranking
@@ -33,7 +33,6 @@ const useStyles = createStyles((theme) => ({
       boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
     },
   },
-
   mobileTable: {
     marginTop: '2rem',
     [theme.fn.largerThan('xs')]: {
@@ -77,15 +76,11 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
       <main>
         <SearchHeader></SearchHeader>
         <div className="flex flex-col items-center justify-center">
-          <Card
-            className={classes.cardBody}
-            /* className="mx-4 mb-2 mt-4 sm:max-w-6xl sm:mt-4 sm:bg-white sm:rounded-md sm:shadow-lg sm:p-4" */
-            withBorder
-          >
+          <Card className={classes.cardBody} withBorder>
             <h1 className="m-0">Classement des meilleurs sites de cashback</h1>
             <p className="m-0">
               Le cashback, c’est le meilleur plan pour gagner de l’argent en économisant sur ses
-              achats de la décennie. Vous voulez acheter des vêtements à{' '}
+              achats de la décennie. Vous voulez acheter des vêtements à Q
               <Link href={'/seller/meilleur-cashback-decathlon'}>
                 <a className="text-hyperlink" target={'_blank'}>
                   Decathlon
@@ -165,6 +160,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 </Button>
               </Link>
             </div>
+
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
               {cashbackers?.map((cashbacker, index) => (
@@ -175,6 +171,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 ></ItemCashbackerMobile>
               ))}
             </SimpleGrid>
+
             {/* Desktop table */}
             <Table sx={{minWidth: 500}} className={classes.desktopTable}>
               <thead>
@@ -196,6 +193,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 ))}
               </tbody>
             </Table>
+
             <p className="mt-8">
               Voici une présentation plus en détail de chacun des sites. Si vous souhaitez avoir de
               plus amples renseignements ou consulter des preuves de paiement, nous vous invitons à
@@ -233,37 +231,39 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 icon={<PlusSvg width={'1rem'}></PlusSvg>}
               >
                 <List.Item>
-                  Propose du cashback sur bons d’achats sur +100 enseignes (
-                  <Link href={'/seller/meilleur-cashback-ikea'}>
-                    <a className="text-hyperlink" target={'_blank'}>
-                      Ikea
-                    </a>
-                  </Link>
-                  ,{' '}
-                  <Link href={'/seller/meilleur-cashback-decathlon'}>
-                    <a className="text-hyperlink" target={'_blank'}>
-                      Decathlon
-                    </a>
-                  </Link>
-                  , Primark,{' '}
-                  <Link href={'/seller/meilleur-cashback-carrefour'}>
-                    <a className="text-hyperlink" target={'_blank'}>
-                      Airbnb
-                    </a>
-                  </Link>
-                  ,{' '}
-                  <Link href={'/seller/meilleur-cashback-carrefour'}>
-                    <a className="text-hyperlink" target={'_blank'}>
-                      Carrefour
-                    </a>
-                  </Link>
-                  ,{' '}
-                  <Link href={'/seller/meilleur-cashback-intermarché'}>
-                    <a className="text-hyperlink" target={'_blank'}>
-                      Intermarché
-                    </a>
-                  </Link>
-                  )
+                  <p>
+                    Propose du cashback sur bons d’achats sur +100 enseignes (
+                    <Link href={'/seller/meilleur-cashback-ikea'}>
+                      <a className="text-hyperlink" target={'_blank'}>
+                        Ikea
+                      </a>
+                    </Link>
+                    ,{' '}
+                    <Link href={'/seller/meilleur-cashback-decathlon'}>
+                      <a className="text-hyperlink" target={'_blank'}>
+                        Decathlon
+                      </a>
+                    </Link>
+                    , Primark,{' '}
+                    <Link href={'/seller/meilleur-cashback-carrefour'}>
+                      <a className="text-hyperlink" target={'_blank'}>
+                        Airbnb
+                      </a>
+                    </Link>
+                    ,{' '}
+                    <Link href={'/seller/meilleur-cashback-carrefour'}>
+                      <a className="text-hyperlink" target={'_blank'}>
+                        Carrefour
+                      </a>
+                    </Link>
+                    ,{' '}
+                    <Link href={'/seller/meilleur-cashback-intermarché'}>
+                      <a className="text-hyperlink" target={'_blank'}>
+                        Intermarché
+                      </a>
+                    </Link>
+                    )
+                  </p>
                 </List.Item>
                 <List.Item>
                   Un seuil de paiement très bas à 10 €, ce qui permet d’encaisser sa cagnotte avec
@@ -497,15 +497,17 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
                 icon={<PlusSvg width={'1rem'}></PlusSvg>}
               >
                 <List.Item>
-                  Le seul qui permet d’avoir du cashback sur vos courses dans toutes les enseignes
-                  (Leclerc, Aldi,
-                  <Link href={'/seller/meilleur-cashback-carrefour'}>
-                    <a className="text-hyperlink" target={'_blank'}>
-                      {' '}
-                      Carrefour
-                    </a>
-                  </Link>{' '}
-                  , Intermarché, Lidl, Super U, Cora, Franprix, Cora…)
+                  <p>
+                    Le seul qui permet d’avoir du cashback sur vos courses dans toutes les enseignes
+                    (Leclerc, Aldi,
+                    <Link href={'/seller/meilleur-cashback-carrefour'}>
+                      <a className="text-hyperlink" target={'_blank'}>
+                        {' '}
+                        Carrefour
+                      </a>
+                    </Link>
+                    , Intermarché, Lidl, Super U, Cora, Franprix, Cora…)
+                  </p>
                 </List.Item>
                 <List.Item>Des marchands exclusifs tels que manomano</List.Item>
               </List>
