@@ -80,7 +80,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
             <h1 className="m-0">Classement des meilleurs sites de cashback</h1>
             <p className="m-0">
               Le cashback, c’est le meilleur plan pour gagner de l’argent en économisant sur ses
-              achats de la décennie. Vous voulez acheter des vêtements à Q
+              achats de la décennie. Vous voulez acheter des vêtements à
               <Link href={'/seller/meilleur-cashback-decathlon'}>
                 <a className="text-hyperlink" target={'_blank'}>
                   Decathlon

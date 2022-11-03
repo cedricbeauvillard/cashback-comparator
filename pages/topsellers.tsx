@@ -119,9 +119,9 @@ export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async
   if (Object.keys(context.query).length !== 0) {
     return {notFound: true};
   }
- 
+
   try {
-     const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
+    const topSellers = await prisma.$queryRawUnsafe<Seller[]>(
       // DO NOT pass in or accept user input here
       // TODO: Check and remove ORDER BY RAND() before
       `SELECT DISTINCT id,name, slug FROM Seller WHERE (topSeller = 1 OR top40=1 OR coupon=1) ORDER BY name ASC LIMIT 20;`
@@ -133,7 +133,6 @@ export const getServerSideProps: GetServerSideProps<TopSellersPageProps> = async
       },
     };
   } catch (e) {
-    console.log("Error : ", e);
     return {notFound: true};
   }
 };
