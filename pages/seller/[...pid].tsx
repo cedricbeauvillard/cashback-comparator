@@ -14,7 +14,7 @@ import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
 import {prisma} from '../../lib/prisma';
 import {footerData} from '../../components/_static';
-import {findManySeller} from '../../components/business/HomePage';
+import {findManySeller} from '../../lib/api/seller/consumers';
 
 /*
  * Template page for sellers

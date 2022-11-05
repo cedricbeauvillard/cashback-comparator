@@ -1,5 +1,4 @@
 import {Card, createStyles, Group, Image, Text} from '@mantine/core';
-import Link from 'next/link';
 import {FC} from 'react';
 
 /*
@@ -22,15 +21,10 @@ const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
-
   title: {
     lineHeight: 1.2,
     marginLeft: '1rem',
     paddingRight: '0.3rem',
-  },
-
-  body: {
-    padding: theme.spacing.md,
   },
 }));
 
@@ -65,7 +59,13 @@ export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
       className={classes.card}
     >
       <Group noWrap spacing={0}>
-        <Image src={imageUrl} height={140} width={140} fit="contain" />
+        <Image
+          src={imageUrl}
+          height={140}
+          width={140}
+          fit="contain"
+          alt={`logo du site de cashback ${name} réputé professionnel meilleur cashback promo marque gain économie`}
+        />
         <div className={classes.title}>
           <Text transform="uppercase" color="dimmed" weight={900} size="md" className="mt-2">
             {name}

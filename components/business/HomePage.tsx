@@ -20,7 +20,6 @@ import {ItemCashbackerInfosDesktop} from './ItemCashbackerInfosDesktop';
 import {ItemCashbackerInfosMobile} from './ItemCashbackerInfosMobile';
 import {ItemTopSeller} from './ItemTopSeller';
 
-import {useRouter} from 'next/router';
 import AllSvg from '../svg/AllSvg';
 import RankingSvg from '../svg/RankingSvg';
 import {footerData} from '../_static';
@@ -47,15 +46,17 @@ export interface HomePageProps {
 
 const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
   const {classes} = useStyles();
-  const router = useRouter();
-
   return (
     <div>
       <Head>
         <title>MeilleursCashback - Comparez plus de 8000 marchands</title>
         <meta
           name="description"
-          content="Accueil - MeilleursCashback - CDiscount Amazon ou encore AliExpress..."
+          content={
+            "Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup d'oeil quel est le\
+          taux de cashback pratiqué par les meilleurs sites de cashback du marché sur le marchand chez lequel\
+          vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)"
+          }
         />
         <link rel="icon" href="/logo.webp" />
         <meta
@@ -63,15 +64,20 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
           content={'MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'}
         />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={url} />
-        <meta property="og:image" content={'/logo.webp'} />
-        <meta property="og:image:alt" content="M" />*/}
-        <meta property="og:description" content={'Description'} />
+        <meta
+          property="og:description"
+          content={
+            "Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup d'oeil quel est le\
+            taux de cashback pratiqué par les meilleurs sites de cashback du marché sur le marchand chez lequel\
+            vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)"
+          }
+        />
         <meta property="og:site_name" content="MeilleursCashback" />
+        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:image" content="/logo.webp"></meta>
       </Head>
+      <SearchHeader></SearchHeader>
       <main className="w-auto h-auto justify-center">
-        <SearchHeader></SearchHeader>
-
         {/* Jumbotron */}
         <Center
           sx={(theme) => ({
@@ -106,7 +112,9 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
               Comparez les taux de cashback de plus de 8000 marchands en ligne
             </h3>
 
-            <SellerSearchBar></SellerSearchBar>
+            <div className="w-full sm:w-1/2 mt-4">
+              <SellerSearchBar></SellerSearchBar>
+            </div>
 
             <Group className="flex-col mt-4 w-full sm:mt-8 sm:w-auto sm:flex-row" spacing={'md'}>
               <Link href="/sellers" passHref>
@@ -138,8 +146,8 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
         {/* Grid layout */}
         <Container size={1400} className="my-10">
           <Grid columns={24} gutter="lg">
+            {/* Main content / Popular sellers */}
             <Grid.Col md={12} lg={12} xs={24}>
-              {/* Main content / Popular sellers */}
               <Card shadow={'xs'} withBorder className="justify-center">
                 <h4 className="m-0">Marchands populaires</h4>
                 <Group className="justify-center">
@@ -155,9 +163,9 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   >
                     {topSellers?.map((topSeller, i) => (
                       <ItemTopSeller
-                        logoUrl={topSeller.slug ? `/sellers/logo-${topSeller.slug}.webp` : ''}
                         name={topSeller.name}
                         pageUrl={`/seller/meilleur-cashback-${topSeller.slug}`}
+                        logoUrl={topSeller.slug ? `/sellers/logo-${topSeller.slug}.webp` : ''}
                         key={`topSellers-${i}`}
                       ></ItemTopSeller>
                     ))}
@@ -170,6 +178,8 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                 </Group>
               </Card>
             </Grid.Col>
+
+            {/* Main content / Popular cashbackers */}
             <Grid.Col md={12} lg={12} xs={24}>
               <Card shadow={'xs'} withBorder>
                 <h4 className="m-0">Sites de cashback comparés</h4>
@@ -201,7 +211,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                   <tbody>
                     {cashbackers?.map((cashbacker, index) => (
                       <ItemCashbackerInfosDesktop
-                        cashbackerName={cashbacker.name}
+                        name={cashbacker.name}
                         key={`cashbacker-${index}`}
                         imageUrl={cashbacker.logoUrl}
                         bonus={cashbacker.signupBonus}
@@ -214,6 +224,8 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
                 </Table>
               </Card>
             </Grid.Col>
+
+            {/* Website description */}
             <Grid.Col md={24} lg={24} xs={24}>
               <Card shadow={'xs'} withBorder className="justify-center">
                 <h3

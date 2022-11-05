@@ -6,7 +6,7 @@ import {FC} from 'react';
  */
 
 interface ItemCashbackerInfosDesktopProps {
-  cashbackerName: string;
+  name: string;
   imageUrl: string;
   bonus: number;
   paymentThresold: number;
@@ -15,7 +15,7 @@ interface ItemCashbackerInfosDesktopProps {
 }
 
 export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = ({
-  cashbackerName,
+  name,
   imageUrl,
   bonus,
   paymentThresold,
@@ -27,7 +27,11 @@ export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = (
       <td>
         <div style={{width: 100, flex: 1, flexDirection: 'column'}}>
           <a href={sponsorshipUrl} target="_blank">
-            <Image alt={`logo ${cashbackerName}`} src={imageUrl} className="self-center" />
+            <Image
+              alt={`logo du site de cashback ${name} réputé professionnel meilleur cashback promo marque gain économie`}
+              src={imageUrl}
+              className="self-center"
+            />
           </a>
         </div>
       </td>

@@ -129,7 +129,12 @@ export function FooterLinks({data}: FooterLinksProps) {
       <Container className={classes.inner}>
         <div className={classes.logo}>
           <div style={{width: '4.5rem'}}>
-            <Image width={'100%'} height={'100%'} src="/logo.webp" alt="logo" />
+            <Image
+              width={'100%'}
+              height={'100%'}
+              src="/logo.webp"
+              alt="logo meilleurs cashback com comparateur cashback"
+            />
           </div>
           <Text size="xs" color="dimmed" className={classes.description}>
             MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands
