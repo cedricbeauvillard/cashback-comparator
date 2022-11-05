@@ -53,7 +53,11 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       <Group className={classes.cashbackerItemCol} style={{marginTop: 0}}>
         <p className="self-start m-0">Nom du site</p>
         <div style={{width: '50%'}}>
-          <Image alt={`logo ${cashbacker.name}`} src={cashbacker.logoUrl} className="self-center" />
+          <Image
+            alt={`logo du site de cashback ${cashbacker.name} réputé professionnel meilleur cashback promo marque gain économie`}
+            src={cashbacker.logoUrl}
+            className="self-center"
+          />
         </div>
       </Group>
       {/* Rating */}
@@ -65,7 +69,11 @@ export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
       <Group className={classes.cashbackerItemCol}>
         <p className="self-start m-0">Rang</p>
         <div style={{width: '25%'}}>
-          <Image alt="rang or" src={rankingIcons[cashbacker.rank - 1]} className="self-center" />
+          <Image
+            alt="rang classement meilleur économie"
+            src={rankingIcons[cashbacker.rank - 1]}
+            className="self-center"
+          />
         </div>
       </Group>
       {/* Bonus */}

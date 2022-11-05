@@ -53,7 +53,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.sm,
     textDecoration: 'none',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.md,
     fontWeight: 500,
 
     '&:hover': {
@@ -95,19 +95,19 @@ export const SearchHeader: FC = () => {
         </Group>
         <Group>
           <Group ml={50} spacing={5} className={classes.links}>
-            <Link key="HomePage" href="/" className={classes.link}>
+            <Link key="HomePage" href="/">
               <a className={classes.link}>Accueil</a>
             </Link>
-            <Link key="BestCashbackSites" href="/cashbackers" className={classes.link}>
+            <Link key="BestCashbackSites" href="/cashbackers">
               <a className={classes.link}>Meilleurs sites de cashback</a>
             </Link>
-            <Link key="SellerList" href="/sellers" className={classes.link}>
+            <Link key="SellerList" href="/sellers">
               <a className={classes.link}>Liste des marchands</a>
             </Link>
-            <Link key="TopSeller" href="/topsellers" className={classes.link}>
+            <Link key="TopSeller" href="/topsellers">
               <a className={classes.link}>Top marchands</a>
             </Link>
-            <Link key="Contact" href="/contact" className={classes.link}>
+            <Link key="Contact" href="/contact">
               <a className={classes.link}>Contact</a>
             </Link>
           </Group>

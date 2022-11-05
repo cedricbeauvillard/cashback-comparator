@@ -34,7 +34,11 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       {/* Cashbacker image */}
       <td>
         <div style={{width: 100}}>
-          <Image alt={`logo ${cashbacker.name}`} src={cashbacker.logoUrl} className="self-center" />
+          <Image
+            alt={`logo du site de cashback ${cashbacker.name} réputé professionnel meilleur cashback promo marque gain économie`}
+            src={cashbacker.logoUrl}
+            className="self-center"
+          />
         </div>
       </td>
       {/* Rating */}
@@ -43,7 +47,7 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       <td>
         <div style={{width: '30%'}}>
           <Image
-            alt="ranking medal bonus cashback"
+            alt="rang classement meilleur économie"
             src={rankingIcons[cashbacker.rank - 1]}
             className="self-center"
           />
@@ -57,10 +61,10 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       <td>
         <Button.Group orientation="vertical" className="flex">
           <a target="_blank" href={cashbacker.reviewsUrl} rel="noopener noreferrer">
-            <Button className="my-2 w-24">Avis</Button>
+            <Button className="my-2 w-full">Avis</Button>
           </a>
           <a target="_blank" href={cashbacker.sponsorshipUrl} rel="noopener noreferrer">
-            <Button className="my-2 w-24">Visiter</Button>
+            <Button className="my-2 w-full">Visiter</Button>
           </a>
         </Button.Group>
       </td>

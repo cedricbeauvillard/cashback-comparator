@@ -50,6 +50,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
     <div>
       <Head>
         <title>MeilleursCashback - Comparez plus de 8000 marchands</title>
+        <link rel="icon" href="/logo.webp" />
         <meta
           name="description"
           content={
@@ -58,7 +59,6 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
           vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)"
           }
         />
-        <link rel="icon" href="/logo.webp" />
         <meta
           property="og:title"
           content={'MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'}

@@ -58,21 +58,32 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
     <div>
       <Head>
         <title>Sites de cashback - MeilleursCashback - Comparez plus de 8000 marchands</title>
-        <meta name="description" content="Description" />
-
         <link rel="icon" href="/logo.webp" />
         <meta
-          property="og:title"
+          name="description"
           content={
-            'Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
+            'MeilleursCashback vous permet de comparer les sites de cashback les plus populaires en se basant\
+            sur les caractéristiques qui comptent le plus pour vous. Retrouvez EbuyClub, IGraal...'
           }
         />
+        <meta
+          property="og:title"
+          content={'Sites de cashback - MeilleursCashback - Comparez plus de 8000 marchands'}
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:description" content={'Description'} />
+        <meta
+          property="og:description"
+          content={
+            'MeilleursCashback vous permet de comparer les sites de cashback les plus populaires en se basant\
+            sur les caractéristiques qui comptent le plus pour vous. Retrouvez EbuyClub, IGraal...'
+          }
+        />
         <meta property="og:site_name" content="MeilleursCashback" />
+        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:image" content="/logo.webp"></meta>
       </Head>
+      <SearchHeader></SearchHeader>
       <main>
-        <SearchHeader></SearchHeader>
         <div className="flex flex-col items-center justify-center">
           <Card className={classes.cardBody} withBorder>
             <h1 className="m-0">Classement des meilleurs sites de cashback</h1>
