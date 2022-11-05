@@ -25,12 +25,14 @@ export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = (
   return (
     <tr key="ebuyclub">
       <td>
-        <div style={{width: 100, flex: 1, flexDirection: 'column'}}>
+        <div style={{width: 115, height: 73}}>
           <a href={sponsorshipUrl} target="_blank">
             <Image
               alt={`logo du site de cashback ${name} réputé professionnel meilleur cashback promo marque gain économie`}
               src={imageUrl}
               className="self-center"
+              width={115}
+              height={73}
             />
           </a>
         </div>

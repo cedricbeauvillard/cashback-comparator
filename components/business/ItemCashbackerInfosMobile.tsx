@@ -6,25 +6,13 @@ import {FC} from 'react';
  */
 
 const useStyles = createStyles((theme) => ({
-  cashbackerItemCol: {
-    flex: 1,
-    flexDirection: 'column',
-    width: '100%',
-    marginTop: '0.5rem',
-  },
-  cashbackerItemRow: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-  },
   card: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   title: {
     lineHeight: 1.2,
     marginLeft: '1rem',
-    paddingRight: '0.3rem',
+    paddingRight: '0.6rem',
   },
 }));
 
@@ -60,9 +48,10 @@ export const ItemCashbackerInfosMobile: FC<ItemCashbackerInfosMobileProps> = ({
     >
       <Group noWrap spacing={0}>
         <Image
+          className="ml-2"
           src={imageUrl}
-          height={140}
-          width={140}
+          height={130}
+          width={130}
           fit="contain"
           alt={`logo du site de cashback ${name} réputé professionnel meilleur cashback promo marque gain économie`}
         />

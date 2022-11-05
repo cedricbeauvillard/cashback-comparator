@@ -122,12 +122,12 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
           content={`Meilleur cashback Amazon sur Sitescashback. Découvrez quel site de cashback vous propose\
           le meilleur taux pour vos achats sur le site marchand ${seller.name}. Meilleurcashback est un comparateur\
           qui vous permet de trouver d'un seul coup d'oeil quel est le taux de cashback pratiqué par les meilleurs\
-          sites de cashback du marché sur le marchand chez lequel vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)`}
+          sites de cashback du marché sur le marchand chez lequel vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...).`}
         />
         <meta
           property="og:title"
           content={`Meilleurs cashback ${seller.name} comparés - MeilleursCashback.com comparez les taux de
-          casback de plus de 8000 marchands`}
+          casback de plus de 8000 marchands.`}
         />
         <meta property="og:type" content="website" />
         <meta
@@ -135,7 +135,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
           content={`Meilleur cashback Amazon sur Sitescashback. Découvrez quel site de cashback vous propose\
           le meilleur taux pour vos achats sur le site marchand ${seller.name}. Meilleurcashback est un comparateur\
           qui vous permet de trouver d'un seul coup d'oeil quel est le taux de cashback pratiqué par les meilleurs\
-          sites de cashback du marché sur le marchand chez lequel vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)`}
+          sites de cashback du marché sur le marchand chez lequel vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...).`}
         />
         <meta property="og:site_name" content="MeilleursCashback" />
         <meta property="og:url" content="https://meilleurscashback.com/"></meta>
@@ -145,8 +145,22 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
         <SearchHeader></SearchHeader>
         <div className="flex items-center justify-center">
           <Card className={classes.cardBody} withBorder>
-            <h1 className="m-0">MEILLEUR CASHBACK {seller.name}</h1>
-            <p className="mx-0 mt-4">
+            <h1
+              className="m-0"
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: 900,
+              }}
+            >
+              MEILLEUR CASHBACK {seller.name.toUpperCase()}
+            </h1>
+            <p
+              className="mx-0 mt-4"
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: 700,
+              }}
+            >
               Vous vous apprêtez à faire un achat sur le site marchand de <b>{seller.name}</b> et
               vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
               comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
@@ -183,7 +197,16 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               </a>
               , le taux cashback indiqué dans le comparateur est le taux total.
             </p>
-            <h3 className="mt-8">TAUX DE CASHBACK POUR LE SITE {seller.name}</h3>
+            <h3
+              className="mt-8"
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: 700,
+                fontSize: '1.4rem',
+              }}
+            >
+              TAUX DE CASHBACK POUR LE SITE {seller.name.toUpperCase()}
+            </h3>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
               {cashbackers?.map((cashbacker, index) => (

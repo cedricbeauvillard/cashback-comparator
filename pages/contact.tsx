@@ -61,7 +61,7 @@ const ContactPage: VFC<ContactPageProps> = () => {
     <div>
       <Head>
         <title>
-          Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands
+          Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.
         </title>
         <link rel="icon" href="/logo.webp" />
         <meta
@@ -73,7 +73,7 @@ const ContactPage: VFC<ContactPageProps> = () => {
         <meta
           property="og:title"
           content={
-            'Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
+            'Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
           }
         />
         <meta property="og:type" content="website" />

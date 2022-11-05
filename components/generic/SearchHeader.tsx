@@ -54,7 +54,8 @@ const useStyles = createStyles((theme) => ({
     textDecoration: 'none',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     fontSize: theme.fontSizes.md,
-    fontWeight: 500,
+    fontWeight: 900,
+    fontFamily: 'Montserrat',
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -121,27 +122,27 @@ export const SearchHeader: FC = () => {
       {pagePanelOpened && (
         <Group className={classes.mobilePanel}>
           <div className="flex flex-row w-full py-2">
-            <Link key="HomePage" href="/" className="w-full bg-white">
+            <Link key="HomePage" href="/" className="w-full h-full">
               <p className="ml-8 text-textColor self-center">Accueil</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="BestCashbackers" href="/cashbackers" className="w-full bg-white">
+            <Link key="BestCashbackers" href="/cashbackers" className="w-full h-full">
               <p className="ml-8 text-textColor self-center">Meilleurs sites de cashback</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="SellerList" href="/sellers" className="w-full bg-white">
+            <Link key="SellerList" href="/sellers" className="w-full h-full">
               <p className="ml-8 text-textColor self-center">Liste des marchands</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="TopSeller" href="/topsellers" className="w-full bg-white">
+            <Link key="TopSeller" href="/topsellers" className="w-full h-full">
               <p className="ml-8 text-textColor self-center">Top marchands</p>
             </Link>
           </div>
           <div className="flex flex-row w-full py-2">
-            <Link key="Contact" href="/contact" className="w-full bg-white">
+            <Link key="Contact" href="/contact" className="w-full h-full">
               <p className="ml-8 text-textColor self-center">Contact</p>
             </Link>
           </div>

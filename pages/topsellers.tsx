@@ -40,7 +40,8 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
     <div>
       <Head>
         <title>
-          Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands
+          Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000
+          marchands.
         </title>
         <link rel="icon" href="/logo.webp" />
         <meta
@@ -53,7 +54,7 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
         <meta
           property="og:title"
           content={
-            'Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
+            'Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
           }
         />
         <meta property="og:type" content="website" />

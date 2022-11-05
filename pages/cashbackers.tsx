@@ -72,7 +72,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
         <meta
           property="og:title"
           content={
-            'Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
+            'Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
           }
         />
         <meta property="og:type" content="website" />
@@ -91,8 +91,21 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
       <main>
         <div className="flex flex-col items-center justify-center">
           <Card className={classes.cardBody} withBorder>
-            <h1 className="m-0">Classement des meilleurs sites de cashback</h1>
-            <p className="m-0">
+            <h1
+              className="m-0"
+              style={{
+                fontFamily: 'Montserrat',
+              }}
+            >
+              Classement des meilleurs sites de cashback
+            </h1>
+            <p
+              className="m-0"
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: 700,
+              }}
+            >
               Le cashback, c’est le meilleur plan pour gagner de l’argent en économisant sur ses
               achats de la décennie. Vous voulez acheter des vêtements à
               <Link href={'/seller/meilleur-cashback-decathlon'}>

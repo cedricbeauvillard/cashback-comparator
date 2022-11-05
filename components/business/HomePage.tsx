@@ -49,7 +49,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
   return (
     <div>
       <Head>
-        <title>MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands</title>
+        <title>MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.</title>
         <link rel="icon" href="/logo.webp" />
         <meta
           name="description"
@@ -61,7 +61,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
         />
         <meta
           property="og:title"
-          content={'MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'}
+          content={'MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'}
         />
         <meta property="og:type" content="website" />
         <meta

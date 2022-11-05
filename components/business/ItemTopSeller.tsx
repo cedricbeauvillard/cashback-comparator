@@ -9,17 +9,25 @@ export interface ItemTopSellerProps {
 
 export const ItemTopSeller: FC<ItemTopSellerProps> = ({name, pageUrl, logoUrl}) => {
   return (
-    <Card shadow="sm" p="xs" component="a" href={pageUrl} target="_blank" withBorder>
+    <Card
+      className="flex flex-col items-center justify-center"
+      shadow="sm"
+      p="xs"
+      component="a"
+      href={pageUrl}
+      target="_blank"
+      withBorder
+      style={{height: logoUrl ? '190px' : 'auto'}}
+    >
       {logoUrl ? (
         <div>
-          <Card.Section>
+          <Card.Section className="flex flex-col items-center justify-center">
             <Image
-              className="p-2"
               src={
                 logoUrl ?? 'https://www.lerevenu.com/sites/site/files/field/image/fnac-darty.jpg'
               }
-              width={'100%'}
-              height={180}
+              width={140}
+              height={130}
               fit="contain"
               alt={`logo ${name} meilleur cashback promo marque gain économie`}
             />

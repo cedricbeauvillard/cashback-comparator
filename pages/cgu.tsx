@@ -32,14 +32,14 @@ const GCUPage: VFC<CGUPageProps> = () => {
     <div>
       <Head>
         <title>
-          CGU - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands
+          CGU - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.
         </title>
         <meta name="description" content="Description" />
         <link rel="icon" href="/logo.webp" />
         <meta
           property="og:title"
           content={
-            "Conditions Générales d'Utilisation - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands"
+            "Conditions Générales d'Utilisation - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands."
           }
         />
         <meta property="og:type" content="website" />
@@ -69,11 +69,14 @@ const GCUPage: VFC<CGUPageProps> = () => {
             </p>
             <h3 className="m-0 mt-4">Raison Sociale de l’Hébergeur:</h3>
             <p className="m-0">
-              Ce blog est hébergé par IONOS – 7 PLACE DE LA GARE 57200 Sarreguemines – France Pour
-              contacter cet hébergeur, rendez-vous à l’adresse{' '}
-              <a className="text-hyperlink" target="_blank" href="https://www.ionos.fr/contact">
-                https://www.ionos.fr/contact
+              Adresse : DigitalOcean, LLC. <br></br>101 Avenue of the Americas, 10th Floor
+              <br></br>New York, NY 10013 <br></br>United States of America<br></br>Téléphone : +1
+              888 890 6714<br></br>E-mail : privacy@digitalocean.com<br></br>Site Web :
+              <a className="text-hyperlink" target="_blank" href="https://www.digitalocean.com/">
+                {' '}
+                https://www.digitalocean.com/
               </a>
+              <br></br>Catégorie : télécommunications
             </p>
             <h3 className="m-0 mt-4">Propriété intellectuelle :</h3>
             <p className="m-0">

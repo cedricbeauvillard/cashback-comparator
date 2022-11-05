@@ -1,5 +1,6 @@
-import {Button, Image} from '@mantine/core';
+import {Button} from '@mantine/core';
 import {FC} from 'react';
+import Image from 'next/image';
 import StarSvg from '../svg/StarSvg';
 import {rankingIcons} from '../_static';
 import {ItemCashbackerProps} from './types';
@@ -33,23 +34,27 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
     <tr key="ebuyclub">
       {/* Cashbacker image */}
       <td>
-        <div style={{width: 100}}>
+        <div style={{width: 184, height: 117}}>
           <Image
             alt={`logo du site de cashback ${cashbacker.name} réputé professionnel meilleur cashback promo marque gain économie`}
             src={cashbacker.logoUrl}
             className="self-center"
+            width={184}
+            height={117}
           />
         </div>
       </td>
       {/* Rating */}
-      <td className="w-32">{stars}</td>
+      <td className="w-50">{stars}</td>
       {/* Ranking */}
       <td>
-        <div style={{width: '30%'}}>
+        <div style={{width: 80, height: 80}}>
           <Image
             alt="rang classement meilleur économie"
             src={rankingIcons[cashbacker.rank - 1]}
             className="self-center"
+            width={80}
+            height={80}
           />
         </div>
       </td>

@@ -41,7 +41,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
       <Head>
         <title>
           Tous les marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000
-          marchands
+          marchands.
         </title>
         <link rel="icon" href="/logo.webp" />
         <meta
@@ -54,7 +54,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
         <meta
           property="og:title"
           content={
-            'Tous les marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
+            'Tous les marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
           }
         />
         <meta property="og:type" content="website" />
