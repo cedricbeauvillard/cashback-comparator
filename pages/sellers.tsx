@@ -3,8 +3,7 @@ import {Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
-import {useState, VFC} from 'react';
+import {VFC} from 'react';
 import {ItemSellerLetter} from '../components/business/ItemSellerLetter';
 import {SellerSearchBar} from '../components/business/SellerSearchBar';
 import {FooterLinks} from '../components/generic/FooterLinks';
@@ -36,15 +35,22 @@ const useStyles = createStyles((theme) => ({
 
 const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
   const {classes} = useStyles();
-  const router = useRouter();
-  const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
 
   return (
     <div>
       <Head>
-        <title>Tous les marchands - MeilleursCashback - Comparez plus de 8000 marchands</title>
-        <meta name="description" content="Description" />
+        <title>
+          Tous les marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000
+          marchands
+        </title>
         <link rel="icon" href="/logo.webp" />
+        <meta
+          name="description"
+          content={
+            'Retrouvez une liste complète de marchands éligibles au cashback. Auchan, Norauto, CDiscount ou encore Castorama,\
+            toutes les plus grandes marques sont répertoriées dans cette section.'
+          }
+        />
         <meta
           property="og:title"
           content={
@@ -52,11 +58,16 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
           }
         />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={url} />
-        <meta property="og:image" content={'/logo.webp'} />
-        <meta property="og:image:alt" content="M" />*/}
-        <meta property="og:description" content={'Description'} />
+        <meta
+          property="og:description"
+          content={
+            'Retrouvez une liste complète de marchands éligibles au cashback. Auchan, Norauto, CDiscount ou encore Castorama,\
+            toutes les plus grandes marques sont répertoriées dans cette section.'
+          }
+        />
         <meta property="og:site_name" content="MeilleursCashback" />
+        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main className="justify-center">
         <SearchHeader></SearchHeader>
@@ -68,11 +79,11 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
             <p>
               Vous trouverez ci-dessous la liste exhaustive des marchands présents sur notre
               comparateur. Si vous recherchez un marchand en particulier, veuillez mentionner son
-              nom dans la barre de recherche cidessous.
+              nom dans la barre de recherche ci-dessous.
             </p>
-            <SellerSearchBar></SellerSearchBar>
+            <SellerSearchBar radius="md"></SellerSearchBar>
             <SimpleGrid
-              className="w-full md:px-16"
+              className="w-full mt-4 sm:px-16"
               cols={27}
               spacing={6}
               breakpoints={[

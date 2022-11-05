@@ -57,18 +57,23 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
   return (
     <div>
       <Head>
-        <title>Sites de cashback - MeilleursCashback - Comparez plus de 8000 marchands</title>
+        <title>
+          Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000
+          marchands
+        </title>
         <link rel="icon" href="/logo.webp" />
         <meta
           name="description"
           content={
             'MeilleursCashback vous permet de comparer les sites de cashback les plus populaires en se basant\
-            sur les caractéristiques qui comptent le plus pour vous. Retrouvez EbuyClub, IGraal...'
+            sur les caractéristiques qui comptent le plus pour vous. Retrouvez EbuyClub, IGraal ou encore Boursorama The Corner...'
           }
         />
         <meta
           property="og:title"
-          content={'Sites de cashback - MeilleursCashback - Comparez plus de 8000 marchands'}
+          content={
+            'Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
+          }
         />
         <meta property="og:type" content="website" />
         <meta

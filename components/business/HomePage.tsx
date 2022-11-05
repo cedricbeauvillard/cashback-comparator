@@ -49,7 +49,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
   return (
     <div>
       <Head>
-        <title>MeilleursCashback - Comparez plus de 8000 marchands</title>
+        <title>MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands</title>
         <link rel="icon" href="/logo.webp" />
         <meta
           name="description"

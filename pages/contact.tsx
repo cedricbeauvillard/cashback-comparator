@@ -60,21 +60,32 @@ const ContactPage: VFC<ContactPageProps> = () => {
   return (
     <div>
       <Head>
-        <title>Contact - MeilleursCashback - Comparez plus de 8000 marchands</title>
-        <meta name="description" content="Description" />
+        <title>
+          Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands
+        </title>
         <link rel="icon" href="/logo.webp" />
+        <meta
+          name="description"
+          content={
+            'Découvrez la section d\'aide MeilleursCashback sur le sujet "Nous contacter" ou contactez-nous au sur "meilleurscashback@gmail.com.'
+          }
+        />
         <meta
           property="og:title"
           content={
-            'Contact - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands'
+            'Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
           }
         />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={url} />
-        <meta property="og:image" content={'/logo.webp'} />
-        <meta property="og:image:alt" content="M" />*/}
-        <meta property="og:description" content={'Description'} />
+        <meta
+          property="og:description"
+          content={
+            'Découvrez la section d\'aide MeilleursCashback sur le sujet "Nous contacter" ou contactez-nous au sur "meilleurscashback@gmail.com.'
+          }
+        />
         <meta property="og:site_name" content="MeilleursCashback" />
+        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main>
         <SearchHeader></SearchHeader>

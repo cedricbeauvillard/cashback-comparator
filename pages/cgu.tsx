@@ -31,7 +31,9 @@ const GCUPage: VFC<CGUPageProps> = () => {
   return (
     <div>
       <Head>
-        <title>CGU - MeilleursCashback - Comparez plus de 8000 marchands</title>
+        <title>
+          CGU - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands
+        </title>
         <meta name="description" content="Description" />
         <link rel="icon" href="/logo.webp" />
         <meta

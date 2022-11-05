@@ -39,21 +39,34 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
   return (
     <div>
       <Head>
-        <title>Top marchands - MeilleursCashback - Comparez plus de 8000 marchands</title>
-        <meta name="description" content="Description" />
+        <title>
+          Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands
+        </title>
         <link rel="icon" href="/logo.webp" />
+        <meta
+          name="description"
+          content={
+            'Notre sélection des marchands les plus populaires et intéressants du monde du cashback.\
+            Conseils malins et nombreux avantages à la clé, le top marchands est un indicateur incontournable de MeilleursCashback.'
+          }
+        />
         <meta
           property="og:title"
           content={
-            'Top marchands - MeilleursCashback - Comparez les taux de cashback plus de 8000 marchands'
+            'Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands'
           }
         />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={url} />
-        <meta property="og:image" content={'/logo.webp'} />
-        <meta property="og:image:alt" content="M" />*/}
-        <meta property="og:description" content={'Description'} />
+        <meta
+          property="og:description"
+          content={
+            'Notre sélection des marchands les plus populaires et intéressants du monde du cashback.\
+            Conseils malins et nombreux avantages à la clé, le top marchands est un indicateur incontournable de MeilleursCashback.'
+          }
+        />
         <meta property="og:site_name" content="MeilleursCashback" />
+        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main>
         <SearchHeader></SearchHeader>

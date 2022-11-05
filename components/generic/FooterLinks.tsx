@@ -137,14 +137,14 @@ export function FooterLinks({data}: FooterLinksProps) {
             />
           </div>
           <Text size="xs" color="dimmed" className={classes.description}>
-            MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands
+            MeilleursCashback.com - Comparez les taux de cashback de plus de 8000 marchands
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-          © 2022 meilleurscashback.com, une société de sitescashback.com. Tous droits réservés.
+          © 2022 MeilleursCashback.com, une société de SitesCashback.com. Tous droits réservés.
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
