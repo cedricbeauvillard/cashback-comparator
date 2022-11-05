@@ -34,7 +34,7 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       {/* Cashbacker image */}
       <td>
         <div style={{width: 100}}>
-          <Image alt="logo ebuyclub" src={cashbacker.logoUrl} className="self-center" />
+          <Image alt={`logo ${cashbacker.name}`} src={cashbacker.logoUrl} className="self-center" />
         </div>
       </td>
       {/* Rating */}
@@ -42,7 +42,11 @@ export const ItemCashbackerDesktop: FC<ItemCashbackerProps> = ({
       {/* Ranking */}
       <td>
         <div style={{width: '30%'}}>
-          <Image alt="rang or" src={rankingIcons[cashbacker.rank - 1]} className="self-center" />
+          <Image
+            alt="ranking medal bonus cashback"
+            src={rankingIcons[cashbacker.rank - 1]}
+            className="self-center"
+          />
         </div>
       </td>
       {/* Bonus */}

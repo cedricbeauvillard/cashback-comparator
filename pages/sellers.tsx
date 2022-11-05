@@ -1,17 +1,16 @@
-import {Button, Card, createStyles, Group, Select, SimpleGrid} from '@mantine/core';
+import {Button, Card, createStyles, Group, SimpleGrid} from '@mantine/core';
 import {Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import {useState, VFC} from 'react';
 import {ItemSellerLetter} from '../components/business/ItemSellerLetter';
-import {footerData} from '../components/_static';
+import {SellerSearchBar} from '../components/business/SellerSearchBar';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
+import {footerData} from '../components/_static';
 import {prisma} from '../lib/prisma';
-import {useRouter} from 'next/router';
-import SearchSvg from '../components/svg/SearchSvg';
-import {findManySeller} from '../components/business/HomePage';
 
 export interface SellerListPageProps {
   alphabeticalSellers: Seller[][];
@@ -71,35 +70,7 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
               comparateur. Si vous recherchez un marchand en particulier, veuillez mentionner son
               nom dans la barre de recherche cidessous.
             </p>
-            <Select
-              size="md"
-              className="w-full my-6"
-              radius={'md'}
-              icon={<SearchSvg width={'1.5rem'}></SearchSvg>}
-              placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
-              searchable
-              rightSection={<></>}
-              maxLength={120}
-              onSearchChange={async (searchValue: string) => {
-                if (searchValue.length <= 0) {
-                  return;
-                }
-
-                setFoundedSellers(await findManySeller(searchValue));
-              }}
-              onChange={(value) => {
-                router.push(`/seller/meilleur-cashback-${value}`);
-              }}
-              nothingFound={null}
-              data={
-                foundedSellers
-                  ? foundedSellers.map((seller) => ({
-                      value: seller.slug ? seller.slug : 'error',
-                      label: seller.name,
-                    }))
-                  : []
-              }
-            />
+            <SellerSearchBar></SellerSearchBar>
             <SimpleGrid
               className="w-full md:px-16"
               cols={27}

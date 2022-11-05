@@ -4,20 +4,9 @@ import {useState, VFC} from 'react';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {footerData} from '../components/_static';
+import {submitUserMessage} from '../lib/api/user/consumers';
 
 export interface ContactPageProps {}
-
-const submitUserMessage = async (email: string, name: string, message: string) => {
-  // TODO: Securize (injections...)
-  const res = await fetch(`/api/user/submitMessage?email=${email}&name=${name}&message=${message}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  return data;
-};
 
 const useStyles = createStyles((theme) => ({
   cardBody: {

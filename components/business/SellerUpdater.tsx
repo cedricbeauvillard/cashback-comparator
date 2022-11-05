@@ -1,22 +1,11 @@
 import {Button, Select, SimpleGrid} from '@mantine/core';
 import {RateUnit, Seller} from '@prisma/client';
-import {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
+import {FC, useState} from 'react';
+import {findDetailedSeller, findManySeller} from '../../lib/api/seller/consumers';
 import SearchSvg from '../svg/SearchSvg';
-import {findManySeller} from './HomePage';
 import {SellerRow} from './SellerRow';
 
 export interface SellerUpdaterProps {}
-
-export const findDetailedSeller = async (id: string) => {
-  const res = await fetch(`/api/seller/findDetailedSeller?id=${id}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  return data[0];
-};
 
 export type FormType = 'ADD' | 'UPDATE' | 'REMOVE';
 

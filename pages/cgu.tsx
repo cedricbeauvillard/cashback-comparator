@@ -1,9 +1,9 @@
+import {Card, createStyles} from '@mantine/core';
 import Head from 'next/head';
 import {VFC} from 'react';
-import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
-import {Card, createStyles} from '@mantine/core';
+import {footerData} from '../components/_static';
 
 export interface CGUPageProps {}
 

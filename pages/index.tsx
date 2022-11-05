@@ -1,7 +1,5 @@
 import {Seller} from '@prisma/client';
 import type {GetServerSideProps, NextPage} from 'next';
-import {useRouter} from 'next/router';
-import {convertToObject} from 'typescript';
 import HomePage, {HomePageProps} from '../components/business/HomePage';
 import {prisma} from '../lib/prisma';
 

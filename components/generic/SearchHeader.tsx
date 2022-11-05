@@ -4,7 +4,7 @@ import {Seller} from '@prisma/client';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {FC, useState} from 'react';
-import {findManySeller} from '../business/HomePage';
+import {SellerSearchBar} from '../business/SellerSearchBar';
 import SearchSvg from '../svg/SearchSvg';
 
 const useStyles = createStyles((theme) => ({
@@ -115,33 +115,7 @@ export const SearchHeader: FC = () => {
               <a className={classes.link}>Contact</a>
             </Link>
           </Group>
-          <Select
-            className={classes.search}
-            icon={<SearchSvg width={'1rem'}></SearchSvg>}
-            placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
-            searchable
-            rightSection={<></>}
-            maxLength={120}
-            onSearchChange={async (searchValue: string) => {
-              if (searchValue.length <= 0) {
-                return;
-              }
-
-              setFoundedSellers(await findManySeller(searchValue));
-            }}
-            onChange={(value: string) => {
-              router.push(`/seller/meilleur-cashback-${value}`);
-            }}
-            nothingFound={null}
-            data={
-              foundedSellers
-                ? foundedSellers.map((seller) => ({
-                    value: seller.slug ? seller.slug : 'error',
-                    label: seller.name,
-                  }))
-                : []
-            }
-          />
+          <SellerSearchBar></SellerSearchBar>
         </Group>
       </div>
 
@@ -177,33 +151,7 @@ export const SearchHeader: FC = () => {
       )}
       {searchPanelOpened && (
         <Group className="w-full" style={{position: 'absolute', top: 56, left: 0, zIndex: 1000}}>
-          <Select
-            className="w-full"
-            icon={<SearchSvg width={'1rem'}></SearchSvg>}
-            placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
-            searchable
-            rightSection={<></>}
-            maxLength={120}
-            onSearchChange={async (searchValue: string) => {
-              if (searchValue.length <= 0) {
-                return;
-              }
-
-              setFoundedSellers(await findManySeller(searchValue));
-            }}
-            onChange={(value: string) => {
-              router.push(`/seller/meilleur-cashback-${value}`);
-            }}
-            nothingFound={null}
-            data={
-              foundedSellers
-                ? foundedSellers.map((seller) => ({
-                    value: seller.slug ? seller.slug : 'error',
-                    label: seller.name,
-                  }))
-                : []
-            }
-          />
+          <SellerSearchBar></SellerSearchBar>
         </Group>
       )}
     </Header>

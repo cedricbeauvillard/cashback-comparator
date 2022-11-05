@@ -8,6 +8,7 @@ export interface SellerRowProps {
   seller?: Seller;
   displayOnly?: boolean;
   rows?: Seller[];
+  // TODO: Make BETTER!! This is not a good way to do it
   setRows?: Dispatch<SetStateAction<Seller[] | undefined>>;
 }
 

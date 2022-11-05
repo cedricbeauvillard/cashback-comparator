@@ -1,14 +1,12 @@
-import {createStyles, Image} from '@mantine/core';
-import Link from 'next/link';
+import {Image} from '@mantine/core';
 import {FC} from 'react';
 
 /*
  * Used seller page to details advantages for each cashbackers (desktop view)
  */
 
-const useStyles = createStyles((theme) => ({}));
-
 interface ItemCashbackerInfosDesktopProps {
+  cashbackerName: string;
   imageUrl: string;
   bonus: number;
   paymentThresold: number;
@@ -17,6 +15,7 @@ interface ItemCashbackerInfosDesktopProps {
 }
 
 export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = ({
+  cashbackerName,
   imageUrl,
   bonus,
   paymentThresold,
@@ -28,7 +27,7 @@ export const ItemCashbackerInfosDesktop: FC<ItemCashbackerInfosDesktopProps> = (
       <td>
         <div style={{width: 100, flex: 1, flexDirection: 'column'}}>
           <a href={sponsorshipUrl} target="_blank">
-            <Image alt="logo ebuyclub" src={imageUrl} className="self-center" />
+            <Image alt={`logo ${cashbackerName}`} src={imageUrl} className="self-center" />
           </a>
         </div>
       </td>

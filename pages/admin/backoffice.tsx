@@ -6,24 +6,10 @@ import {NextRouter, useRouter} from 'next/router';
 import {VFC} from 'react';
 import {SellerUpdater} from '../../components/business/SellerUpdater';
 import LogoutSvg from '../../components/svg/LogoutSvg';
+import {logout} from '../../lib/api/admin/consumers';
 import {prisma} from '../../lib/prisma';
 
 export interface BackOfficeProps {}
-
-const logout = async (router: NextRouter) => {
-  const res = await fetch(`/api/admin/logout?token=${router.query.token}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  if (data) {
-    router.push(`/admin/login`);
-  } else {
-    /*     TODO: PUSH MESSAGE */
-  }
-};
 
 const BackOffice: VFC<BackOfficeProps> = (props: BackOfficeProps) => {
   const router = useRouter();

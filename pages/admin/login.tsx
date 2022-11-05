@@ -1,32 +1,12 @@
-import {
-  Checkbox,
-  Paper,
-  PasswordInput,
-  Stack,
-  TextInput,
-  Text,
-  Button,
-  Group,
-  Anchor,
-} from '@mantine/core';
+import {Anchor, Button, Group, Paper, PasswordInput, Stack, Text, TextInput} from '@mantine/core';
 import {useForm} from '@mantine/form';
 import {useToggle} from '@mantine/hooks';
 import Head from 'next/head';
-import {NextRouter, useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 import {VFC} from 'react';
+import {login} from '../../lib/api/admin/consumers';
 
 export interface LoginProps {}
-
-const login = async (email: string, password: string, router: NextRouter) => {
-  const res = await fetch(`/api/admin/login?email=${email}&password=${password}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  router.push(`/admin/backoffice?token=${data.token}`);
-};
 
 const Login: VFC<LoginProps> = (props: LoginProps) => {
   // TODO: Make the same for contact page

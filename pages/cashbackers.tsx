@@ -59,6 +59,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
       <Head>
         <title>Sites de cashback - MeilleursCashback - Comparez plus de 8000 marchands</title>
         <meta name="description" content="Description" />
+
         <link rel="icon" href="/logo.webp" />
         <meta
           property="og:title"
@@ -67,9 +68,6 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
           }
         />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={url} />
-        <meta property="og:image" content={'/logo.webp'} />
-        <meta property="og:image:alt" content="M" />*/}
         <meta property="og:description" content={'Description'} />
         <meta property="og:site_name" content="MeilleursCashback" />
       </Head>

@@ -8,21 +8,11 @@ import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
+import {fetchTopSellers} from '../lib/api/seller/consumers';
 
 export interface TopSellersPageProps {
   initialTopSellers: Seller[];
 }
-
-const fetchTopSellers = async (currentTopSellerAmount: number, fetchAmount: number) => {
-  const res = await fetch(`/api/seller/topSeller?limit=${currentTopSellerAmount + fetchAmount}`);
-  const data = await res.json();
-
-  if (res.status !== 200) {
-    throw new Error(data.message);
-  }
-
-  return data;
-};
 
 const useStyles = createStyles((theme) => ({
   // TODO: Generize that to declare only once, clean VIEWS!!! Simplify!!
