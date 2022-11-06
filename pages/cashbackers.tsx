@@ -59,7 +59,7 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
       <Head>
         <title>
           Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000
-          marchands
+          marchands.
         </title>
         <link rel="icon" href="/logo.webp" />
         <meta

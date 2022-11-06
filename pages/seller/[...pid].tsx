@@ -1,8 +1,8 @@
-import {Button, Card, createStyles, Group, Input, Select, SimpleGrid, Table} from '@mantine/core';
+import {Button, Card, createStyles, Group, Select, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
-import Link from 'next/link';
 import Head from 'next/head';
+import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useState, VFC} from 'react';
 import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
@@ -12,9 +12,9 @@ import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
 import AllSvg from '../../components/svg/AllSvg';
 import SearchSvg from '../../components/svg/SearchSvg';
-import {prisma} from '../../lib/prisma';
 import {footerData} from '../../components/_static';
 import {findManySeller} from '../../lib/api/seller/consumers';
+import {prisma} from '../../lib/prisma';
 
 /*
  * Template page for sellers
@@ -112,30 +112,24 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   return (
     <div>
       <Head>
-        <title>
-          Meilleurs cashback {seller.name} comparés - MeilleursCashback.com comparez les taux de
-          casback de plus de 8000 marchands
-        </title>
+        <title>Meilleur cashback {seller.name} comparés - Meilleurscashback.com</title>
         <link rel="icon" href="/logo.webp" />
         <meta
           name="description"
-          content={`Meilleur cashback Amazon sur Sitescashback. Découvrez quel site de cashback vous propose\
-          le meilleur taux pour vos achats sur le site marchand ${seller.name}. Meilleurcashback est un comparateur\
-          qui vous permet de trouver d'un seul coup d'oeil quel est le taux de cashback pratiqué par les meilleurs\
-          sites de cashback du marché sur le marchand chez lequel vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...).`}
+          content={`Découvrez quel site de cashback vous propose le meilleur taux pour vos achats sur le site marchand ${seller.name}.`}
+        />
+        <link
+          rel="canonical"
+          href={`https://meilleurscashback.com/seller/meilleur-cashback-${seller.slug}`}
         />
         <meta
           property="og:title"
-          content={`Meilleurs cashback ${seller.name} comparés - MeilleursCashback.com comparez les taux de
-          casback de plus de 8000 marchands.`}
+          content={`Meilleurs cashback ${seller.name} comparés - MeilleursCashback.com`}
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
-          content={`Meilleur cashback Amazon sur Sitescashback. Découvrez quel site de cashback vous propose\
-          le meilleur taux pour vos achats sur le site marchand ${seller.name}. Meilleurcashback est un comparateur\
-          qui vous permet de trouver d'un seul coup d'oeil quel est le taux de cashback pratiqué par les meilleurs\
-          sites de cashback du marché sur le marchand chez lequel vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...).`}
+          content={`Découvrez quel site de cashback vous propose le meilleur taux pour vos achats sur le site marchand ${seller.name}.`}
         />
         <meta property="og:site_name" content="MeilleursCashback" />
         <meta property="og:url" content="https://meilleurscashback.com/"></meta>
@@ -245,7 +239,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               Même si nous nous efforçons de mettre à jour le plus fréquemment possible les taux de
               cashback présents dans nos comparatifs, nous vous conseillons de vérifier leur
               validité sur les sites concernés. Une erreur dans ces taux ne pourrait engager ni
-              Sitescashback ni le site de cashback en question.
+              MeilleursCashback ni le site de cashback en question.
             </p>
             <SimpleGrid
               className="my-4"
