@@ -2,7 +2,7 @@ import {MantineSize, Select} from '@mantine/core';
 import {Seller} from '@prisma/client';
 import {useRouter} from 'next/router';
 import {FC, useEffect, useState} from 'react';
-import {findManySeller} from '../../lib/api/seller/consumers';
+import {findManySeller} from '../../lib/api/consumers/seller';
 import SearchSvg from '../svg/SearchSvg';
 
 export interface SellerSearchBarProps {

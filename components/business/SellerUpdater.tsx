@@ -1,24 +1,12 @@
-import {Button, Select} from '@mantine/core';
-import {RateUnit, Seller} from '@prisma/client';
+import {Button, FileInput, Select} from '@mantine/core';
+import {Seller} from '@prisma/client';
 import {FC, useState} from 'react';
-import {findDetailedSeller, findManySeller} from '../../lib/api/seller/consumers';
+import {addSeller, findDetailedSeller, findManySeller} from '../../lib/api/consumers/seller';
 import SearchSvg from '../svg/SearchSvg';
+import {ExcelImporter} from './ExcelImporter';
 import {SellerRow} from './SellerRow';
 
 export interface SellerUpdaterProps {}
-
-export type FormType = 'ADD' | 'UPDATE' | 'REMOVE';
-
-export type FormElement = {
-  column: string;
-  value: string | number | RateUnit;
-};
-
-export type SellerForm = {
-  id: number;
-  formType: FormType;
-  elements: FormElement;
-};
 
 export const SellerUpdater: FC<SellerUpdaterProps> = () => {
   const [searchedSeller, setSearchedSeller] = useState<Seller | null>();
@@ -70,17 +58,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
         ) : undefined}
       </div>
 
-      {/* Xlsx import */}
-      <div className="w-full">
-        <h1>Import excel</h1>
-        {searchedSeller ? (
-          <SellerRow seller={searchedSeller} displayOnly={true} id={1}></SellerRow>
-        ) : undefined}
-      </div>
-
-      <Button size="lg" className="m-auto block my-10">
-        Appliquer
-      </Button>
+      <ExcelImporter></ExcelImporter>
     </div>
   );
 };

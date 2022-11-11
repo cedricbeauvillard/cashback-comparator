@@ -1,4 +1,4 @@
-import {Button, Card, createStyles, Group, Select, SimpleGrid, Table} from '@mantine/core';
+import {Button, Card, createStyles, Group, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
@@ -12,9 +12,7 @@ import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
 import AllSvg from '../../components/svg/AllSvg';
-import SearchSvg from '../../components/svg/SearchSvg';
 import {footerData} from '../../components/_static';
-import {findManySeller} from '../../lib/api/seller/consumers';
 import {prisma} from '../../lib/prisma';
 
 /*

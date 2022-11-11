@@ -1,14 +1,14 @@
 import {Checkbox, Select, SimpleGrid, TextInput} from '@mantine/core';
 import {useForm} from '@mantine/form';
 import {RateUnit, Seller} from '@prisma/client';
-import {Dispatch, FC, SetStateAction, useEffect} from 'react';
+import {Dispatch, FC, SetStateAction} from 'react';
 
 export interface SellerRowProps {
   id: number;
   seller?: Seller;
   displayOnly?: boolean;
   rows?: Seller[];
-  // TODO: Make BETTER!! This is not a good way to do it
+  // TODO: Make BETTER!! This is not a good way to do it (maybe yes finally)
   setRows?: Dispatch<SetStateAction<Seller[] | undefined>>;
 }
 

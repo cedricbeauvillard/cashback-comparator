@@ -6,7 +6,7 @@ import {NextRouter, useRouter} from 'next/router';
 import {VFC} from 'react';
 import {SellerUpdater} from '../../components/business/SellerUpdater';
 import LogoutSvg from '../../components/svg/LogoutSvg';
-import {logout} from '../../lib/api/admin/consumers';
+import {logout} from '../../lib/api/consumers/admin';
 import {prisma} from '../../lib/prisma';
 
 export interface BackOfficeProps {}

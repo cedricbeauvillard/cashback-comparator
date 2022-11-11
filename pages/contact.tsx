@@ -4,7 +4,7 @@ import {useState, VFC} from 'react';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {footerData} from '../components/_static';
-import {submitUserMessage} from '../lib/api/user/consumers';
+import {submitUserMessage} from '../lib/api/consumers/user';
 
 export interface ContactPageProps {}
 

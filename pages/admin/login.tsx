@@ -4,7 +4,7 @@ import {useToggle} from '@mantine/hooks';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {VFC} from 'react';
-import {login} from '../../lib/api/admin/consumers';
+import {login} from '../../lib/api/consumers/admin';
 
 export interface LoginProps {}
 

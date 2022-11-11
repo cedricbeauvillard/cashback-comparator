@@ -8,7 +8,7 @@ import {footerData} from '../components/_static';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {prisma} from '../lib/prisma';
-import {fetchTopSellers} from '../lib/api/seller/consumers';
+import {fetchTopSellers} from '../lib/api/consumers/seller';
 
 export interface TopSellersPageProps {
   initialTopSellers: Seller[];
