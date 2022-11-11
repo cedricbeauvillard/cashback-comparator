@@ -49,14 +49,14 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
   return (
     <div>
       <Head>
-        <title>MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.</title>
+        <title>MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands.</title>
         <link rel="icon" href="/logo.webp" />
+        <link rel="canonical" href="https://meilleurscashback.com/" />
+
         <meta
           name="description"
           content={
-            "Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup d'oeil quel est le\
-          taux de cashback pratiqué par les meilleurs sites de cashback du marché sur le marchand chez lequel\
-          vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)"
+            "Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup d'oeil quel est le meilleurs taux de cashback sur votre marchand favori."
           }
         />
         <meta
@@ -67,9 +67,7 @@ const HomePage: FC<HomePageProps> = ({topSellers, cashbackers}) => {
         <meta
           property="og:description"
           content={
-            "Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup d'oeil quel est le\
-            taux de cashback pratiqué par les meilleurs sites de cashback du marché sur le marchand chez lequel\
-            vous envisagez de réaliser votre achat (Amazon, CDiscount, Sephora...)"
+            "Meilleurcashback est un comparateur qui vous permet de trouver d'un seul coup d'oeil quel est le meilleurs taux de cashback sur votre marchand favori."
           }
         />
         <meta property="og:site_name" content="MeilleursCashback" />

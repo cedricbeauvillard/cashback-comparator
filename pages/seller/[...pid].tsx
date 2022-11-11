@@ -7,6 +7,7 @@ import {useRouter} from 'next/router';
 import {useState, VFC} from 'react';
 import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
+import {SellerSearchBar} from '../../components/business/SellerSearchBar';
 import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
@@ -132,7 +133,10 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
           content={`Découvrez quel site de cashback vous propose le meilleur taux pour vos achats sur le site marchand ${seller.name}.`}
         />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta
+          property="og:url"
+          content={`https://meilleurscashback.com/seller/meilleur-cashback-${seller.slug}`}
+        ></meta>
         <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main>
@@ -271,7 +275,8 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               <div>
                 <Group spacing={0} className="my-2 w-full sm:m-0">
                   <h3 className="m-0">Chercher un marchand</h3>
-                  <Select
+                  <SellerSearchBar radius="sm"></SellerSearchBar>
+                  {/*    <Select
                     className="w-full mt-2"
                     icon={<SearchSvg width={'1rem'}></SearchSvg>}
                     placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
@@ -297,7 +302,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                           }))
                         : []
                     }
-                  />
+                  /> */}
                 </Group>
                 <Link key="SellerList" href="/sellers" className="w-full bg-white">
                   <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>

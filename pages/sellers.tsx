@@ -39,34 +39,28 @@ const sellers: VFC<SellerListPageProps> = ({alphabeticalSellers}) => {
   return (
     <div>
       <Head>
-        <title>
-          Tous les marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000
-          marchands.
-        </title>
+        <title>Liste des marchands du comparateur - MeilleursCashback</title>
         <link rel="icon" href="/logo.webp" />
+        <link rel="canonical" href="https://meilleurscashback.com/sellers" />
         <meta
           name="description"
           content={
-            'Retrouvez une liste complète de marchands éligibles au cashback. Auchan, Norauto, CDiscount ou encore Castorama,\
-            toutes les plus grandes marques sont répertoriées dans cette section.'
+            'Découvrez les 8000 marchands intégrés à notre comparateur pour trouver le meilleur taux de cashback sur votre marchand favori.'
           }
         />
         <meta
           property="og:title"
-          content={
-            'Tous les marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
-          }
+          content={'Liste des marchands du comparateur - MeilleursCashback'}
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
           content={
-            'Retrouvez une liste complète de marchands éligibles au cashback. Auchan, Norauto, CDiscount ou encore Castorama,\
-            toutes les plus grandes marques sont répertoriées dans cette section.'
+            'Découvrez les 8000 marchands intégrés à notre comparateur pour trouver le meilleur taux de cashback sur votre marchand favori.'
           }
         />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:url" content="https://meilleurscashback.com/sellers"></meta>
         <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main className="justify-center">

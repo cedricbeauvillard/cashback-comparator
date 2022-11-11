@@ -149,7 +149,7 @@ export const SearchHeader: FC = () => {
         </Group>
       )}
       {searchPanelOpened && (
-        <Group className="w-full" style={{position: 'absolute', top: 56, left: 0, zIndex: 1000}}>
+        <Group className="w-full" style={{position: 'absolute', top: 80, left: 0, zIndex: 1000}}>
           <SellerSearchBar radius="xs"></SellerSearchBar>
         </Group>
       )}

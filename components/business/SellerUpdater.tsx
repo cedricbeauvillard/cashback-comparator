@@ -1,4 +1,4 @@
-import {Button, Select, SimpleGrid} from '@mantine/core';
+import {Button, Select} from '@mantine/core';
 import {RateUnit, Seller} from '@prisma/client';
 import {FC, useState} from 'react';
 import {findDetailedSeller, findManySeller} from '../../lib/api/seller/consumers';
@@ -24,13 +24,9 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
   const [searchedSeller, setSearchedSeller] = useState<Seller | null>();
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
 
-  const [addRows, setAddRows] = useState<Seller[]>();
-  const [addRowQuantity, setAddRowQuantity] = useState(0);
-
-  console.log('FROM UPDATER: ', addRows);
-
   return (
     <div className="w-full h-full">
+      {/* Search seller */}
       <div className="w-full">
         <h1>Recherche</h1>
         <Select
@@ -73,58 +69,13 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
           <SellerRow seller={searchedSeller} displayOnly={true} id={1}></SellerRow>
         ) : undefined}
       </div>
-      <div className="w-full">
-        <h1>Ajout</h1>
-        <SimpleGrid cols={1}>
-          {[...Array(addRowQuantity)].map((row, index) => (
-            <SellerRow
-              key={`seller-add-row${index}`}
-              id={index}
-              rows={addRows}
-              setRows={setAddRows}
-            ></SellerRow>
-          ))}
-        </SimpleGrid>
-        <Button.Group orientation="horizontal" className="m-auto flex w-40">
-          <Button
-            className="m-auto block mt-4"
-            onClick={() => {
-              addRows?.splice(-1);
-              setAddRows(addRows);
-              setAddRowQuantity(addRowQuantity - 1);
-            }}
-          >
-            -
-          </Button>
-          <Button
-            className="m-auto block mt-4"
-            onClick={() => {
-              setAddRowQuantity(addRowQuantity + 1);
-            }}
-          >
-            +
-          </Button>
-        </Button.Group>
-      </div>
 
+      {/* Xlsx import */}
       <div className="w-full">
-        <h1>Modification</h1>
-        <SimpleGrid cols={1}>
-          {/*           <SellerRow></SellerRow>
-          <SellerRow></SellerRow> */}
-        </SimpleGrid>
-        <Button.Group orientation="horizontal" className="m-auto flex w-40">
-          <Button className="m-auto block mt-4">-</Button>
-          <Button className="m-auto block mt-4">+</Button>
-        </Button.Group>
-      </div>
-
-      <div className="w-full">
-        <h1>Supression</h1>
-        <Button.Group orientation="horizontal" className="m-auto flex w-40">
-          {/*           <Button className="m-auto block mt-4">-</Button>
-          <Button className="m-auto block mt-4">+</Button> */}
-        </Button.Group>
+        <h1>Import excel</h1>
+        {searchedSeller ? (
+          <SellerRow seller={searchedSeller} displayOnly={true} id={1}></SellerRow>
+        ) : undefined}
       </div>
 
       <Button size="lg" className="m-auto block my-10">

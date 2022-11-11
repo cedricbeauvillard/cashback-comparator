@@ -34,20 +34,30 @@ const GCUPage: VFC<CGUPageProps> = () => {
         <title>
           CGU - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.
         </title>
-        <meta name="description" content="Description" />
         <link rel="icon" href="/logo.webp" />
+        <link rel="canonical" href="https://meilleurscashback.com/cgu" />
+        <meta
+          name="description"
+          content={
+            "Conditions Générales d'Utilisation - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands"
+          }
+        />
         <meta
           property="og:title"
           content={
-            "Conditions Générales d'Utilisation - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands."
+            'CGU - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
           }
         />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={url} />
-        <meta property="og:image" content={'/logo.webp'} />
-        <meta property="og:image:alt" content="M" />*/}
-        <meta property="og:description" content={'Description'} />
+        <meta
+          property="og:description"
+          content={
+            "Conditions Générales d'Utilisation - MeilleursCashback - Comparez les taux de cashback de plus de 8000 marchands"
+          }
+        />
         <meta property="og:site_name" content="MeilleursCashback" />
+        <meta property="og:url" content="https://meilleurscashback.com/cgu"></meta>
+        <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main className="w-auto h-auto bg-red-600 justify-center">
         <SearchHeader></SearchHeader>
@@ -58,7 +68,11 @@ const GCUPage: VFC<CGUPageProps> = () => {
             </h1>
             <h3 className="m-0">
               Directeur de la publication du blog{' '}
-              <a className="text-hyperlink" target="_blank" href="https://meilleurscashback.com">
+              <a
+                className="text-hyperlink"
+                target="_blank"
+                href="https://meilleurscashback.com/cgu"
+              >
                 https://meilleurscashback.com
               </a>
             </h3>

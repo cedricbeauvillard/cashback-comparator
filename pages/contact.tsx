@@ -64,6 +64,7 @@ const ContactPage: VFC<ContactPageProps> = () => {
           Contact - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.
         </title>
         <link rel="icon" href="/logo.webp" />
+        <link rel="canonical" href="https://meilleurscashback.com/contact" />
         <meta
           name="description"
           content={
@@ -84,7 +85,7 @@ const ContactPage: VFC<ContactPageProps> = () => {
           }
         />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:url" content="https://meilleurscashback.com/contact"></meta>
         <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main>

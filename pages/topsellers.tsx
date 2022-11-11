@@ -39,34 +39,28 @@ const TopSellersPage: VFC<TopSellersPageProps> = ({initialTopSellers}) => {
   return (
     <div>
       <Head>
-        <title>
-          Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000
-          marchands.
-        </title>
+        <title>Top des meilleurs marchands du comparateur - MeilleursCashback</title>
         <link rel="icon" href="/logo.webp" />
+        <link rel="canonical" href="https://meilleurscashback.com/topsellers" />
         <meta
           name="description"
           content={
-            'Notre sélection des marchands les plus populaires et intéressants du monde du cashback.\
-            Conseils malins et nombreux avantages à la clé, le top marchands est un indicateur incontournable de MeilleursCashback.'
+            'Découvrez notre top des marchands les plus populaires parmi les plus de 8000 marchands présents sur le comparateur'
           }
         />
         <meta
           property="og:title"
-          content={
-            'Top marchands - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
-          }
+          content={'Top des meilleurs marchands du comparateur - MeilleursCashback'}
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
           content={
-            'Notre sélection des marchands les plus populaires et intéressants du monde du cashback.\
-            Conseils malins et nombreux avantages à la clé, le top marchands est un indicateur incontournable de MeilleursCashback.'
+            'Découvrez notre top des marchands les plus populaires parmi les plus de 8000 marchands présents sur le comparateur'
           }
         />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:url" content="https://meilleurscashback.com/topsellers"></meta>
         <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <main>

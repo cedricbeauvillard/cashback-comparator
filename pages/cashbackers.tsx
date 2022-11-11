@@ -57,34 +57,28 @@ const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
   return (
     <div>
       <Head>
-        <title>
-          Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000
-          marchands.
-        </title>
+        <title>Classement des meilleurs sites de cashback - MeilleursCashback</title>
         <link rel="icon" href="/logo.webp" />
+        <link rel="canonical" href="https://meilleurscashback.com/cashbackers" />
         <meta
           name="description"
           content={
-            'MeilleursCashback vous permet de comparer les sites de cashback les plus populaires en se basant\
-            sur les caractéristiques qui comptent le plus pour vous. Retrouvez EbuyClub, IGraal ou encore Boursorama The Corner...'
+            "Découvrez quels sont les meilleurs sites de cashback français et notre avis sur chacun d'entre eux."
           }
         />
         <meta
           property="og:title"
-          content={
-            'Sites de cashback - MeilleursCashback - Comparez les taux de casback de plus de 8000 marchands.'
-          }
+          content={'Classement des meilleurs sites de cashback - MeilleursCashback'}
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
           content={
-            'MeilleursCashback vous permet de comparer les sites de cashback les plus populaires en se basant\
-            sur les caractéristiques qui comptent le plus pour vous. Retrouvez EbuyClub, IGraal...'
+            "Découvrez quels sont les meilleurs sites de cashback français et notre avis sur chacun d'entre eux."
           }
         />
         <meta property="og:site_name" content="MeilleursCashback" />
-        <meta property="og:url" content="https://meilleurscashback.com/"></meta>
+        <meta property="og:url" content="https://meilleurscashback.com/cashbackers"></meta>
         <meta property="og:image" content="/logo.webp"></meta>
       </Head>
       <SearchHeader></SearchHeader>
