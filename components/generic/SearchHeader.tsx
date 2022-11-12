@@ -1,7 +1,8 @@
 import {Burger, Button, createStyles, Group, Header, Image} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import Link from 'next/link';
-import {FC, useState} from 'react';
+import {useRouter} from 'next/router';
+import {FC, useEffect, useState} from 'react';
 import {SellerSearchBar} from '../business/SellerSearchBar';
 import SearchSvg from '../svg/SearchSvg';
 
@@ -67,6 +68,13 @@ export const SearchHeader: FC = () => {
   const [pagePanelOpened, {toggle}] = useDisclosure(false);
   const [searchPanelOpened, toggleSearchPanel] = useState(false);
   const {classes} = useStyles();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchPanelOpened) {
+      toggleSearchPanel(!searchPanelOpened);
+    }
+  }, [router.query.pid]);
 
   const onSearchButtonClicked = () => {
     toggleSearchPanel(!searchPanelOpened);

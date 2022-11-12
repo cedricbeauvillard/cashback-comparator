@@ -1,7 +1,9 @@
-import {Button, FileInput, Select} from '@mantine/core';
+import {Select} from '@mantine/core';
 import {Seller} from '@prisma/client';
 import {FC, useState} from 'react';
-import {addSeller, findDetailedSeller, findManySeller} from '../../lib/api/consumers/seller';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {findDetailedSeller, findManySeller} from '../../lib/api/consumers/seller';
 import SearchSvg from '../svg/SearchSvg';
 import {ExcelImporter} from './ExcelImporter';
 import {SellerRow} from './SellerRow';
@@ -11,6 +13,30 @@ export interface SellerUpdaterProps {}
 export const SellerUpdater: FC<SellerUpdaterProps> = () => {
   const [searchedSeller, setSearchedSeller] = useState<Seller | null>();
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
+
+  const fileImported = (changes: string) =>
+    toast.success(`Excel importé: ${changes} action(s) effectuée(s).`, {
+      position: 'bottom-left',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+
+  const importError = () =>
+    toast.error("Aucune action n'a pu être effectuée.", {
+      position: 'bottom-left',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
 
   return (
     <div className="w-full h-full">
@@ -58,7 +84,19 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
         ) : undefined}
       </div>
 
-      <ExcelImporter></ExcelImporter>
+      <ExcelImporter fileImported={fileImported} importError={importError}></ExcelImporter>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

@@ -4,7 +4,10 @@ import {FC, useEffect, useState} from 'react';
 import readXlsxFile, {Row} from 'read-excel-file';
 import {addSeller, editSeller, removeSeller} from '../../lib/api/consumers/seller';
 
-export interface ExcelImporterProps {}
+export interface ExcelImporterProps {
+  fileImported: (changes: string) => {};
+  importError: () => {};
+}
 
 type ActionType = 'ADD' | 'EDIT' | 'DEL' | null;
 
@@ -82,7 +85,7 @@ const buildSellerAction = (actionType: ActionType, row: Row): Action => {
   return action;
 };
 
-export const ExcelImporter: FC<ExcelImporterProps> = () => {
+export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, importError}) => {
   const [file, setFile] = useState<File | null>(null);
   const [actions, setActions] = useState<Action[]>([]);
 
@@ -103,20 +106,34 @@ export const ExcelImporter: FC<ExcelImporterProps> = () => {
     });
   };
 
-  const operateChanges = () => {
-    actions.forEach(async (action) => {
+  const operateChanges = async (): Promise<string> => {
+    let successfullOperationsCount: number = 0;
+
+    for (const action of actions) {
       if (action.actionType === 'ADD') {
         delete action.actionType;
 
-        console.log(await addSeller(action as Seller));
+        const res = await addSeller(action as Seller);
+        if (res.added) {
+          successfullOperationsCount += 1;
+        }
       } else if (action.actionType === 'EDIT') {
         delete action.actionType;
 
-        console.log(await editSeller(action as Seller));
+        const res = await editSeller(action as Seller);
+        if (res.edited) {
+          successfullOperationsCount += 1;
+        }
       } else {
-        console.log(await removeSeller(action.id));
+        const res = await removeSeller(action.id);
+
+        if (res.removed) {
+          successfullOperationsCount += 1;
+        }
       }
-    });
+    }
+
+    return `${successfullOperationsCount}/${actions.length}`;
   };
 
   useEffect(() => {
@@ -144,8 +161,18 @@ export const ExcelImporter: FC<ExcelImporterProps> = () => {
         />
         <Button
           className="mt-4"
-          onClick={() => {
-            operateChanges();
+          onClick={async () => {
+            await operateChanges().then((changes: string) => {
+              const changeOccured = changes[0] !== '0';
+
+              if (changeOccured) {
+                fileImported(changes);
+              } else {
+                importError();
+              }
+
+              setActions([]);
+            });
           }}
         >
           APPLIQUER
