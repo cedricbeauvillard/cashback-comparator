@@ -12,7 +12,8 @@ export interface ExcelImporterProps {
 type ActionType = 'ADD' | 'EDIT' | 'DEL' | null;
 
 type Action = Seller & {
-  actionType?: ActionType;
+  type?: ActionType;
+  active?: boolean;
 };
 
 const symbolToRateUnit = (symbol: String): RateUnit => {
@@ -43,43 +44,44 @@ const excelActionToJsActionType = (excelAction: String): ActionType => {
   }
 };
 
-const buildSellerAction = (actionType: ActionType, row: Row): Action => {
+const buildSellerAction = (type: ActionType, row: Row): Action => {
   let action: Action = {
-    actionType,
-    id: (row[1] as number) ?? null,
-    name: (row[2] as string) ?? null,
+    type,
+    active: row[1] ? switchToBool(row[1].toString()) : undefined,
+    id: (row[2] as number) ?? null,
+    name: (row[3] as string) ?? null,
     logoUrl: null,
     slug: null,
-    top40: row[3] ? switchToBool(row[3].toString()) : null,
-    topSeller: row[4] ? switchToBool(row[4].toString()) : null,
-    coupon: row[5] ? switchToBool(row[5].toString()) : null,
-    isRangeRateIgraal: row[6] ? switchToBool(row[6].toString()) : null,
-    rateIgraal: (row[7] as number) ?? null,
-    unitRateIgraal: row[8] ? symbolToRateUnit(row[8].toString()) : null,
-    isRangeRatePoulpeo: row[9] ? switchToBool(row[9].toString()) : null,
-    ratePoulpeo: (row[10] as number) ?? null,
-    unitRatePoulpeo: row[11] ? symbolToRateUnit(row[11].toString()) : null,
-    isRangeRateFlouzy: row[12] ? switchToBool(row[12].toString()) : null,
-    rateFlouzy: (row[13] as number) ?? null,
-    unitRateFlouzy: row[14] ? symbolToRateUnit(row[14].toString()) : null,
-    isRangeRateCapitalKoala: row[15] ? switchToBool(row[15].toString()) : null,
-    rateCapitalKoala: (row[16] as number) ?? null,
-    unitRateCapitalKoala: row[17] ? symbolToRateUnit(row[17].toString()) : null,
-    isRangeRateEbuyclub: row[18] ? switchToBool(row[18].toString()) : null,
-    rateEbuyclub: (row[19] as number) ?? null,
-    unitRateEbuyclub: row[20] ? symbolToRateUnit(row[20].toString()) : null,
-    isRangeRateWidilo: row[21] ? switchToBool(row[21].toString()) : null,
-    rateWidilo: (row[22] as number) ?? null,
-    unitRateWidilo: row[23] ? symbolToRateUnit(row[23].toString()) : null,
-    isRangeRateJoko: row[24] ? switchToBool(row[24].toString()) : null,
-    rateJoko: (row[25] as number) ?? null,
-    unitRateJoko: row[26] ? symbolToRateUnit(row[26].toString()) : null,
-    isRangeRateBoursorama: row[27] ? switchToBool(row[27].toString()) : null,
-    rateBoursorama: (row[28] as number) ?? null,
-    unitRateBoursorama: row[29] ? symbolToRateUnit(row[29].toString()) : null,
-    isRangeRateEbuyclubCoupon: row[30] ? switchToBool(row[30].toString()) : null,
-    rateEbuyclubCoupon: (row[31] as number) ?? null,
-    unitRateEbuyclubCoupon: row[32] ? symbolToRateUnit(row[32].toString()) : null,
+    top40: row[4] ? switchToBool(row[4].toString()) : null,
+    topSeller: row[5] ? switchToBool(row[5].toString()) : null,
+    coupon: row[6] ? switchToBool(row[6].toString()) : null,
+    isRangeRateIgraal: row[7] ? switchToBool(row[7].toString()) : null,
+    rateIgraal: (row[8] as number) ?? null,
+    unitRateIgraal: row[9] ? symbolToRateUnit(row[9].toString()) : null,
+    isRangeRatePoulpeo: row[10] ? switchToBool(row[10].toString()) : null,
+    ratePoulpeo: (row[11] as number) ?? null,
+    unitRatePoulpeo: row[12] ? symbolToRateUnit(row[12].toString()) : null,
+    isRangeRateFlouzy: row[13] ? switchToBool(row[13].toString()) : null,
+    rateFlouzy: (row[14] as number) ?? null,
+    unitRateFlouzy: row[15] ? symbolToRateUnit(row[15].toString()) : null,
+    isRangeRateCapitalKoala: row[16] ? switchToBool(row[16].toString()) : null,
+    rateCapitalKoala: (row[17] as number) ?? null,
+    unitRateCapitalKoala: row[18] ? symbolToRateUnit(row[18].toString()) : null,
+    isRangeRateEbuyclub: row[19] ? switchToBool(row[19].toString()) : null,
+    rateEbuyclub: (row[20] as number) ?? null,
+    unitRateEbuyclub: row[21] ? symbolToRateUnit(row[21].toString()) : null,
+    isRangeRateWidilo: row[22] ? switchToBool(row[22].toString()) : null,
+    rateWidilo: (row[23] as number) ?? null,
+    unitRateWidilo: row[24] ? symbolToRateUnit(row[24].toString()) : null,
+    isRangeRateJoko: row[25] ? switchToBool(row[25].toString()) : null,
+    rateJoko: (row[26] as number) ?? null,
+    unitRateJoko: row[27] ? symbolToRateUnit(row[27].toString()) : null,
+    isRangeRateBoursorama: row[28] ? switchToBool(row[28].toString()) : null,
+    rateBoursorama: (row[29] as number) ?? null,
+    unitRateBoursorama: row[30] ? symbolToRateUnit(row[30].toString()) : null,
+    isRangeRateEbuyclubCoupon: row[31] ? switchToBool(row[31].toString()) : null,
+    rateEbuyclubCoupon: (row[32] as number) ?? null,
+    unitRateEbuyclubCoupon: row[33] ? symbolToRateUnit(row[33].toString()) : null,
   };
 
   return action;
@@ -94,13 +96,12 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, importError
       for (let i = 1; i < rows.length; ++i) {
         const row = rows[i];
 
-        const actionType = excelActionToJsActionType(row[0].toString());
-        if (!actionType) {
+        const type = excelActionToJsActionType(row[0].toString());
+        if (!type) {
           continue;
         }
 
-        const action = buildSellerAction(actionType, row);
-
+        const action = buildSellerAction(type, row);
         setActions((actions) => [...actions, action]);
       }
     });
@@ -110,17 +111,21 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, importError
     let successfullOperationsCount: number = 0;
 
     for (const action of actions) {
-      if (action.actionType === 'ADD') {
-        delete action.actionType;
+      const active = action.active;
+      const type = action.type;
 
-        const res = await addSeller(action as Seller);
+      delete action.active;
+      delete action.type;
+
+      if (type === 'ADD') {
+        const res = await addSeller(action as Seller, active ?? undefined);
+
         if (res.added) {
           successfullOperationsCount += 1;
         }
-      } else if (action.actionType === 'EDIT') {
-        delete action.actionType;
+      } else if (type == 'EDIT') {
+        const res = await editSeller(action as Seller, active ?? undefined);
 
-        const res = await editSeller(action as Seller);
         if (res.edited) {
           successfullOperationsCount += 1;
         }

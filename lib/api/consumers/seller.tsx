@@ -33,14 +33,14 @@ export const findDetailedSeller = async (id: string) => {
   return data[0];
 };
 
-export const addSeller = async (seller: Seller): Promise<{added: boolean}> => {
+export const addSeller = async (seller: Seller, active?: boolean): Promise<{added: boolean}> => {
   if (!seller) {
     return {added: false};
   }
 
   const res = await fetch('/api/admin/addSeller', {
     method: 'POST',
-    body: JSON.stringify(seller),
+    body: JSON.stringify({active: active, seller}),
   });
 
   if (res.status !== 200) {
@@ -64,14 +64,14 @@ export const removeSeller = async (id: number): Promise<{removed: boolean}> => {
   return {removed: true};
 };
 
-export const editSeller = async (seller: Seller | null): Promise<{edited: boolean}> => {
+export const editSeller = async (seller: Seller, active?: boolean): Promise<{edited: boolean}> => {
   if (!seller) {
     return {edited: false};
   }
 
   const res = await fetch('/api/admin/editSeller', {
     method: 'POST',
-    body: JSON.stringify(seller),
+    body: JSON.stringify({active: active, seller}),
   });
 
   if (res.status !== 200) {
