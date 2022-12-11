@@ -2,6 +2,8 @@ import {Button, Card, createStyles, Group, Textarea, TextInput} from '@mantine/c
 import Head from 'next/head';
 import {useState, VFC} from 'react';
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {footerData} from '../components/_static';
@@ -64,6 +66,16 @@ const ContactPage: VFC<ContactPageProps> = () => {
   const handleSubmit = async (userEmail: string, userName: string, userMesssage: string) => {
     if (!executeRecaptcha) {
       console.log('Failed to send');
+      toast.error("Impossible d'envoyer le message.", {
+        position: 'bottom-left',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
       return;
     }
 
@@ -71,17 +83,43 @@ const ContactPage: VFC<ContactPageProps> = () => {
       const token = await executeRecaptcha();
       if (!token) {
         setResponse({message: 'Failed to Send!!!', status: 'Invalid captcha token'});
+        toast.error("Impossible d'envoyer le message.", {
+          position: 'bottom-left',
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
         return;
       }
 
       await submitEmail(token, userEmail, userName, userMesssage);
 
-      /*         setResponse({
-          message: 'userMessage.emailSent,
-          status: 200,
-        }); */
+      toast.success(`Message envoyé!`, {
+        position: 'bottom-left',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
       setBtnDisabled(false);
     } catch (error) {
+      toast.error("Impossible d'envoyer le message.", {
+        position: 'bottom-left',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
       setResponse({message: 'Failed to Send!!!', status: 'Failed'});
       setBtnDisabled(false);
     }
@@ -174,6 +212,18 @@ const ContactPage: VFC<ContactPageProps> = () => {
           <FooterLinks data={footerData}></FooterLinks>
         </footer>
       </footer>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
