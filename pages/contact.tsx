@@ -1,10 +1,11 @@
 import {Button, Card, createStyles, Group, Textarea, TextInput} from '@mantine/core';
 import Head from 'next/head';
 import {useState, VFC} from 'react';
+import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
 import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
 import {footerData} from '../components/_static';
-import {submitUserMessage} from '../lib/api/consumers/user';
+import {submitEmail} from '../lib/api/consumers/user';
 
 export interface ContactPageProps {}
 
@@ -52,10 +53,39 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const ContactPage: VFC<ContactPageProps> = () => {
+  const {executeRecaptcha} = useGoogleReCaptcha();
+  const [response, setResponse] = useState<any | null>(null);
+  const [isBtnDisabled, setBtnDisabled] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [userMesssage, setUserMessage] = useState('');
   const {classes} = useStyles();
+
+  const handleSubmit = async (userEmail: string, userName: string, userMesssage: string) => {
+    if (!executeRecaptcha) {
+      console.log('Failed to send');
+      return;
+    }
+
+    try {
+      const token = await executeRecaptcha();
+      if (!token) {
+        setResponse({message: 'Failed to Send!!!', status: 'Invalid captcha token'});
+        return;
+      }
+
+      await submitEmail(token, userEmail, userName, userMesssage);
+
+      /*         setResponse({
+          message: 'userMessage.emailSent,
+          status: 200,
+        }); */
+      setBtnDisabled(false);
+    } catch (error) {
+      setResponse({message: 'Failed to Send!!!', status: 'Failed'});
+      setBtnDisabled(false);
+    }
+  };
 
   return (
     <div>
@@ -128,8 +158,9 @@ const ContactPage: VFC<ContactPageProps> = () => {
               <Group position="right" mt="md">
                 {/* TODO: confirmation message */}
                 <Button
+                  disabled={isBtnDisabled}
                   className={classes.control}
-                  onClick={async () => submitUserMessage(userEmail, userName, userMesssage)}
+                  onClick={async () => handleSubmit(userEmail, userName, userMesssage)}
                 >
                   Envoyer
                 </Button>
