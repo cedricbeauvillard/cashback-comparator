@@ -1,35 +1,27 @@
 import {Checkbox, Select, SimpleGrid, TextInput} from '@mantine/core';
-import {useForm} from '@mantine/form';
+import {range} from '@mantine/hooks';
 import {RateUnit, Seller} from '@prisma/client';
-import {Dispatch, FC, SetStateAction} from 'react';
+import {FC} from 'react';
+import {isReturnStatement} from 'typescript';
 
 export interface SellerRowProps {
-  id: number;
   seller?: Seller;
   displayOnly?: boolean;
-  rows?: Seller[];
-  // TODO: Make BETTER!! This is not a good way to do it (maybe yes finally)
-  setRows?: Dispatch<SetStateAction<Seller[] | undefined>>;
 }
 
-export const SellerRow: FC<SellerRowProps> = ({id, seller, displayOnly = false, rows, setRows}) => {
-  const form = useForm<Seller>({});
-
-  const updateRows = () => {
-    if (setRows) {
-      if (!rows) {
-        setRows([form.values]);
-      } else {
-        if (!rows[id]) {
-          rows.push(form.values);
-          setRows(rows);
-        } else {
-          rows[id] = form.values;
-        }
-      }
-    }
-  };
-
+export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
+  const cashbackers = [
+    {name: 'Igraal', variableName: 'Igraal'},
+    {name: 'Poulpeo', variableName: 'Poulpeo'},
+    {name: 'Flouzy', variableName: 'Flouzy'},
+    {name: 'Capital Koala', variableName: 'CapitalKoala'},
+    {name: 'Ebuyclub', variableName: 'Ebuyclub'},
+    {name: 'Widilo', variableName: 'Widilo'},
+    {name: 'Joko', variableName: 'Joko'},
+    {name: 'Boursorama', variableName: 'Boursorama'},
+    {name: 'Ebuyclub Coupon', variableName: 'EbuyclubCoupon'},
+  ];
+  console.log('Seller: ', seller);
   return (
     <div className="w-full h-auto bg-cardBackground p-4">
       <SimpleGrid
@@ -45,450 +37,113 @@ export const SellerRow: FC<SellerRowProps> = ({id, seller, displayOnly = false, 
         {seller && (
           <div className="flex flex-col w-22">
             <h5 className="m-0">Id</h5>
-            <TextInput defaultValue={seller ? seller.id : undefined} readOnly={displayOnly} />
+            <TextInput value={seller ? seller.id : undefined} readOnly={displayOnly} />
           </div>
         )}
         <div className="flex flex-col w-22">
           <h5 className="m-0">Nom</h5>
-          <TextInput
-            defaultValue={seller ? seller.name : undefined}
-            readOnly={displayOnly}
-            onChange={(event) => {
-              form.setFieldValue('name', event.currentTarget.value);
-              updateRows();
-            }}
-          />
+          <TextInput value={seller ? seller.name : undefined} readOnly={displayOnly} />
         </div>
         <div className="flex flex-col w-22">
           <h5 className="m-0">URL Logo</h5>
           <TextInput
-            defaultValue={seller && seller.logoUrl ? seller.logoUrl : undefined}
+            value={seller && seller.logoUrl ? seller.logoUrl : undefined}
             readOnly={displayOnly}
-            onChange={(event) => {
-              form.setFieldValue('logoUrl', event.currentTarget.value);
-              updateRows();
-            }}
           />
         </div>
         <div className="flex flex-col w-22">
           <h5 className="m-0">Top 40</h5>
           <Checkbox
             disabled={displayOnly}
-            defaultChecked={seller && seller.top40 ? seller.top40 : false}
+            checked={seller && seller.top40 ? seller.top40 : false}
           />
         </div>
         <div className="flex flex-col w-22">
           <h5 className="m-0">Top Seller</h5>
           <Checkbox
             disabled={displayOnly}
-            defaultChecked={seller && seller.topSeller ? seller.topSeller : false}
+            checked={seller && seller.topSeller ? seller.topSeller : false}
           />
         </div>
         <div className="flex flex-col w-22">
           <h5 className="m-0">Coupon Ebuyclub</h5>
           <Checkbox
-            defaultChecked={seller && seller.coupon ? seller.coupon : false}
+            checked={seller && seller.coupon ? seller.coupon : false}
             disabled={displayOnly}
           />
         </div>
 
-        {/* Igraal */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Igraal</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateIgraal
-                ? seller.isRangeRateIgraal
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Igraal</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateIgraal ? seller.rateIgraal : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Igraal</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateIgraal
-                ? seller.unitRateIgraal === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+        {/* Cashbackers */}
+        {cashbackers.map(({name, variableName}, index) => {
+          if (!name || !variableName || !seller) {
+            return null;
+          }
 
-        {/* Poulpeo */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Poulpeo</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRatePoulpeo
-                ? seller.isRangeRatePoulpeo
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Poulpeo</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.ratePoulpeo ? seller.ratePoulpeo : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Poulpeo</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRatePoulpeo
-                ? seller.unitRatePoulpeo === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          const rangeIndex = `isRangeRate${variableName}` as keyof Seller;
+          const rateIndex = `rate${variableName}` as keyof Seller;
+          const unitIndex = `unitRate${variableName}` as keyof Seller;
 
-        {/* Flouzy */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Flouzy</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateFlouzy
-                ? seller.isRangeRateFlouzy
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Flouzy</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateFlouzy ? seller.rateFlouzy : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Flouzy</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateFlouzy
-                ? seller.unitRateFlouzy === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          if (!rangeIndex || !rateIndex || !unitIndex) {
+            return;
+          }
 
-        {/* CapitalKoala */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type CapitalKoala</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateCapitalKoala
-                ? seller.isRangeRateCapitalKoala
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur CapitalKoala</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateCapitalKoala ? seller.rateCapitalKoala : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité CapitalKoala</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateCapitalKoala
-                ? seller.unitRateCapitalKoala === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          const rangeValue = typeof seller[rangeIndex] === 'number' ? seller[rangeIndex] : null;
+          const rateValue = typeof seller[rateIndex] === 'number' ? seller[rateIndex] : null;
+          const unitValue = typeof seller[unitIndex] === 'string' ? seller[unitIndex] : null;
 
-        {/* Ebuyclub */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Ebuyclub</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateEbuyclub
-                ? seller.isRangeRateEbuyclub
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Ebuyclub</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateEbuyclub ? seller.rateEbuyclub : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Ebuyclub</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateEbuyclub
-                ? seller.unitRateEbuyclub === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          console.log('Cashbacker: ', name);
+          console.log(`for ${rangeIndex}, range: ${rangeValue}`);
+          console.log(`for ${rateIndex}, rate: ${rateValue}`);
+          console.log(`for ${unitIndex}, unit: ${unitValue}`);
 
-        {/* Widilo */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Widilo</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateWidilo
-                ? seller.isRangeRateWidilo
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Widilo</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateWidilo ? seller.rateWidilo : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Widilo</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateWidilo
-                ? seller.unitRateWidilo === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          const displayedRange =
+            rateValue && rateValue > 0 ? (rangeValue ? 'range' : 'value') : 'none';
+          const displayedRate = rateValue && rateValue > 0 ? rateValue.toString() : '-';
+          const displayedUnit =
+            rateValue && rateValue > 0 && unitValue !== RateUnit.None
+              ? unitValue === RateUnit.Euro
+                ? 'euro'
+                : 'percent'
+              : 'none';
 
-        {/* Joko */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Joko</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateJoko
-                ? seller.isRangeRateJoko
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Joko</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateJoko ? seller.rateJoko : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Joko</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateJoko
-                ? seller.unitRateJoko === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          console.log('Displayed unit: ', displayedUnit);
 
-        {/* Boursorama */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Boursorama</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateBoursorama
-                ? seller.isRangeRateBoursorama
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Boursorama</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={seller && seller.rateBoursorama ? seller.rateBoursorama : undefined}
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Boursorama</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateBoursorama
-                ? seller.unitRateBoursorama === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-
-        {/* Ebuyclub Coupon */}
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Type Ebuyclub Coupon</h5>
-          <Select
-            data={[
-              {value: 'value', label: 'Valeur'},
-              {value: 'range', label: 'Rang'},
-            ]}
-            defaultValue={
-              seller && seller.isRangeRateEbuyclubCoupon
-                ? seller.isRangeRateEbuyclubCoupon
-                  ? 'range'
-                  : 'value'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Valeur Ebuyclub Coupon</h5>
-          <TextInput
-            type={'number'}
-            defaultValue={
-              seller && seller.rateEbuyclubCoupon ? seller.rateEbuyclubCoupon : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
-        <div className="flex flex-col w-22">
-          <h5 className="m-0">Unité Ebuyclub Coupon</h5>
-          <Select
-            data={[
-              {value: 'euro', label: '€'},
-              {value: 'percent', label: '%'},
-            ]}
-            defaultValue={
-              seller && seller.unitRateEbuyclubCoupon
-                ? seller.unitRateEbuyclubCoupon === RateUnit.Euro
-                  ? 'euro'
-                  : 'percent'
-                : undefined
-            }
-            readOnly={displayOnly}
-          />
-        </div>
+          return (
+            <div
+              key={`rowCashbacker-${index}`}
+              className={index % 2 === 0 ? 'p-2 bg-lightBlue' : 'p-2'}
+            >
+              <div className="flex flex-col w-22">
+                <h5 className="m-0">Type {name}</h5>
+                <Select
+                  data={[
+                    {value: 'value', label: 'Valeur'},
+                    {value: 'range', label: "Rang (jusqu'à)"},
+                    {value: 'none', label: '-'},
+                  ]}
+                  value={displayedRange}
+                  readOnly={displayOnly}
+                />
+              </div>
+              <div className="flex flex-col w-22">
+                <h5 className="m-0">Valeur {name}</h5>
+                <TextInput type={'number || string'} value={displayedRate} readOnly={displayOnly} />
+              </div>
+              <div className="flex flex-col w-22">
+                <h5 className="m-0">Unité {name}</h5>
+                <Select
+                  data={[
+                    {value: 'euro', label: '€'},
+                    {value: 'percent', label: '%'},
+                    {value: 'none', label: '-'},
+                  ]}
+                  value={displayedUnit}
+                  readOnly={displayOnly}
+                />
+              </div>
+            </div>
+          );
+        })}
       </SimpleGrid>
     </div>
   );

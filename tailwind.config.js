@@ -7,6 +7,7 @@ module.exports = {
     colors: {
       mainColor: '#9904D9',
       textColor: '#111827',
+      lightBlue: '#B8BBFF',
       white: '#FFFFFF',
       cardBackground: '#fafafa',
       red: '#d91111',

@@ -1,6 +1,6 @@
-import {Select} from '@mantine/core';
+import {Button, Select} from '@mantine/core';
 import {Seller} from '@prisma/client';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {findDetailedSeller, findManySeller} from '../../lib/api/consumers/seller';
@@ -63,8 +63,8 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
             if (!value) {
               return;
             }
-            const seller = await findDetailedSeller(value);
 
+            const seller = await findDetailedSeller(value);
             if (seller) {
               setSearchedSeller(seller);
             }
@@ -80,7 +80,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
           }
         />
         {searchedSeller ? (
-          <SellerRow seller={searchedSeller} displayOnly={true} id={1}></SellerRow>
+          <SellerRow seller={searchedSeller} displayOnly={true}></SellerRow>
         ) : undefined}
       </div>
 
