@@ -11,12 +11,10 @@ export interface SellerSearchBarProps {
 }
 
 export const SellerSearchBar: FC<SellerSearchBarProps> = ({size, radius}) => {
-  const [value, setValue] = useState<string | null>('');
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
 
   useEffect(() => {
-    setValue(null);
     setFoundedSellers([]);
   }, [router.query.pid]);
 
@@ -33,8 +31,6 @@ export const SellerSearchBar: FC<SellerSearchBarProps> = ({size, radius}) => {
       icon={<SearchSvg width={'1.5rem'}></SearchSvg>}
       placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
       searchable
-      searchValue={value ?? ''}
-      value={foundedSellers && foundedSellers[0] ? foundedSellers[0].name : null}
       rightSection={<></>}
       maxLength={120}
       onSearchChange={async (searchValue: string) => {
@@ -42,7 +38,6 @@ export const SellerSearchBar: FC<SellerSearchBarProps> = ({size, radius}) => {
           return;
         }
 
-        setValue(searchValue);
         setFoundedSellers(await findManySeller(searchValue));
       }}
       onChange={(value) => {

@@ -21,7 +21,6 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
     {name: 'Boursorama', variableName: 'Boursorama'},
     {name: 'Ebuyclub Coupon', variableName: 'EbuyclubCoupon'},
   ];
-  console.log('Seller: ', seller);
   return (
     <div className="w-full h-auto bg-cardBackground p-4">
       <SimpleGrid
@@ -49,6 +48,13 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
           <TextInput
             value={seller && seller.logoUrl ? seller.logoUrl : undefined}
             readOnly={displayOnly}
+          />
+        </div>
+        <div className="flex flex-col w-22">
+          <h5 className="m-0">Actif</h5>
+          <Checkbox
+            disabled={displayOnly}
+            checked={seller && seller.slug && seller.slug.length > 0 ? true : false}
           />
         </div>
         <div className="flex flex-col w-22">
@@ -91,11 +97,6 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
           const rateValue = typeof seller[rateIndex] === 'number' ? seller[rateIndex] : null;
           const unitValue = typeof seller[unitIndex] === 'string' ? seller[unitIndex] : null;
 
-          console.log('Cashbacker: ', name);
-          console.log(`for ${rangeIndex}, range: ${rangeValue}`);
-          console.log(`for ${rateIndex}, rate: ${rateValue}`);
-          console.log(`for ${unitIndex}, unit: ${unitValue}`);
-
           const displayedRange =
             rateValue && rateValue > 0 ? (rangeValue ? 'range' : 'value') : 'none';
           const displayedRate = rateValue && rateValue > 0 ? rateValue.toString() : '-';
@@ -105,8 +106,6 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
                 ? 'euro'
                 : 'percent'
               : 'none';
-
-          console.log('Displayed unit: ', displayedUnit);
 
           return (
             <div

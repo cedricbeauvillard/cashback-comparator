@@ -274,33 +274,6 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                 <Group spacing={0} className="my-2 w-full sm:m-0">
                   <h3 className="m-0">Chercher un marchand</h3>
                   <SellerSearchBar radius="sm"></SellerSearchBar>
-                  {/*    <Select
-                    className="w-full mt-2"
-                    icon={<SearchSvg width={'1rem'}></SearchSvg>}
-                    placeholder="Indiquer le nom du marchand tels que Amazon, Fnac, Carrefour, Aliexpress…"
-                    searchable
-                    rightSection={<></>}
-                    maxLength={120}
-                    onSearchChange={async (searchValue: string) => {
-                      if (searchValue.length <= 0) {
-                        return;
-                      }
-
-                      setFoundedSellers(await findManySeller(searchValue));
-                    }}
-                    onChange={(value) => {
-                      router.push(`/seller/meilleur-cashback-${value}`);
-                    }}
-                    nothingFound={null}
-                    data={
-                      foundedSellers
-                        ? foundedSellers.map((seller) => ({
-                            value: seller.slug ? seller.slug : 'error',
-                            label: seller.name,
-                          }))
-                        : []
-                    }
-                  /> */}
                 </Group>
                 <Link key="SellerList" href="/sellers" className="w-full bg-white">
                   <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>

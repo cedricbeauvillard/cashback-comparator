@@ -1,7 +1,9 @@
 import {Seller} from '@prisma/client';
 
-export const findManySeller = async (name: string) => {
-  const res = await fetch(`/api/seller/findManySellersByName?name=${name}`);
+export const findManySeller = async (name: string, onlyActives: boolean = true) => {
+  const res = await fetch(
+    `/api/seller/findManySellersByName?name=${name}&onlyActives=${onlyActives}`
+  );
   const data = await res.json();
 
   if (res.status !== 200) {

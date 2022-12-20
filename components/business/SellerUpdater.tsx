@@ -42,7 +42,8 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
     <div className="w-full h-full">
       {/* Search seller */}
       <div className="w-full">
-        <h1>Recherche</h1>
+        <h1>Recherche marchands</h1>
+        {/* TODO: Replace with generic search bar */}
         <Select
           size="lg"
           className="w-full sm:w-1/2 my-4"
@@ -57,7 +58,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
               return;
             }
 
-            setFoundedSellers(await findManySeller(searchValue));
+            setFoundedSellers(await findManySeller(searchValue, false));
           }}
           onChange={async (value) => {
             if (!value) {
