@@ -26,6 +26,18 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
       theme: 'light',
     });
 
+  const parsingError = () =>
+    toast.error('La lecture du fichier excel a échouée...', {
+      position: 'bottom-left',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+
   const importError = () =>
     toast.error("Aucune action n'a pu être effectuée.", {
       position: 'bottom-left',
@@ -85,7 +97,11 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
         ) : undefined}
       </div>
 
-      <ExcelImporter fileImported={fileImported} importError={importError}></ExcelImporter>
+      <ExcelImporter
+        fileImported={fileImported}
+        parsingError={parsingError}
+        importError={importError}
+      ></ExcelImporter>
       <ToastContainer
         position="bottom-left"
         autoClose={2500}

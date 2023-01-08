@@ -65,7 +65,6 @@ const ContactPage: VFC<ContactPageProps> = () => {
 
   const handleSubmit = async (userEmail: string, userName: string, userMesssage: string) => {
     if (!executeRecaptcha) {
-      console.log('Failed to send');
       toast.error("Impossible d'envoyer le message.", {
         position: 'bottom-left',
         autoClose: 2500,

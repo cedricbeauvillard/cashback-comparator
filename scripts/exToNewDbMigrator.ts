@@ -106,9 +106,6 @@ function parseFirstPart(
 async function main() {
   const prisma = new PrismaClient();
 
-  console.log(exDatabaseSecondPartData.length);
-  console.log(firstPartData.length);
-
   let finalResult = [];
 
   // Read rows

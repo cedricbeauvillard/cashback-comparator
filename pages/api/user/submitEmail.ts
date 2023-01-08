@@ -29,7 +29,6 @@ export default async function handler(
 
     const response = await verifyRecaptcha(token?.toString() ?? '');
     if (!response || response.status !== 200) {
-      console.log('Abort: maybe a spam');
       return res.status(500).json({emailSent: false});
     }
 
@@ -62,7 +61,6 @@ export default async function handler(
 
     transporter.sendMail(mailOptions, (error: any, data: any) => {
       if (error) {
-        console.log('Fail to send email');
         return res.status(500).json({emailSent: false});
       }
     });
@@ -77,10 +75,8 @@ export default async function handler(
       });
     } */
 
-    console.log('Email sent!');
     return res.status(200).json({emailSent: true});
   } catch (e) {
-    console.log(`Error '${e}' happened`);
     res.status(500).json({emailSent: false});
   }
 }

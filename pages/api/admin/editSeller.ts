@@ -9,15 +9,15 @@ export type topSellerReq = {};
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{sellerEdited: boolean}>
+  res: NextApiResponse<{sellerEdited: boolean; message?: string}>
 ) {
   try {
     const body = JSON.parse(req.body);
 
-    const seller: Seller = body.seller;
-    const sellerId = seller.id;
+    const sellerInput: Seller = body.seller;
+    const sellerId = sellerInput.id;
 
-    logger.info('Edit seller: %s', seller.name);
+    logger.info('Edit seller: %s', sellerInput.name ?? sellerInput.id);
 
     const sellerActive: boolean | null = body.active;
 
@@ -33,33 +33,35 @@ export default async function handler(
 
     // Seller don't exist
     if (!originalSeller) {
-      res.status(400).json({sellerEdited: false});
+      res.status(400).json({sellerEdited: false, message: 'Edit seller: seller not found'});
       logger.warn('Edit seller: seller not found');
       return;
     }
 
-    const noStateChangeButAlreadyActive = sellerActive === null && originalSeller.slug;
-    if (noStateChangeButAlreadyActive || sellerActive === true) {
+    const needNameChange = sellerInput.name && originalSeller.name !== sellerInput.name;
+    const sellerFirstTimeActive = sellerActive && !originalSeller.slug;
+
+    if (needNameChange || sellerFirstTimeActive) {
       logger.info('New slug');
-      seller.slug = getSlugFromName(seller.name) ?? null;
+      sellerInput.slug = getSlugFromName(originalSeller.name) ?? null;
     }
 
     // Remove null properties
-    Object.keys(seller).forEach((key) => {
+    Object.keys(sellerInput).forEach((key) => {
       const sellerKey: keyof Seller = key as keyof Seller;
 
-      if (seller[sellerKey] === null) {
-        delete seller[sellerKey];
+      if (sellerInput[sellerKey] === null) {
+        delete sellerInput[sellerKey];
       }
     });
 
     // Disable seller
     if (sellerActive === false && originalSeller.slug) {
       logger.info('Disable seller');
-      seller.slug = null;
+      sellerInput.slug = null;
     }
 
-    const {id, ...sellerCreateInput} = seller;
+    const {id, ...sellerCreateInput} = sellerInput;
 
     const updatedSeller = await prisma.seller.update({
       where: {
@@ -75,12 +77,12 @@ export default async function handler(
       res.status(200).json({sellerEdited: true});
       return;
     } else {
-      logger.info('Remove failed');
-      res.status(400).json({sellerEdited: false});
+      logger.info('Edit failed');
+      res.status(400).json({sellerEdited: false, message: 'Edit failed'});
       return;
     }
   } catch (e) {
-    logger.info('Remove failed: ', e);
-    res.status(400).json({sellerEdited: false});
+    logger.info('Edit failed: ', e);
+    res.status(400).json({sellerEdited: false, message: `Edit failed: ${e}`});
   }
 }

@@ -6,6 +6,7 @@ import {addSeller, editSeller, removeSeller} from '../../lib/api/consumers/selle
 
 export interface ExcelImporterProps {
   fileImported: (changes: string) => {};
+  parsingError: () => {};
   importError: () => {};
 }
 
@@ -87,7 +88,12 @@ const buildSellerAction = (type: ActionType, row: Row): Action => {
   return action;
 };
 
-export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, importError}) => {
+// TODO: Move import system in the back-end
+export const ExcelImporter: FC<ExcelImporterProps> = ({
+  fileImported,
+  parsingError,
+  importError,
+}) => {
   const [file, setFile] = useState<File | null>(null);
   const [actions, setActions] = useState<Action[]>([]);
 
@@ -108,6 +114,11 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, importError
   };
 
   const operateChanges = async (): Promise<string> => {
+    if (!actions.length) {
+      parsingError();
+      return '';
+    }
+
     let successfullOperationsCount: number = 0;
 
     for (const action of actions) {
@@ -138,6 +149,7 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, importError
       }
     }
 
+    setFile(null);
     return `${successfullOperationsCount}/${actions.length}`;
   };
 
