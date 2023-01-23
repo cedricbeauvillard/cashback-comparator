@@ -65,17 +65,19 @@ export const removeSeller = async (id: number): Promise<{removed: boolean; statu
 };
 
 export const editSeller = async (
+  id: number,
   seller: Seller,
-  active?: boolean
+  active?: boolean,
+  cellToResetIndex?: number[]
 ): Promise<{edited: boolean; status: number}> => {
-  if (!seller || !seller.id) {
+  if (!id || !seller) {
     logger.warn('Edit seller: seller input or seller id null');
     return {edited: false, status: 400};
   }
 
-  const res = await fetch('/api/admin/editSeller', {
+  const res = await fetch(`/api/admin/editSeller?id=${id}`, {
     method: 'POST',
-    body: JSON.stringify({active: active, seller}),
+    body: JSON.stringify({active, seller, cellToResetIndex}),
   });
 
   return {edited: res.status === 200, status: res.status};

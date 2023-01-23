@@ -22,6 +22,6 @@ export const logout = async (router: NextRouter) => {
   if (data) {
     router.push(`/admin/login`);
   } else {
-    /*     TODO: PUSH MESSAGE */
+    // TODO: PUSH MESSAGE
   }
 };

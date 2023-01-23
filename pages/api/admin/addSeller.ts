@@ -35,7 +35,7 @@ export default async function handler(
 
     if (sellerActive) {
       const slug = getSlugFromName(seller.name);
-      logger.warn(`Add new seller: new seller slug: ${slug}`);
+      logger.info(`Add new seller: new seller slug: ${slug}`);
 
       seller.slug = slug ?? null;
     }

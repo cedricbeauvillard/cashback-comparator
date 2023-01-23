@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import {Seller} from '@prisma/client';
+import {Skeleton} from '@mantine/core';
+import {RateUnit, Seller} from '@prisma/client';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {logger} from '../../../lib/logger';
 import {prisma} from '../../../lib/prisma';
@@ -12,14 +13,26 @@ export default async function handler(
   res: NextApiResponse<{sellerEdited: boolean}>
 ) {
   try {
-    const body = JSON.parse(req.body);
+    const query = req.query;
+    const {id} = query;
 
+    let sellerId = 0;
+    if (typeof id === 'string') {
+      sellerId = parseInt(id);
+    }
+
+    if (!sellerId) {
+      logger.error('Invalid id parsing');
+      res.status(500).json({sellerEdited: false});
+      return;
+    }
+
+    const body = JSON.parse(req.body);
     const sellerInput: Seller = body.seller;
-    const sellerId = sellerInput.id;
+    const sellerActive: boolean | null = body.active;
+    const cellToResetIndex: number[] | null = body.cellToResetIndex;
 
     logger.info('Edit seller: %s', sellerInput.name ?? sellerInput.id);
-
-    const sellerActive: boolean | null = body.active;
 
     const originalSeller = await prisma.seller.findFirst({
       select: {
@@ -34,7 +47,7 @@ export default async function handler(
     // Seller don't exist
     if (!originalSeller) {
       res.status(404).json({sellerEdited: false});
-      logger.warn('Edit seller: seller not found');
+      logger.error('Edit seller: seller not found');
       return;
     }
 
@@ -61,14 +74,14 @@ export default async function handler(
       sellerInput.slug = null;
     }
 
-    const {id, ...sellerCreateInput} = sellerInput;
+    const {id: sellerInputId, ...sellerEditInput} = sellerInput;
 
     const updatedSeller = await prisma.seller.update({
       where: {
         id: sellerId,
       },
       data: {
-        ...sellerCreateInput,
+        ...sellerEditInput,
       },
     });
 
@@ -77,12 +90,12 @@ export default async function handler(
       res.status(200).json({sellerEdited: true});
       return;
     } else {
-      logger.info('Edit failed');
+      logger.error('Edit failed');
       res.status(403).json({sellerEdited: false});
       return;
     }
   } catch (err) {
-    logger.info('Edit failed with following error: ', err);
+    logger.error('Edit failed with following error: ', err);
     res.status(500).json({sellerEdited: false});
   }
 }

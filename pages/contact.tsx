@@ -63,6 +63,8 @@ const ContactPage: VFC<ContactPageProps> = () => {
   const [userMesssage, setUserMessage] = useState('');
   const {classes} = useStyles();
 
+  // TODO: Make field validation check
+
   const handleSubmit = async (userEmail: string, userName: string, userMesssage: string) => {
     if (!executeRecaptcha) {
       toast.error("Impossible d'envoyer le message.", {

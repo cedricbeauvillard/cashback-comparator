@@ -41,13 +41,13 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
       changes.remove.REMOVE_500
     }
     - Total succès: ${changes.remove.REMOVE_SUCCESS}
-    - Erreur 400 d’arguments API: ${changes.remove.REMOVE_400}
+    - Erreur 400 d’arguments API (ids..): ${changes.remove.REMOVE_400}
     - Erreur 403 de droits ou Prisma: ${changes.remove.REMOVE_403}
     - Erreur 404 seller pas trouvé: ${changes.remove.REMOVE_404}
     - Erreur 500 serveur inconnu: ${changes.remove.REMOVE_500}
     
     MODIFICATION:
-    - Total OPERATIONS: ${
+    - Total opérations: ${
       changes.edit.EDIT_SUCCESS +
       changes.edit.EDIT_400 +
       changes.edit.EDIT_403 +
@@ -55,7 +55,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
       changes.edit.EDIT_500
     }
     - Total succès: ${changes.edit.EDIT_SUCCESS}
-    - Erreur 400 d’arguments API: ${changes.edit.EDIT_400}
+    - Erreur 400 d’arguments API (ids..): ${changes.edit.EDIT_400}
     - Erreur 403 de droits ou Prisma: ${changes.edit.EDIT_403}
     - Erreur 404 seller pas trouvé: ${changes.edit.EDIT_404}
     - Erreur 500 serveur inconnu: ${changes.edit.EDIT_500}
@@ -64,7 +64,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
   const parsingError = () =>
     toast.error('La lecture du fichier excel a échouée...', {
       position: 'bottom-left',
-      autoClose: 2500,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -77,7 +77,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
     if (!changes.totalSuccess) {
       toast.error(getFormattedImportResult(changes), {
         position: 'bottom-left',
-        autoClose: 30000,
+        autoClose: 40000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -91,7 +91,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
     } else if (changes.totalSuccess === changes.totalOperations) {
       toast.success(getFormattedImportResult(changes), {
         position: 'bottom-left',
-        autoClose: 30000,
+        autoClose: 40000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -105,7 +105,7 @@ export const SellerUpdater: FC<SellerUpdaterProps> = () => {
     } else {
       toast.warn(getFormattedImportResult(changes), {
         position: 'bottom-left',
-        autoClose: 30000,
+        autoClose: 40000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

@@ -85,6 +85,7 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
             return null;
           }
 
+          // Key building
           const rangeIndex = `isRangeRate${variableName}` as keyof Seller;
           const rateIndex = `rate${variableName}` as keyof Seller;
           const unitIndex = `unitRate${variableName}` as keyof Seller;
@@ -93,16 +94,18 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
             return;
           }
 
+          // Parsing values
           const rangeValue = typeof seller[rangeIndex] === 'number' ? seller[rangeIndex] : null;
           const rateValue = typeof seller[rateIndex] === 'number' ? seller[rateIndex] : null;
           const unitValue = typeof seller[unitIndex] === 'string' ? seller[unitIndex] : null;
 
+          // Formatted values
           const displayedRange =
             rateValue && rateValue > 0 ? (rangeValue ? 'range' : 'value') : 'none';
           const displayedRate = rateValue && rateValue > 0 ? rateValue.toString() : '-';
           const displayedUnit =
-            rateValue && rateValue > 0 && unitValue !== RateUnit.None
-              ? unitValue === RateUnit.Euro
+            rateValue && rateValue > 0 && unitValue !== RateUnit.None.toUpperCase()
+              ? unitValue === RateUnit.Euro.toUpperCase()
                 ? 'euro'
                 : 'percent'
               : 'none';

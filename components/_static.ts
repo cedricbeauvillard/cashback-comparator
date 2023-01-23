@@ -49,30 +49,32 @@ export type ImportResults = {
   };
 };
 
-export const defaultResults: ImportResults = {
-  totalOperations: 0,
-  totalSuccess: 0,
-  add: {
-    ADD_SUCCESS: 0,
-    ADD_400: 0,
-    ADD_403: 0,
-    ADD_409: 0,
-    ADD_500: 0,
-  },
-  edit: {
-    EDIT_SUCCESS: 0,
-    EDIT_400: 0,
-    EDIT_403: 0,
-    EDIT_404: 0,
-    EDIT_500: 0,
-  },
-  remove: {
-    REMOVE_SUCCESS: 0,
-    REMOVE_400: 0,
-    REMOVE_403: 0,
-    REMOVE_404: 0,
-    REMOVE_500: 0,
-  },
+export const getDefaultImportResult = (): ImportResults => {
+  return {
+    totalOperations: 0,
+    totalSuccess: 0,
+    add: {
+      ADD_SUCCESS: 0,
+      ADD_400: 0,
+      ADD_403: 0,
+      ADD_409: 0,
+      ADD_500: 0,
+    },
+    edit: {
+      EDIT_SUCCESS: 0,
+      EDIT_400: 0,
+      EDIT_403: 0,
+      EDIT_404: 0,
+      EDIT_500: 0,
+    },
+    remove: {
+      REMOVE_SUCCESS: 0,
+      REMOVE_400: 0,
+      REMOVE_403: 0,
+      REMOVE_404: 0,
+      REMOVE_500: 0,
+    },
+  };
 };
 
 export const footerData = [

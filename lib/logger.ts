@@ -1,7 +1,7 @@
-const pino = require('pino')
+const pino = require('pino');
 
 export const logger = pino({
   transport: {
-    target: 'pino-pretty'
+    target: 'pino-pretty',
   },
-})
+});

@@ -2,13 +2,17 @@ import {Button, FileInput} from '@mantine/core';
 import {RateUnit, Seller} from '@prisma/client';
 import {FC, useEffect, useState} from 'react';
 import readXlsxFile, {Row} from 'read-excel-file';
+import {Cell} from 'read-excel-file/types';
 import {addSeller, editSeller, removeSeller} from '../../lib/api/consumers/seller';
-import {defaultResults, ImportResults} from '../_static';
+import {logger} from '../../lib/logger';
+import {getDefaultImportResult, ImportResults} from '../_static';
 
 export interface ExcelImporterProps {
   fileImported: (changes: ImportResults) => void;
   parsingError: () => {};
 }
+
+const EMPTY_CELL = '-';
 
 type ActionType = 'ADD' | 'EDIT' | 'REMOVE' | null;
 
@@ -20,9 +24,11 @@ type Action = Seller & {
 const symbolToRateUnit = (symbol: String): RateUnit => {
   if (symbol === '%') {
     return RateUnit.Percent;
+  } else if (symbol === '€') {
+    return RateUnit.Euro;
   }
 
-  return RateUnit.Euro;
+  return RateUnit.None;
 };
 
 const switchToBool = (switchAnswer: String): boolean => {
@@ -32,6 +38,9 @@ const switchToBool = (switchAnswer: String): boolean => {
 
   return false;
 };
+
+const parseRate = (rowCell: Cell): number =>
+  typeof rowCell === 'number' ? (rowCell as number) : 0;
 
 const excelActionToJsActionType = (excelAction: String): ActionType => {
   if (excelAction === 'AJOUT') {
@@ -57,31 +66,31 @@ const buildSellerAction = (type: ActionType, row: Row): Action => {
     topSeller: row[5] ? switchToBool(row[5].toString()) : null,
     coupon: row[6] ? switchToBool(row[6].toString()) : null,
     isRangeRateIgraal: row[7] ? switchToBool(row[7].toString()) : null,
-    rateIgraal: (row[8] as number) ?? null,
+    rateIgraal: parseRate(row[8]),
     unitRateIgraal: row[9] ? symbolToRateUnit(row[9].toString()) : null,
     isRangeRatePoulpeo: row[10] ? switchToBool(row[10].toString()) : null,
-    ratePoulpeo: (row[11] as number) ?? null,
+    ratePoulpeo: parseRate(row[11]),
     unitRatePoulpeo: row[12] ? symbolToRateUnit(row[12].toString()) : null,
     isRangeRateFlouzy: row[13] ? switchToBool(row[13].toString()) : null,
-    rateFlouzy: (row[14] as number) ?? null,
+    rateFlouzy: parseRate(row[14]),
     unitRateFlouzy: row[15] ? symbolToRateUnit(row[15].toString()) : null,
     isRangeRateCapitalKoala: row[16] ? switchToBool(row[16].toString()) : null,
-    rateCapitalKoala: (row[17] as number) ?? null,
+    rateCapitalKoala: parseRate(row[17]),
     unitRateCapitalKoala: row[18] ? symbolToRateUnit(row[18].toString()) : null,
     isRangeRateEbuyclub: row[19] ? switchToBool(row[19].toString()) : null,
-    rateEbuyclub: (row[20] as number) ?? null,
+    rateEbuyclub: parseRate(row[20]),
     unitRateEbuyclub: row[21] ? symbolToRateUnit(row[21].toString()) : null,
     isRangeRateWidilo: row[22] ? switchToBool(row[22].toString()) : null,
-    rateWidilo: (row[23] as number) ?? null,
+    rateWidilo: parseRate(row[23]),
     unitRateWidilo: row[24] ? symbolToRateUnit(row[24].toString()) : null,
     isRangeRateJoko: row[25] ? switchToBool(row[25].toString()) : null,
-    rateJoko: (row[26] as number) ?? null,
+    rateJoko: parseRate(row[26]),
     unitRateJoko: row[27] ? symbolToRateUnit(row[27].toString()) : null,
     isRangeRateBoursorama: row[28] ? switchToBool(row[28].toString()) : null,
-    rateBoursorama: (row[29] as number) ?? null,
+    rateBoursorama: parseRate(row[29]),
     unitRateBoursorama: row[30] ? symbolToRateUnit(row[30].toString()) : null,
     isRangeRateEbuyclubCoupon: row[31] ? switchToBool(row[31].toString()) : null,
-    rateEbuyclubCoupon: (row[32] as number) ?? null,
+    rateEbuyclubCoupon: parseRate(row[32]),
     unitRateEbuyclubCoupon: row[33] ? symbolToRateUnit(row[33].toString()) : null,
   };
 
@@ -162,30 +171,31 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, parsingErro
       return null;
     }
 
-    const importResults: ImportResults = defaultResults;
+    const importResults: ImportResults = getDefaultImportResult();
 
     for (const action of actions) {
       const active = action.active;
       const type = action.type;
 
       if (!type) {
-        console.warn('Skip this action, cannot parse it.');
+        logger.warn('Skip this action, cannot parse it.');
         continue;
       }
 
-      delete action.active;
       delete action.type;
+      if (active) {
+        delete action.active;
+      }
 
       if (type === 'ADD') {
         const res = await addSeller(action as Seller, active ?? undefined);
 
         updateImportResults(importResults, type, res.status);
       } else if (type == 'EDIT') {
-        const res = await editSeller(action as Seller, active ?? undefined);
+        const res = await editSeller(action.id, action as Seller, active ?? undefined);
 
         updateImportResults(importResults, type, res.status);
       } else if (type === 'REMOVE') {
-        // TODO: Also pass edit id in parameters
         const res = await removeSeller(action.id);
 
         updateImportResults(importResults, type, res.status);
