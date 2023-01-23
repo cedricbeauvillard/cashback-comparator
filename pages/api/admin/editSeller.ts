@@ -30,7 +30,6 @@ export default async function handler(
     const body = JSON.parse(req.body);
     const sellerInput: Seller = body.seller;
     const sellerActive: boolean | null = body.active;
-    const cellToResetIndex: number[] | null = body.cellToResetIndex;
 
     logger.info('Edit seller: %s', sellerInput.name ?? sellerInput.id);
 

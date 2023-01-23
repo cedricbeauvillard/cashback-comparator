@@ -12,8 +12,6 @@ export interface ExcelImporterProps {
   parsingError: () => {};
 }
 
-const EMPTY_CELL = '-';
-
 type ActionType = 'ADD' | 'EDIT' | 'REMOVE' | null;
 
 type Action = Seller & {
@@ -21,7 +19,11 @@ type Action = Seller & {
   active?: boolean;
 };
 
-const symbolToRateUnit = (symbol: String): RateUnit => {
+const symbolToRateUnit = (symbol: Cell): RateUnit | null => {
+  if (!symbol || typeof symbol !== 'string') {
+    return null;
+  }
+
   if (symbol === '%') {
     return RateUnit.Percent;
   } else if (symbol === '€') {
@@ -39,8 +41,13 @@ const switchToBool = (switchAnswer: String): boolean => {
   return false;
 };
 
-const parseRate = (rowCell: Cell): number =>
-  typeof rowCell === 'number' ? (rowCell as number) : 0;
+const parseRate = (rowCell: Cell): number | null => {
+  if (!rowCell) {
+    return null;
+  }
+
+  return typeof rowCell === 'number' ? rowCell : 0;
+};
 
 const excelActionToJsActionType = (excelAction: String): ActionType => {
   if (excelAction === 'AJOUT') {
@@ -67,31 +74,31 @@ const buildSellerAction = (type: ActionType, row: Row): Action => {
     coupon: row[6] ? switchToBool(row[6].toString()) : null,
     isRangeRateIgraal: row[7] ? switchToBool(row[7].toString()) : null,
     rateIgraal: parseRate(row[8]),
-    unitRateIgraal: row[9] ? symbolToRateUnit(row[9].toString()) : null,
+    unitRateIgraal: symbolToRateUnit(row[9]),
     isRangeRatePoulpeo: row[10] ? switchToBool(row[10].toString()) : null,
     ratePoulpeo: parseRate(row[11]),
-    unitRatePoulpeo: row[12] ? symbolToRateUnit(row[12].toString()) : null,
+    unitRatePoulpeo: symbolToRateUnit(row[12]),
     isRangeRateFlouzy: row[13] ? switchToBool(row[13].toString()) : null,
     rateFlouzy: parseRate(row[14]),
-    unitRateFlouzy: row[15] ? symbolToRateUnit(row[15].toString()) : null,
+    unitRateFlouzy: symbolToRateUnit(row[15]),
     isRangeRateCapitalKoala: row[16] ? switchToBool(row[16].toString()) : null,
     rateCapitalKoala: parseRate(row[17]),
-    unitRateCapitalKoala: row[18] ? symbolToRateUnit(row[18].toString()) : null,
+    unitRateCapitalKoala: symbolToRateUnit(row[18]),
     isRangeRateEbuyclub: row[19] ? switchToBool(row[19].toString()) : null,
     rateEbuyclub: parseRate(row[20]),
-    unitRateEbuyclub: row[21] ? symbolToRateUnit(row[21].toString()) : null,
+    unitRateEbuyclub: symbolToRateUnit(row[21]),
     isRangeRateWidilo: row[22] ? switchToBool(row[22].toString()) : null,
     rateWidilo: parseRate(row[23]),
-    unitRateWidilo: row[24] ? symbolToRateUnit(row[24].toString()) : null,
+    unitRateWidilo: symbolToRateUnit(row[24]),
     isRangeRateJoko: row[25] ? switchToBool(row[25].toString()) : null,
     rateJoko: parseRate(row[26]),
-    unitRateJoko: row[27] ? symbolToRateUnit(row[27].toString()) : null,
+    unitRateJoko: symbolToRateUnit(row[27]),
     isRangeRateBoursorama: row[28] ? switchToBool(row[28].toString()) : null,
     rateBoursorama: parseRate(row[29]),
-    unitRateBoursorama: row[30] ? symbolToRateUnit(row[30].toString()) : null,
+    unitRateBoursorama: symbolToRateUnit(row[30]),
     isRangeRateEbuyclubCoupon: row[31] ? switchToBool(row[31].toString()) : null,
     rateEbuyclubCoupon: parseRate(row[32]),
-    unitRateEbuyclubCoupon: row[33] ? symbolToRateUnit(row[33].toString()) : null,
+    unitRateEbuyclubCoupon: symbolToRateUnit(row[33]),
   };
 
   return action;
