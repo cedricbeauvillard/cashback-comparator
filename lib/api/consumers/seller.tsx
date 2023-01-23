@@ -1,4 +1,5 @@
 import {Seller} from '@prisma/client';
+import {logger} from '../../../lib/logger';
 
 export const findManySeller = async (name: string, onlyActives: boolean = true) => {
   const res = await fetch(
@@ -35,9 +36,13 @@ export const findDetailedSeller = async (id: string) => {
   return data[0];
 };
 
-export const addSeller = async (seller: Seller, active?: boolean): Promise<{added: boolean}> => {
-  if (!seller) {
-    return {added: false};
+export const addSeller = async (
+  seller: Seller,
+  active?: boolean
+): Promise<{added: boolean; status: number}> => {
+  if (!seller || !seller.name) {
+    logger.warn('Add seller: seller input or seller name null');
+    return {added: false, status: 400};
   }
 
   const res = await fetch('/api/admin/addSeller', {
@@ -45,30 +50,27 @@ export const addSeller = async (seller: Seller, active?: boolean): Promise<{adde
     body: JSON.stringify({active: active, seller}),
   });
 
-  if (res.status !== 200) {
-    return {added: false};
-  }
-
-  return {added: true};
+  return {added: res.status === 200, status: res.status};
 };
 
-export const removeSeller = async (id: number): Promise<{removed: boolean}> => {
+export const removeSeller = async (id: number): Promise<{removed: boolean; status: number}> => {
   if (!id) {
-    return {removed: false};
+    logger.warn('Remove seller: id is null');
+    return {removed: false, status: 400};
   }
 
   const res = await fetch(`/api/admin/removeSeller?id=${id}`);
 
-  if (res.status !== 200) {
-    return {removed: false};
-  }
-
-  return {removed: true};
+  return {removed: res.status === 200, status: res.status};
 };
 
-export const editSeller = async (seller: Seller, active?: boolean): Promise<{edited: boolean}> => {
-  if (!seller) {
-    return {edited: false};
+export const editSeller = async (
+  seller: Seller,
+  active?: boolean
+): Promise<{edited: boolean; status: number}> => {
+  if (!seller || !seller.id) {
+    logger.warn('Edit seller: seller input or seller id null');
+    return {edited: false, status: 400};
   }
 
   const res = await fetch('/api/admin/editSeller', {
@@ -76,9 +78,5 @@ export const editSeller = async (seller: Seller, active?: boolean): Promise<{edi
     body: JSON.stringify({active: active, seller}),
   });
 
-  if (res.status !== 200) {
-    return {edited: false};
-  }
-
-  return {edited: true};
+  return {edited: res.status === 200, status: res.status};
 };

@@ -9,7 +9,7 @@ export type topSellerReq = {};
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{sellerEdited: boolean; message?: string}>
+  res: NextApiResponse<{sellerEdited: boolean}>
 ) {
   try {
     const body = JSON.parse(req.body);
@@ -33,7 +33,7 @@ export default async function handler(
 
     // Seller don't exist
     if (!originalSeller) {
-      res.status(400).json({sellerEdited: false, message: 'Edit seller: seller not found'});
+      res.status(404).json({sellerEdited: false});
       logger.warn('Edit seller: seller not found');
       return;
     }
@@ -78,11 +78,11 @@ export default async function handler(
       return;
     } else {
       logger.info('Edit failed');
-      res.status(400).json({sellerEdited: false, message: 'Edit failed'});
+      res.status(403).json({sellerEdited: false});
       return;
     }
-  } catch (e) {
-    logger.info('Edit failed: ', e);
-    res.status(400).json({sellerEdited: false, message: `Edit failed: ${e}`});
+  } catch (err) {
+    logger.info('Edit failed with following error: ', err);
+    res.status(500).json({sellerEdited: false});
   }
 }

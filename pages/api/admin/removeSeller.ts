@@ -9,8 +9,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{sellerRemoved: boolean}>
 ) {
-  res.status(400);
-
   try {
     const query = req.query;
 
@@ -21,12 +19,30 @@ export default async function handler(
       sellerId = parseInt(id);
     }
 
-    logger.info('Start remove seller: %d', sellerId);
-
     if (!sellerId) {
-      res.status(400).json({sellerRemoved: false});
+      logger.error('Invalid id parsing');
+      res.status(500).json({sellerRemoved: false});
       return;
     }
+
+    logger.info('Start remove seller: %d', sellerId);
+    logger.info('Check that seller exists');
+
+    const sellerToDelete = await prisma.seller.findUnique({
+      select: {
+        id: true,
+      },
+      where: {
+        id: sellerId,
+      },
+    });
+    if (!sellerToDelete?.id) {
+      logger.error("Remove failed because seller id don't exists");
+      res.status(404).json({sellerRemoved: false});
+      return;
+    }
+
+    logger.info('Seller exists, try to remove');
 
     const removedSeller = await prisma.seller.delete({
       where: {
@@ -39,12 +55,12 @@ export default async function handler(
       res.status(200).json({sellerRemoved: true});
       return;
     } else {
-      logger.info('Remove failed');
-      res.status(400).json({sellerRemoved: false});
+      logger.error('Remove failed');
+      res.status(403).json({sellerRemoved: false});
       return;
     }
   } catch (e) {
-    logger.info('Remove failed: ', e);
-    res.status(400).json({sellerRemoved: false});
+    logger.error('Remove failed: ', e);
+    res.status(500).json({sellerRemoved: false});
   }
 }

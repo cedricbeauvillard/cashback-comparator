@@ -3,14 +3,14 @@ import {RateUnit, Seller} from '@prisma/client';
 import {FC, useEffect, useState} from 'react';
 import readXlsxFile, {Row} from 'read-excel-file';
 import {addSeller, editSeller, removeSeller} from '../../lib/api/consumers/seller';
+import {defaultResults, ImportResults} from '../_static';
 
 export interface ExcelImporterProps {
-  fileImported: (changes: string) => {};
+  fileImported: (changes: ImportResults) => void;
   parsingError: () => {};
-  importError: () => {};
 }
 
-type ActionType = 'ADD' | 'EDIT' | 'DEL' | null;
+type ActionType = 'ADD' | 'EDIT' | 'REMOVE' | null;
 
 type Action = Seller & {
   type?: ActionType;
@@ -39,7 +39,7 @@ const excelActionToJsActionType = (excelAction: String): ActionType => {
   } else if (excelAction === 'MODIF') {
     return 'EDIT';
   } else if (excelAction === 'SUPPR') {
-    return 'DEL';
+    return 'REMOVE';
   } else {
     return null;
   }
@@ -89,11 +89,7 @@ const buildSellerAction = (type: ActionType, row: Row): Action => {
 };
 
 // TODO: Move import system in the back-end
-export const ExcelImporter: FC<ExcelImporterProps> = ({
-  fileImported,
-  parsingError,
-  importError,
-}) => {
+export const ExcelImporter: FC<ExcelImporterProps> = ({fileImported, parsingError}) => {
   const [file, setFile] = useState<File | null>(null);
   const [actions, setActions] = useState<Action[]>([]);
 
@@ -113,17 +109,69 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({
     });
   };
 
-  const operateChanges = async (): Promise<string> => {
+  const updateImportResults = async (
+    results: ImportResults,
+    actionType: ActionType,
+    code: number
+  ) => {
+    // TODO: Make a more generic code (try for an hour to do it with type and Object.entities... no way...)
+    if (actionType === 'ADD') {
+      if (code === 200) {
+        results.add.ADD_SUCCESS++;
+        results.totalSuccess++;
+      } else if (code === 400) {
+        results.add.ADD_400++;
+      } else if (code === 403) {
+        results.add.ADD_403++;
+      } else if (code === 409) {
+        results.add.ADD_409++;
+      } else if (code === 500) {
+        results.add.ADD_500++;
+      }
+    } else if (actionType === 'REMOVE') {
+      if (code === 200) {
+        results.remove.REMOVE_SUCCESS++;
+        results.totalSuccess++;
+      } else if (code === 400) {
+        results.remove.REMOVE_400++;
+      } else if (code === 403) {
+        results.remove.REMOVE_403++;
+      } else if (code === 404) {
+        results.remove.REMOVE_404++;
+      } else if (code === 500) {
+        results.remove.REMOVE_500++;
+      }
+    } else if (actionType === 'EDIT') {
+      if (code === 200) {
+        results.edit.EDIT_SUCCESS++;
+        results.totalSuccess++;
+      } else if (code === 400) {
+        results.edit.EDIT_400++;
+      } else if (code === 403) {
+        results.edit.EDIT_403++;
+      } else if (code === 404) {
+        results.edit.EDIT_404++;
+      } else if (code === 500) {
+        results.edit.EDIT_500++;
+      }
+    }
+  };
+
+  const operateChanges = async (): Promise<ImportResults | null> => {
     if (!actions.length) {
-      parsingError();
-      return '';
+      return null;
     }
 
-    let successfullOperationsCount: number = 0;
+    const importResults: ImportResults = defaultResults;
 
     for (const action of actions) {
       const active = action.active;
       const type = action.type;
+
+      if (!type) {
+        console.warn('Skip this action, cannot parse it.');
+        continue;
+      }
 
       delete action.active;
       delete action.type;
@@ -131,26 +179,23 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({
       if (type === 'ADD') {
         const res = await addSeller(action as Seller, active ?? undefined);
 
-        if (res.added) {
-          successfullOperationsCount += 1;
-        }
+        updateImportResults(importResults, type, res.status);
       } else if (type == 'EDIT') {
         const res = await editSeller(action as Seller, active ?? undefined);
 
-        if (res.edited) {
-          successfullOperationsCount += 1;
-        }
-      } else {
+        updateImportResults(importResults, type, res.status);
+      } else if (type === 'REMOVE') {
+        // TODO: Also pass edit id in parameters
         const res = await removeSeller(action.id);
 
-        if (res.removed) {
-          successfullOperationsCount += 1;
-        }
+        updateImportResults(importResults, type, res.status);
       }
+
+      importResults.totalOperations++;
     }
 
     setFile(null);
-    return `${successfullOperationsCount}/${actions.length}`;
+    return importResults;
   };
 
   useEffect(() => {
@@ -179,15 +224,12 @@ export const ExcelImporter: FC<ExcelImporterProps> = ({
         <Button
           className="mt-4"
           onClick={async () => {
-            await operateChanges().then((changes: string) => {
-              const changeOccured = changes[0] !== '0';
-
-              if (changeOccured) {
-                fileImported(changes);
+            await operateChanges().then((changes: ImportResults | null) => {
+              if (!changes) {
+                parsingError();
               } else {
-                importError();
+                fileImported(changes);
               }
-
               setActions([]);
             });
           }}
