@@ -42,7 +42,7 @@ const switchToBool = (switchAnswer: String): boolean => {
 };
 
 const parseRate = (rowCell: Cell): number | null => {
-  if (!rowCell) {
+  if (rowCell === null && rowCell !== '0') {
     return null;
   }
 
