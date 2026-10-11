@@ -1,17 +1,15 @@
-import {Button, Card, createStyles, Group, SimpleGrid, Table} from '@mantine/core';
+import {Card, createStyles, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
-import {useState, VFC} from 'react';
+import {VFC} from 'react';
 import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
 import {SellerSearchBar} from '../../components/business/SellerSearchBar';
 import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
-import AllSvg from '../../components/svg/AllSvg';
 import {footerData} from '../../components/_static';
 import {prisma} from '../../lib/prisma';
 
@@ -105,17 +103,15 @@ const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): R
 
 const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
-  const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
-  const router = useRouter();
 
   return (
     <div>
       <Head>
-        <title>Meilleur cashback {seller.name} comparés - Meilleurscashback.com</title>
+        <title>Cashback {seller.name} : comparatif des offres | MeilleursCashback</title>
         <link rel="icon" href="/logo.webp" />
         <meta
           name="description"
-          content={`Découvrez quel site de cashback vous propose le meilleur taux pour vos achats sur le site marchand ${seller.name}.`}
+          content={`Comparez les taux de cashback ${seller.name}, les bonus de bienvenue et les avis des plateformes sur MeilleursCashback.`}
         />
         <link
           rel="canonical"
@@ -128,7 +124,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
-          content={`Découvrez quel site de cashback vous propose le meilleur taux pour vos achats sur le site marchand ${seller.name}.`}
+          content={`Comparez les taux de cashback ${seller.name}, les bonus de bienvenue et les avis des plateformes sur MeilleursCashback.`}
         />
         <meta property="og:site_name" content="MeilleursCashback" />
         <meta
@@ -141,68 +137,16 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
         <SearchHeader></SearchHeader>
         <div className="flex items-center justify-center">
           <Card className={classes.cardBody} withBorder>
-            <h1
-              className="m-0"
-              style={{
-                fontFamily: 'Montserrat',
-                fontWeight: 900,
-              }}
-            >
-              MEILLEUR CASHBACK {seller.name.toUpperCase()}
+            <h1 style={{fontFamily: 'Montserrat', fontWeight: 800, marginBottom: 12}}>
+              Cashback {seller.name} : comparez les meilleures offres
             </h1>
-            <p
-              className="mx-0 mt-4"
-              style={{
-                fontFamily: 'Montserrat',
-                fontWeight: 700,
-              }}
-            >
-              Vous vous apprêtez à faire un achat sur le site marchand de <b>{seller.name}</b> et
-              vous cherchez quel site de cashback vous propose le meilleur taux, et bien notre
-              comparatif ci-dessous est fait pour vous. Vous pourrez retrouver le taux de cashback
-              pratiqué par
-              <a
-                target="_blank"
-                className="text-hyperlink"
-                href="https://sitescashback.com/classement-des-meilleurs-sites-de-cashback/"
-              >
-                {' '}
-                chacun des meilleurs sites de notre classement sitescashback
-              </a>
-              , mais également toutes les informations nécessaires pour faire votre choix (note,
-              bonus de bienvenue, notre avis...).<br></br>Pour gagner encore plus, vous pouvez
-              utiliser les <b>codes promos</b> disponibles sur le site de cashback, sans oublier le{' '}
-              <b>bonus de bienvenue</b> à votre inscription sur le site de cashback. Pour les sites
-              permettant de cumuler plusieurs types de cashback tels que le
-              <a
-                target="_blank"
-                className="text-hyperlink"
-                href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
-              >
-                {' '}
-                cashback sur bon d'achat{' '}
-              </a>
-              et le
-              <a
-                target="_blank"
-                className="text-hyperlink"
-                href="https://sitescashback.com/acheter-des-bons-dachat-en-reduction-le-bon-plan-ebuyclub/"
-              >
-                {' '}
-                cashback en magasin{' '}
-              </a>
-              , le taux cashback indiqué dans le comparateur est le taux total.
+            <p style={{fontSize: '1.05rem', lineHeight: 1.7}}>
+              Comparez les taux de cashback chez {seller.name}, les notes et classements des plateformes,
+              ainsi que leurs éventuels bonus de bienvenue. Choisissez librement la plateforme qui vous convient.
             </p>
-            <h3
-              className="mt-8"
-              style={{
-                fontFamily: 'Montserrat',
-                fontWeight: 700,
-                fontSize: '1.4rem',
-              }}
-            >
-              TAUX DE CASHBACK POUR LE SITE {seller.name.toUpperCase()}
-            </h3>
+            <h2 style={{fontFamily: 'Montserrat', fontSize: '1.4rem', marginTop: 30}}>
+              Comparatif des offres de cashback {seller.name}
+            </h2>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
               {cashbackers?.map((cashbacker, index) => (
@@ -223,7 +167,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                   <th>Classement</th>
                   <th>Bonus</th>
                   <th>Taux de cashback</th>
-                  <th>Plus d'infos</th>
+                  <th>Voir l'offre</th>
                 </tr>
               </thead>
               <tbody>
@@ -243,53 +187,39 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
               validité sur les sites concernés. Une erreur dans ces taux ne pourrait engager ni
               MeilleursCashback ni le site de cashback en question.
             </p>
-            <SimpleGrid
-              className="my-4"
-              cols={2}
-              spacing="lg"
-              breakpoints={[
-                {maxWidth: 980, cols: 2, spacing: 'md'},
-                {maxWidth: 755, cols: 2, spacing: 'sm'},
-                {maxWidth: 600, cols: 1, spacing: 'sm'},
-              ]}
-            >
-              <div>
-                <Group className="w-full">
-                  {seller?.topSeller ? (
-                    <Link href={'/topsellers'}>
-                      <Button variant="outline" className="w-full" color="green">
-                        CE SITE FAIT PARTIE DU TOP MARCHAND (voir la liste)
-                      </Button>
-                    </Link>
-                  ) : (
-                    <Link href={'/topsellers'}>
-                      <Button variant="outline" className="w-full" color="red">
-                        CE SITE NE FAIT PAS PARTIE DU TOP MARCHAND (voir la liste)
-                      </Button>
-                    </Link>
-                  )}
-                </Group>
-              </div>
-              <div>
-                <Group spacing={0} className="my-2 w-full sm:m-0">
-                  <h3 className="m-0">Chercher un marchand</h3>
-                  <SellerSearchBar radius="sm"></SellerSearchBar>
-                </Group>
-                <Link key="SellerList" href="/sellers" className="w-full bg-white">
-                  <Button className="w-full mt-4 mb-8" leftIcon={<AllSvg width={'1rem'}></AllSvg>}>
-                    Voir la liste complète des marchands
-                  </Button>
-                </Link>
-              </div>
-            </SimpleGrid>
+            <section style={{marginTop: 36, lineHeight: 1.8}}>
+              <h2>Comment obtenir du cashback chez {seller.name} ?</h2>
+              <ol style={{paddingLeft: 24}}>
+                <li><strong>Comparez les offres</strong> des différentes plateformes pour vos achats chez {seller.name}.</li>
+                <li><strong>Choisissez votre plateforme.</strong> Si vous n’y êtes pas encore inscrit,
+                  utilisez notre lien de parrainage via le bouton « Voir l’offre » pour bénéficier,
+                  sous réserve des conditions applicables, d’un éventuel bonus de bienvenue.</li>
+                <li><strong>Activez votre cashback</strong> sur la plateforme choisie avant votre achat.</li>
+                <li><strong>Finalisez votre commande</strong> en respectant les conditions de l’offre.</li>
+              </ol>
+            </section>
+            {seller.topSeller && (
+              <section style={{marginTop: 32, lineHeight: 1.8}}>
+                <h2>Questions fréquentes sur le cashback {seller.name}</h2>
+                <details><summary>Comment fonctionne le cashback chez {seller.name} ?</summary>
+                  <p>Choisissez une plateforme proposant une offre pour {seller.name}, activez le cashback depuis celle-ci,
+                  puis réalisez votre achat en respectant les conditions annoncées.</p></details>
+                <details><summary>Peut-on cumuler cashback et code promotionnel chez {seller.name} ?</summary>
+                  <p>Le cumul dépend de la plateforme, du code et des conditions de l’offre. Vérifiez-les avant de commander.</p></details>
+                <details><summary>Quand le cashback {seller.name} est-il versé ?</summary>
+                  <p>Les délais de suivi, de validation et de paiement varient selon la plateforme et les conditions de l’offre.</p></details>
+              </section>
+            )}
+            <div style={{marginTop: 30}}>
+              {seller.topSeller && <p><Link href="/topsellers">Découvrir les autres Top marchands</Link></p>}
+              <h3>Rechercher un autre marchand</h3>
+              <SellerSearchBar radius="sm" />
+              <p><Link href="/sellers">Voir tous les marchands</Link></p>
+            </div>
           </Card>
         </div>
       </main>
-      <footer>
-        <footer>
-          <FooterLinks data={footerData}></FooterLinks>
-        </footer>
-      </footer>
+      <footer><FooterLinks data={footerData} /></footer>
     </div>
   );
 };
