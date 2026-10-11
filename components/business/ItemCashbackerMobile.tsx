@@ -1,123 +1,69 @@
-import {Button, Card, createStyles, Group, Image} from '@mantine/core';
+import {Button, Card, Group, Image, Text} from '@mantine/core';
 import {FC} from 'react';
-import Link from 'next/link';
 import StarSvg from '../svg/StarSvg';
-import {ItemCashbackerProps} from './types';
 import {rankingIcons} from '../_static';
+import {ItemCashbackerProps} from './types';
 
-/*
- * Used seller page to details advantages for each cashbackers (mobile view)
- */
-
-const useStyles = createStyles((theme) => ({
-  cashbackerItemCol: {
-    flex: 1,
-    flexDirection: 'column',
-    width: '100%',
-    marginTop: '0.5rem',
-  },
-  cashbackerItemRow: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-}));
+const formatRate = (rateData: ItemCashbackerProps['rateData']): string => {
+  if (!rateData || rateData.rate <= 0) return '—';
+  const unit = rateData.unit === 'Euro' ? ' €' : rateData.unit === 'None' ? '' : ' %';
+  return `${rateData.isRangeRate ? "Jusqu’à " : ''}${rateData.rate.toLocaleString('fr-FR')}${unit}`;
+};
 
 export const ItemCashbackerMobile: FC<ItemCashbackerProps> = ({
   displayRate,
   cashbacker,
   rateData,
 }) => {
-  const {classes} = useStyles();
-
-  let stars = [];
-
-  for (let i = 0; i < cashbacker.score; ++i) {
-    stars.push(<StarSvg key={`star-${i}`} width={'8%'}></StarSvg>);
-  }
-
-  const cashbackerUnit = rateData?.unit === 'None' ? '' : rateData?.unit === 'Euro' ? '€' : '%';
-
-  let cashbackerRate = '';
-
-  if (rateData && rateData?.rate > 0) {
-    cashbackerRate = `${rateData?.isRangeRate ? "Jusqu'a" : ''}${rateData?.rate}${cashbackerUnit}`;
-  } else {
-    cashbackerRate = '-';
-  }
+  const rankIcon = rankingIcons[cashbacker.rank - 1];
+  const hasOffer = !displayRate || Boolean(rateData && rateData.rate > 0);
+  const hasSponsorship = Boolean(cashbacker.sponsorshipUrl);
 
   return (
-    <Card shadow="sm" p="lg" radius="md" withBorder className="px-4 py-3">
-      {/* Cashbacker name */}
-      <Group className={classes.cashbackerItemCol} style={{marginTop: 0}}>
-        <p className="self-start m-0">Nom du site</p>
-        <div style={{width: 184, height: 117, position: 'relative'}}>
-          <Image
-            alt={`logo du site de cashback ${cashbacker.name} réputé professionnel meilleur cashback promo marque gain économie`}
-            src={cashbacker.logoUrl}
-            className="self-center"
-            width={184}
-            height={117}
-          />
+    <Card shadow="sm" p="md" radius="md" withBorder style={{width: '100%'}}>
+      <Group position="apart" align="center" noWrap spacing="sm">
+        <div style={{minWidth: 0}}>
+          <Image src={cashbacker.logoUrl} alt={`Logo ${cashbacker.name}`} width={120} height={65} fit="contain" />
+          <Text weight={700} size="sm" mt={4}>{cashbacker.name}</Text>
         </div>
-      </Group>
-      {/* Rating */}
-      <Group className={classes.cashbackerItemCol}>
-        <p className="self-start m-0">Note</p>
-        <Group className="justify-center">{stars}</Group>
-      </Group>
-      {/* Ranking */}
-      <Group className={classes.cashbackerItemCol}>
-        <p className="self-start m-0">Rang</p>
-        <div style={{width: '25%'}}>
-          <div style={{width: 90, height: 90, position: 'relative'}}>
-            <Image
-              alt="rang classement meilleur économie"
-              src={rankingIcons[cashbacker.rank - 1]}
-              className="self-center"
-              width={90}
-              height={90}
-            />
+        {displayRate && (
+          <div style={{textAlign: 'right'}}>
+            <Text color="dimmed" size="xs">Cashback</Text>
+            <Text weight={800} size="xl">{formatRate(rateData)}</Text>
           </div>
+        )}
+      </Group>
+      <Group position="apart" align="center" mt="md" spacing="xs">
+        <div>
+          <Text color="dimmed" size="xs">Note</Text>
+          <Group spacing={3} align="center">
+            {Array.from({length: Math.max(0, Math.min(5, Math.floor(cashbacker.score)))}, (_, i) => (
+              <StarSvg key={i} width="0.9rem" />
+            ))}
+            <Text size="sm">{cashbacker.score}/5</Text>
+          </Group>
+        </div>
+        <div style={{textAlign: 'right'}}>
+          <Text color="dimmed" size="xs">Classement</Text>
+          {rankIcon ? <Image src={rankIcon} alt={`Rang ${cashbacker.rank}`} width={40} height={40} fit="contain" /> : <Text>#{cashbacker.rank}</Text>}
         </div>
       </Group>
-      {/* Bonus */}
-      <Group className={classes.cashbackerItemRow}>
-        <p>Bonus:</p>
-        <p>{cashbacker.signupBonus}€ offerts</p>
+      <Group position="apart" mt="md" spacing="xs">
+        <Text size="sm">Bonus de bienvenue</Text>
+        <Text size="sm" weight={700}>{cashbacker.signupBonus > 0 ? `${cashbacker.signupBonus} € offerts*` : '—'}</Text>
       </Group>
-      {/* Cashback rate */}
-      {displayRate ? (
-        <Group className={classes.cashbackerItemRow}>
-          <p>Taux de cashback:</p>
-          <p>{cashbackerRate}</p>
-        </Group>
-      ) : undefined}
-      {/* More informations  ctas*/}
-      <Group className={classes.cashbackerItemCol}>
-        <p className="self-start m-0">Plus d'informations:</p>
-        <Button.Group orientation="vertical" className="flex">
-          <Button
-            component="a"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={cashbacker.reviewsUrl}
-            className="my-2 w-48"
-          >
-            Avis
-          </Button>
-          <Button
-            component="a"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={cashbacker.sponsorshipUrl}
-            className="my-2 w-48"
-          >
-            Visiter
-          </Button>
-        </Button.Group>
-      </Group>
+      {hasOffer && hasSponsorship ? (
+        <Button component="a" target="_blank" rel="noopener noreferrer sponsored" href={cashbacker.sponsorshipUrl} fullWidth mt="md">
+          Voir l’offre
+        </Button>
+      ) : (
+        <Text color="dimmed" align="center" size="sm" mt="md">Offre indisponible</Text>
+      )}
+      {cashbacker.reviewsUrl && (
+        <Text align="center" size="sm" mt="xs">
+          <a href={cashbacker.reviewsUrl} target="_blank" rel="noopener noreferrer">Lire notre avis</a>
+        </Text>
+      )}
     </Card>
   );
 };
