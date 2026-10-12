@@ -69,8 +69,10 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# Environment variables - never commit secrets
 .env
+.env.*
+!.env.example
 
 # Sitemap file
 sitemap.xml
