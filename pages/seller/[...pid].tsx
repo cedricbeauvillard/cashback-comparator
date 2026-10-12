@@ -167,7 +167,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                   <th>Classement</th>
                   <th>Bonus</th>
                   <th>Taux de cashback</th>
-                  <th>Voir l'offre</th>
+                  <th>Voir l&apos;offre</th>
                 </tr>
               </thead>
               <tbody>
