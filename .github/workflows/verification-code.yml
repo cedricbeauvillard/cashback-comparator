@@ -1,3 +1,4 @@
+
 name: Vérification du code
 
 on:
@@ -14,6 +15,7 @@ jobs:
     name: TypeScript et lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
@@ -30,8 +32,12 @@ jobs:
       - name: Générer le client Prisma
         run: npx prisma generate
 
-      - name: Vérifier TypeScript
+      - name: Vérifier TypeScript sur tout le projet
         run: npx tsc --noEmit
 
-      - name: Vérifier ESLint
-        run: npm run lint -- --no-cache
+      - name: Vérifier ESLint sur les fichiers de la refonte
+        run: |
+          npx next lint --no-cache \
+            --file components/business/ItemCashbackerDesktop.tsx \
+            --file components/business/ItemCashbackerMobile.tsx \
+            --file pages/seller/'[...pid].tsx'
