@@ -53,54 +53,60 @@ export interface SellerPageProps {
 /*
  * Find column in seller that match current treated cashbacker
  */
-const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): RateData => {
-  if (!seller) {
-    return emptyRateData;
-  }
 
-  // Remove space and get only first 3 chars
-  cashbackerName = cashbackerName.replace(' ', '').substring(0, 3);
+const getCashbackerRateData = (
+  seller: Seller | null,
+  cashbackerName: string
+): RateData => {
+  if (!seller) return emptyRateData;
 
-  const keys = Object.keys(seller) as Array<keyof typeof seller>;
+  const platform = cashbackerName.trim().toLowerCase();
 
-  let rateIndex = 0;
-
-  for (let i = 0; i < keys.length; ++i) {
-    if (keys[i].toLowerCase().includes(cashbackerName.toLowerCase())) {
-      rateIndex = i;
-      break;
-    }
-  }
-
-  let isRangeRate: boolean = false;
-  const possibleRangeRate = seller[keys[rateIndex]];
-
-  if (possibleRangeRate != null && typeof possibleRangeRate === 'boolean') {
-    isRangeRate = possibleRangeRate;
-  }
-
-  let rate: number = 0;
-  const possibleRate = seller[keys[rateIndex + 1]];
-
-  if (possibleRate != null && typeof possibleRate === 'number') {
-    rate = possibleRate;
-  }
-
-  let unit: RateUnit = RateUnit.None;
-
-  const possibleUnit = seller[keys[rateIndex + 2]];
-
-  if (possibleUnit && typeof possibleUnit === 'string') {
-    unit = RateUnit[possibleUnit as keyof typeof RateUnit];
-  }
-
-  return {
-    isRangeRate,
-    rate,
-    unit,
+  const rates: Record<string, RateData> = {
+    ebuyclub: {
+      isRangeRate: seller.isRangeRateEbuyclub ?? false,
+      rate: seller.rateEbuyclub ?? 0,
+      unit: seller.unitRateEbuyclub ?? RateUnit.None,
+    },
+    igraal: {
+      isRangeRate: seller.isRangeRateIgraal ?? false,
+      rate: seller.rateIgraal ?? 0,
+      unit: seller.unitRateIgraal ?? RateUnit.None,
+    },
+    poulpeo: {
+      isRangeRate: seller.isRangeRatePoulpeo ?? false,
+      rate: seller.ratePoulpeo ?? 0,
+      unit: seller.unitRatePoulpeo ?? RateUnit.None,
+    },
+    widilo: {
+      isRangeRate: seller.isRangeRateWidilo ?? false,
+      rate: seller.rateWidilo ?? 0,
+      unit: seller.unitRateWidilo ?? RateUnit.None,
+    },
+    joko: {
+      isRangeRate: seller.isRangeRateJoko ?? false,
+      rate: seller.rateJoko ?? 0,
+      unit: seller.unitRateJoko ?? RateUnit.None,
+    },
+    'boursorama the corner': {
+      isRangeRate: seller.isRangeRateBoursorama ?? false,
+      rate: seller.rateBoursorama ?? 0,
+      unit: seller.unitRateBoursorama ?? RateUnit.None,
+    },
+    'capital koala': {
+      isRangeRate: seller.isRangeRateCapitalKoala ?? false,
+      rate: seller.rateCapitalKoala ?? 0,
+      unit: seller.unitRateCapitalKoala ?? RateUnit.None,
+    },
+    flouzy: {
+      isRangeRate: seller.isRangeRateFlouzy ?? false,
+      rate: seller.rateFlouzy ?? 0,
+      unit: seller.unitRateFlouzy ?? RateUnit.None,
+    },
   };
-};
 
+  return rates[platform] ?? emptyRateData;
+};
 const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
 
