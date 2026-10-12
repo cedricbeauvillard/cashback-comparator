@@ -108,7 +108,23 @@ const getCashbackerRateData = (
   return rates[platform] ?? emptyRateData;
 };
 const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
-  const {classes} = useStyles();
+    const {classes} = useStyles();
+ const availableCashbackers = (cashbackers ?? [])
+    .filter((cashbacker) => {
+      const data = getCashbackerRateData(seller, cashbacker.name);
+      return data.rate > 0 && data.unit !== RateUnit.None;
+    })
+    .sort((a, b) => {
+      const rateA = getCashbackerRateData(seller, a.name);
+      const rateB = getCashbackerRateData(seller, b.name);
+
+      if (rateA.unit !== rateB.unit) {
+        if (rateA.unit === RateUnit.Percent) return -1;
+        if (rateB.unit === RateUnit.Percent) return 1;
+      }
+
+      return rateB.rate - rateA.rate || a.rank - b.rank;
+    });
 
   return (
     <div>
@@ -155,7 +171,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
             </h2>
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-              {cashbackers?.map((cashbacker, index) => (
+         {availableCashbackers.map((cashbacker, index) => (
                 <ItemCashbackerMobile
                   displayRate={true}
                   key={`cashbacker-${index}`}
@@ -177,7 +193,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
                 </tr>
               </thead>
               <tbody>
-                {cashbackers?.map((cashbacker, index) => (
+              {availableCashbackers.map((cashbacker, index) => (
                   <ItemCashbackerDesktop
                     displayRate={true}
                     key={`cashbacker-${index}`}
