@@ -3,7 +3,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   webpack(config) {
