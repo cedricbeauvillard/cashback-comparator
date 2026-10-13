@@ -23,11 +23,11 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: npm
+          node-version: '22'
+          cache: yarn
 
       - name: Installer les dépendances
-        run: npm ci
+        run: yarn install
 
       - name: Générer le client Prisma
         run: npx prisma generate
