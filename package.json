@@ -40,7 +40,7 @@
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
     "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.0.1",
     "eslint-config-next": "12.2.5",
@@ -53,6 +53,7 @@
     "eslint-plugin-react": "^7.31.7",
     "prettier": "^2.7.1",
     "typescript": "5.4.5",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "@typescript-eslint/parser": "7.18.0"
   }
 }
