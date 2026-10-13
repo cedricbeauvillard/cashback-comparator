@@ -96,7 +96,8 @@ export const SellerRow: FC<SellerRowProps> = ({seller, displayOnly = true}) => {
 
           // Parsing values
           const rangeValue = typeof seller[rangeIndex] === 'number' ? seller[rangeIndex] : null;
-          const rateValue = typeof seller[rateIndex] === 'number' ? seller[rateIndex] : null;
+          const rawRateValue = seller[rateIndex];
+          const rateValue = typeof rawRateValue === 'number' ? rawRateValue : null;
           const unitValue = typeof seller[unitIndex] === 'string' ? seller[unitIndex] : null;
 
           // Formatted values
