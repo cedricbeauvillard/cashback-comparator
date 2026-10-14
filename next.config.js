@@ -16,7 +16,6 @@ const nextConfig = {
     domains: ['localhost', 'meilleurscashback.com'],
   },
   poweredByHeader: false,
-  output: 'standalone',
 };
 
 module.exports = nextConfig;
