@@ -36,7 +36,11 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (cont
       },
     };
   } catch (e) {
-    return {notFound: true};
+    // Log the underlying server-side failure instead of silently converting it to a 404.
+    // Do not log connection strings, credentials, or the full error object.
+    console.error('[SSR pages/index.tsx] Database request failed:',
+      e instanceof Error ? e.name : 'Unknown error');
+    throw new Error('Server-side data loading failed');
   }
 };
 
