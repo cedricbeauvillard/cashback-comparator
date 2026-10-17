@@ -1,4 +1,4 @@
-import {Seller} from '@prisma/client';
+import {Prisma, Seller} from '@prisma/client';
 import type {GetServerSideProps, NextPage} from 'next';
 import HomePage, {HomePageProps} from '../components/business/HomePage';
 import {prisma} from '../lib/prisma';
@@ -38,8 +38,19 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (cont
   } catch (e) {
     // Log the underlying server-side failure instead of silently converting it to a 404.
     // Do not log connection strings, credentials, or the full error object.
-    console.error('[SSR pages/index.tsx] Database request failed:',
-      e instanceof Error ? e.name : 'Unknown error');
+    const candidateCode = e instanceof Prisma.PrismaClientInitializationError
+      ? e.errorCode
+      : e instanceof Prisma.PrismaClientKnownRequestError ? e.code : undefined;
+    console.error('[SSR pages/index.tsx] Database request failed:', {
+      name: e instanceof Prisma.PrismaClientInitializationError
+        ? 'PrismaClientInitializationError'
+        : e instanceof Prisma.PrismaClientKnownRequestError
+          ? 'PrismaClientKnownRequestError' : 'Unknown error',
+      code: typeof candidateCode === 'string' && /^P\d{4}$/.test(candidateCode)
+        ? candidateCode : 'UNAVAILABLE',
+      databaseUrlPresent: Boolean(process.env.DATABASE_URL?.trim()),
+      prismaVersion: Prisma.prismaVersion.client,
+    });
     throw new Error('Server-side data loading failed');
   }
 };
