@@ -41,7 +41,19 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (cont
     const candidateCode = e instanceof Prisma.PrismaClientInitializationError
       ? e.errorCode
       : e instanceof Prisma.PrismaClientKnownRequestError ? e.code : undefined;
+    // Inspect locally; emit only fixed categories, never the raw message.
+    const diagnosticMessage = e instanceof Error ? e.message : '';
+    const signals = {
+      network: /can't reach database server|connection refused|connection timed out|connect timeout|ETIMEDOUT|ECONNREFUSED|ENOTFOUND/i.test(diagnosticMessage),
+      authentication: /authentication failed|access denied for user|authentication plugin|unknown authentication|sha256_password|caching_sha2_password/i.test(diagnosticMessage),
+      tls: /TLS|SSL|certificate/i.test(diagnosticMessage),
+      invalidUrl: /invalid.*(?:url|connection string)|error parsing.*(?:url|connection)|protocol.*mysql/i.test(diagnosticMessage),
+      engine: /query engine|libquery_engine|openssl|shared librar|binary target/i.test(diagnosticMessage),
+      missingDatabase: /unknown database|database.*does not exist/i.test(diagnosticMessage),
+      connectionClosed: /server has closed|connection.*closed|connection reset|ECONNRESET/i.test(diagnosticMessage),
+    };
     console.error('[SSR pages/index.tsx] Database request failed:', {
+      signals,
       name: e instanceof Prisma.PrismaClientInitializationError
         ? 'PrismaClientInitializationError'
         : e instanceof Prisma.PrismaClientKnownRequestError
