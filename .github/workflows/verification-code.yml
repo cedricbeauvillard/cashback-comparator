@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - refonte-fiches-marchands-v1
+      - test-fiche-marchand-isolee
   workflow_dispatch:
 
 permissions:
