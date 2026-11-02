@@ -288,9 +288,19 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
       },
     };
   } catch (e) {
-    return {
-      notFound: true,
-    };
+    // Report a safe diagnostic in Vercel runtime logs instead of masking DB errors as 404s.
+    // Never log the full exception or any database credentials.
+    const error = e as {code?: unknown; errorCode?: unknown; message?: unknown};
+    const code = typeof error?.code === 'string' ? error.code : error?.errorCode;
+    const message = typeof error?.message === 'string' ? error.message : '';
+    console.error('[SSR seller] Database request failed:', {
+      code: typeof code === 'string' && /^P\\d{4}$/.test(code) ? code : 'UNAVAILABLE',
+      databaseUrlPresent: Boolean(process.env.DATABASE_URL?.trim()),
+      network: /can't reach database server|connection refused|timed out|ETIMEDOUT|ECONNREFUSED|ENOTFOUND/i.test(message),
+      authentication: /authentication failed|access denied|authentication plugin/i.test(message),
+      tls: /TLS|SSL|certificate/i.test(message),
+    });
+    throw new Error('Seller data loading failed');
   }
 };
 
