@@ -34,5 +34,8 @@ jobs:
       - name: Vérifier TypeScript
         run: npx tsc --noEmit
 
-      - name: Vérifier ESLint de la nouvelle fiche
+      - name: Vérifier ESLint sur la nouvelle fiche
         run: npx next lint --file components/business/TestSellerPage.tsx --no-cache
+
+      - name: Vérifier la compilation Next.js
+        run: npm run build
