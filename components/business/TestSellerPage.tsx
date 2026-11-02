@@ -107,6 +107,9 @@ const getCashbackerRateData = (
 };
 const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
     const {classes} = useStyles();
+ const couponRate = seller.rateEbuyclubCoupon ?? 0;
+ const couponUnit = seller.unitRateEbuyclubCoupon;
+ const couponRateLabel = `${seller.isRangeRateEbuyclubCoupon ? 'Jusqu’à ' : ''}${couponRate}${couponUnit === RateUnit.Percent ? ' %' : couponUnit === RateUnit.Euro ? ' €' : ''}`;
  const availableCashbackers = (cashbackers ?? [])
     .filter((cashbacker) => {
       const data = getCashbackerRateData(seller, cashbacker.name);
@@ -167,6 +170,13 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
             <h2 style={{fontFamily: 'Montserrat', fontSize: '1.4rem', marginTop: 30}}>
               Comparatif des offres de cashback {seller.name}
             </h2>
+            <p>Les offres ci-dessous correspondent aux taux enregistrés dans notre comparateur. Les conditions d’activation (achat en ligne, bon d’achat ou magasin) doivent être vérifiées sur chaque plateforme.</p>
+            {couponRate > 0 && couponUnit && couponUnit !== RateUnit.None && (
+              <section style={{padding: 18, border: '1px solid #ddd', borderRadius: 8, marginBottom: 24}}>
+                <h2 style={{fontSize: '1.25rem', marginTop: 0}}>Cashback sur bon d’achat JouéClub</h2>
+                <p>eBuyClub : <strong>{couponRateLabel}</strong> selon les données enregistrées. Vérifiez les conditions et la disponibilité des bons avant achat.</p>
+              </section>
+            )}
             {/* Mobile table */}
             <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
          {availableCashbackers.map((cashbacker, index) => (
