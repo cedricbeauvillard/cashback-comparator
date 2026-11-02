@@ -8,6 +8,7 @@ import {useState, VFC} from 'react';
 import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDesktop';
 import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
 import {SellerSearchBar} from '../../components/business/SellerSearchBar';
+import TestSellerPage from '../../components/business/TestSellerPage';
 import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
@@ -107,6 +108,11 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
+
+  // Isolated pilot: every other merchant keeps the original presentation.
+  if (seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub') {
+    return <TestSellerPage seller={seller} cashbackers={cashbackers} />;
+  }
 
   return (
     <div>
