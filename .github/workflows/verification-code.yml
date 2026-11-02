@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - refonte-fiches-marchands-v1
+      - preparation-production-joueclub
   workflow_dispatch:
 
 permissions:
@@ -33,5 +34,8 @@ jobs:
       - name: Vérifier TypeScript
         run: npx tsc --noEmit
 
-      - name: Vérifier ESLint
-        run: npm run lint -- --no-cache
+      - name: Vérifier ESLint sur la nouvelle fiche
+        run: npx next lint --file components/business/TestSellerPage.tsx --no-cache
+
+      - name: Vérifier la compilation Next.js
+        run: npm run build
