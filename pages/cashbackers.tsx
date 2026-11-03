@@ -1,627 +1,131 @@
-import {Button, Card, createStyles, List, SimpleGrid, Table} from '@mantine/core';
 import {Cashbacker} from '@prisma/client';
 import {GetServerSideProps} from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import {VFC} from 'react';
-import {ItemCashbackerDesktop} from '../components/business/ItemCashbackerDesktop';
-import {ItemCashbackerMobile} from '../components/business/ItemCashbackerMobile';
-import {FooterLinks} from '../components/generic/FooterLinks';
 import {SearchHeader} from '../components/generic/SearchHeader';
-import ArrowSvg from '../components/svg/ArrowSvg';
-import PlusSvg from '../components/svg/PlusSvg';
+import {FooterLinks} from '../components/generic/FooterLinks';
 import {footerData} from '../components/_static';
 import {prisma} from '../lib/prisma';
 
-/*
- * Cashbackers ranking
- */
+interface Props { cashbackers: Cashbacker[]; }
 
-const useStyles = createStyles((theme) => ({
-  // TODO: Generize that to declare only once
-  cardBody: {
-    marginLeft: '1rem',
-    marginRight: '1rem',
-    marginTop: '1rem',
-    marginBottom: '0.5rem',
-
-    [theme.fn.largerThan('xs')]: {
-      maxWidth: 1210,
-      borderRadius: '0.6rem',
-      padding: '1.5rem',
-      backgroundColor: 'white',
-      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    },
-  },
-  mobileTable: {
-    marginTop: '2rem',
-    [theme.fn.largerThan('xs')]: {
-      display: 'none',
-    },
-  },
-  desktopTable: {
-    marginTop: '2rem',
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none',
-    },
-  },
-}));
-
-export interface CashbackerPageProps {
-  cashbackers: Cashbacker[] | null;
-}
-
-const CashbackerPage: VFC<CashbackerPageProps> = ({cashbackers}) => {
-  const {classes} = useStyles();
-
+const CashbackersPage: VFC<Props> = ({cashbackers}) => {
+  const ordered = [...(cashbackers || [])].sort((a,b) => a.rank - b.rank);
+  const podium = ordered.slice(0,3);
+  const faq = [
+    {q:'Quel est le meilleur site de cashback ?', a:'Le meilleur site dépend de vos achats : comparez les taux chez votre marchand, les conditions du bonus et les possibilités de retrait. Notre classement vous aide à choisir parmi plusieurs plateformes.'},
+    {q:'Les sites de cashback sont-ils gratuits ?', a:'Les plateformes présentées proposent une inscription gratuite. Vérifiez toujours les conditions particulières de chaque offre avant votre achat.'},
+    {q:'Peut-on utiliser plusieurs sites de cashback ?', a:'Oui. Vous pouvez posséder plusieurs comptes sur des plateformes différentes et sélectionner celle qui offre les meilleures conditions pour chaque achat. Un même achat ne donne généralement droit qu’à un cashback.'},
+    {q:'Comment récupérer son cashback ?', a:'Une fois le cashback validé et le seuil de retrait atteint, vous pouvez demander le versement selon les modes de paiement proposés par la plateforme.'},
+  ];
   return (
-    <div>
+    <div className="cb-page">
       <Head>
-        <title>Classement des meilleurs sites de cashback - MeilleursCashback</title>
-        <link rel="icon" href="/logo.webp" />
+        <title>Meilleurs sites de cashback 2026 : classement et comparatif | MeilleursCashback</title>
+        <meta name="description" content="Quel est le meilleur site de cashback en 2026 ? Comparez les plateformes, bonus de bienvenue, avis et liens d'inscription pour économiser sur vos achats." />
         <link rel="canonical" href="https://meilleurscashback.com/cashbackers" />
-        <meta
-          name="description"
-          content={
-            "Découvrez quels sont les meilleurs sites de cashback français et notre avis sur chacun d'entre eux."
-          }
-        />
-        <meta
-          property="og:title"
-          content={'Classement des meilleurs sites de cashback - MeilleursCashback'}
-        />
+        <meta property="og:title" content="Comparatif des meilleurs sites de cashback en 2026" />
+        <meta property="og:description" content="Classement, bonus de bienvenue et avis : trouvez le site de cashback adapté à vos achats." />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:description"
-          content={
-            "Découvrez quels sont les meilleurs sites de cashback français et notre avis sur chacun d'entre eux."
-          }
-        />
-        <meta property="og:site_name" content="MeilleursCashback" />
-        <meta property="og:url" content="https://meilleurscashback.com/cashbackers"></meta>
-        <meta property="og:image" content="/logo.webp"></meta>
+        <meta property="og:url" content="https://meilleurscashback.com/cashbackers" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({'@context':'https://schema.org','@type':'FAQPage',mainEntity:faq.map(item=>({'@type':'Question',name:item.q,acceptedAnswer:{'@type':'Answer',text:item.a}}))})}} />
       </Head>
-      <SearchHeader></SearchHeader>
+      <SearchHeader />
       <main>
-        <div className="flex flex-col items-center justify-center">
-          <Card className={classes.cardBody} withBorder>
-            <h1
-              className="m-0"
-              style={{
-                fontFamily: 'Montserrat',
-              }}
-            >
-              Classement des meilleurs sites de cashback
-            </h1>
-            <p
-              className="m-0"
-              style={{
-                fontFamily: 'Montserrat',
-                fontWeight: 700,
-              }}
-            >
-              Le cashback, c’est le meilleur plan pour gagner de l’argent en économisant sur ses
-              achats de la décennie. Vous voulez acheter des vêtements à
-              <Link href={'/seller/meilleur-cashback-decathlon'}>
-                <a className="text-hyperlink" target={'_blank'}>
-                  Decathlon
-                </a>
-              </Link>
-              , réserver une nuit d’hotel sur{' '}
-              <Link href={'/seller/meilleur-cashback-booking'}>
-                <a className="text-hyperlink" target={'_blank'}>
-                  Booking
-                </a>
-              </Link>{' '}
-              ou encore acheter une enceinte chez{' '}
-              <Link href={'/seller/meilleur-cashback-fnac'}>
-                <a className="text-hyperlink" target={'_blank'}>
-                  Fnac
-                </a>
-              </Link>{' '}
-              ou{' '}
-              <Link href={'/seller/meilleur-cashback-darty'}>
-                <a className="text-hyperlink" target={'_blank'}>
-                  Darty
-                </a>
-              </Link>
-              , et bien grâce au cashback vous obtiendrez un remboursement de 1 à 10 % de vos achats
-              sans effort, juste en passant par le site de cashback avant de vous rendre sur le site
-              du marchand. Cela fonctionne également en boutique / magasin chez une centaine
-              d’enseignes telles que{' '}
-              <Link href={'/seller/meilleur-cashback-carrefour'}>
-                <a className="text-hyperlink" target={'_blank'}>
-                  Carrefour
-                </a>
-              </Link>
-              , Primark ou encore{' '}
-              <Link href={'/seller/meilleur-cashback-ikea'}>
-                <a className="text-hyperlink" target={'_blank'}>
-                  Ikea
-                </a>
-              </Link>
-              . Si jamais vous voulez en savoir plus sur le fonctionnement du cashback nous vous
-              invitons à lire
-              <a
-                className="text-hyperlink"
-                href="https://sitescashback.com/le-cashback-explique/"
-                target={'_blank'}
-              >
-                {' '}
-                cet article.
-                <br />
-              </a>
-              Nous avons réalisé pour vous un comparatif des meilleurs sites de cashback et avons
-              retenu les plus sérieux pour notre comparateur de taux, que nous vous présentons sous
-              forme de classement. Dans le tableau ci-dessous nous avons mentionné pour chaque site
-              le bonus de bienvenue (<a className="font-bold">inscriptions gratuites</a>) dont vous
-              bénéficierez lors de votre inscription par notre lien de parrainage, ainsi que le
-              seuil et mode de paiement pour récupérer votre cagnotte. Si l’on prend l’exemple d’
-              <a
-                className="text-hyperlink"
-                target={'_blank'}
-                href="https://www.ebuyclub.com/inscription?h=1&parrain=contact934&affilie=comparateur-sites-cb"
-              >
-                ebuyclub
-              </a>
-              , après votre inscription vous aurez directement 7 € dans votre cagnotte donc il ne
-              vous reste plus qu’à collecter 3 € de cashback pour demander un paiement de 10 € sur
-              votre compte bancaire ou par bon cadeau.<br></br>Pour faire partie du classement et
-              assurer de leur sérieux nous avons déjà obtenu à minima 3 paiements sur chacun d’entre
-              eux. Toutefois les sites qui ont les meilleures notes sont les plus sérieux car ils
-              existent depuis de nombreuses années et comptent plusieurs millions de membres.
-            </p>
-            <div className="flex items-center justify-center my-10">
-              <Link href={`#siteopinion`}>
-                <Button
-                  className="sm:w-1/4 m-auto"
-                  rightIcon={<ArrowSvg width={'1rem'}></ArrowSvg>}
-                >
-                  Voir nos avis plus bas
-                </Button>
-              </Link>
+        <section className="cb-hero">
+          <div className="cb-container">
+            <nav className="cb-breadcrumb" aria-label="Fil d'Ariane"><Link href="/"><a>Accueil</a></Link><span> / </span> Meilleurs sites de cashback</nav>
+            <div className="cb-hero-content">
+              <div>
+                <span className="cb-eyebrow">Comparatif indépendant · 2026</span>
+                <h1>Comparatif des <span>meilleurs sites de cashback</span> en 2026</h1>
+                <p>Comparez les plateformes de cashback, leurs bonus de bienvenue et leurs avantages pour choisir celle qui vous fera économiser le plus.</p>
+                <div className="cb-trust"><span>✓ Inscription gratuite</span><span>✓ Classement comparatif</span><span>✓ Liens vers les avis détaillés</span></div>
+                <a className="cb-button cb-primary cb-hero-cta" href="#comparatif">Comparer les plateformes ↓</a>
+              </div>
+              <div className="cb-illustration" aria-hidden="true"><div className="cb-laptop"><div className="cb-screen"><span>🛍️</span><strong>Cashback</strong><em>€ € €</em></div></div><div className="cb-pig">🐷</div><div className="cb-coin">€</div></div>
             </div>
-
-            {/* Mobile table */}
-            <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-              {cashbackers?.map((cashbacker, index) => (
-                <ItemCashbackerMobile
-                  displayRate={false}
-                  key={`cashbacker-${index}`}
-                  cashbacker={cashbacker}
-                ></ItemCashbackerMobile>
+          </div>
+        </section>
+        <div className="cb-container">
+          <section className="cb-section" aria-labelledby="podium-title">
+            <h2 id="podium-title">Notre sélection des sites de cashback</h2>
+            <p className="cb-intro">Découvrez les plateformes en tête de notre classement. Les bonus et les liens sont issus de notre base et peuvent évoluer.</p>
+            <div className="cb-podium">
+              {podium.map((site,index)=>(
+                <article className={'cb-podium-card '+(index===0?'cb-featured':'')} key={site.name}>
+                  {index===0 && <div className="cb-favorite">★ En tête du classement</div>}
+                  <div className="cb-card-top"><span className="cb-rank">#{site.rank}</span><div className="cb-logo"><Image src={site.logoUrl} width={160} height={90} objectFit="contain" alt={'Logo '+site.name}/></div></div>
+                  <h3>{site.name}</h3>
+                  <div className="cb-bonus"><span>Bonus de bienvenue</span><strong>{site.signupBonus} €</strong></div>
+                  <p>Consultez notre avis et comparez les offres avant de vous inscrire.</p>
+                  <a className="cb-button cb-primary" href={site.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored">Profiter de l'offre →</a>
+                  <a className="cb-text-link" href={site.reviewsUrl} target="_blank" rel="noopener noreferrer">Lire notre avis détaillé</a>
+                </article>
               ))}
-            </SimpleGrid>
-
-            {/* Desktop table */}
-            <Table sx={{minWidth: 500}} className={classes.desktopTable}>
-              <thead>
-                <tr>
-                  <th>Nom du site</th>
-                  <th>Note (/5)</th>
-                  <th>Classement</th>
-                  <th>Bonus</th>
-                  <th>Plus d'infos</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cashbackers?.map((cashbacker, index) => (
-                  <ItemCashbackerDesktop
-                    displayRate={false}
-                    key={`cashbacker-${index}`}
-                    cashbacker={cashbacker}
-                  ></ItemCashbackerDesktop>
-                ))}
-              </tbody>
-            </Table>
-
-            <p className="mt-8">
-              Voici une présentation plus en détail de chacun des sites. Si vous souhaitez avoir de
-              plus amples renseignements ou consulter des preuves de paiement, nous vous invitons à
-              lire l’article complet du
-              <a
-                className="text-hyperlink"
-                target={'_blank'}
-                href="https://sitescashback.com/classement-des-meilleurs-sites-de-cashback/"
-              >
-                {' '}
-                blog expert sitescashback.
-              </a>
-            </p>
-
-            {/* EbuyClub */}
-            <div className="mt-6 flex flex-col sm:mt-4" id={`siteopinion`}>
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site Ebuyclub</h4>
-              </div>
-              <p>
-                Ebuyclub est un des sites pionniers du cashback depuis 1999, qui dispose d’une très
-                bonne offre de sites marchands (+ de 2000) et propose des taux très compétitifs. De
-                plus ebuyclub n’a cessé d’inventer au fil du temps en étant le premier à proposer du
-                cashback sur les achats en magasin (en prenant une photo du ticket de caisse) et
-                même sur bon d’achat.
-                <br />
-                <br />
-                Les points forts d’ebuyclub:
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>
-                  <p>
-                    Propose du cashback sur bons d’achats sur +100 enseignes (
-                    <Link href={'/seller/meilleur-cashback-ikea'}>
-                      <a className="text-hyperlink" target={'_blank'}>
-                        Ikea
-                      </a>
-                    </Link>
-                    ,{' '}
-                    <Link href={'/seller/meilleur-cashback-decathlon'}>
-                      <a className="text-hyperlink" target={'_blank'}>
-                        Decathlon
-                      </a>
-                    </Link>
-                    , Primark,{' '}
-                    <Link href={'/seller/meilleur-cashback-carrefour'}>
-                      <a className="text-hyperlink" target={'_blank'}>
-                        Airbnb
-                      </a>
-                    </Link>
-                    ,{' '}
-                    <Link href={'/seller/meilleur-cashback-carrefour'}>
-                      <a className="text-hyperlink" target={'_blank'}>
-                        Carrefour
-                      </a>
-                    </Link>
-                    ,{' '}
-                    <Link href={'/seller/meilleur-cashback-intermarché'}>
-                      <a className="text-hyperlink" target={'_blank'}>
-                        Intermarché
-                      </a>
-                    </Link>
-                    )
-                  </p>
-                </List.Item>
-                <List.Item>
-                  Un seuil de paiement très bas à 10 €, ce qui permet d’encaisser sa cagnotte avec
-                  seulement 3€ de cashback grâce au bonus de bienvenue de 7 €. En plus, possibilité
-                  d’avoir 2% à 4% de cashback en plus lors de votre paiement si vous choisissez
-                  d’être réglé en chèque cadeau amazon (valable 10 ans) ou en carte cadeau Ebuyclub
-                  (pour acheter n’importe quel bon d’achat parmi la centaine d’enseignes présente
-                  sur le site)
-                </List.Item>
-                <List.Item>
-                  Des offres canons cashbackissimes (20% sur de grandes enseignes) pour votre
-                  premier cashback ebuyclub
-                </List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.ebuyclub.com/inscription?h=1&parrain=contact934&affilie=comparateur-sites-cb"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Ebuyclub avec
-                <br />
-                un bonus de bienvenue de 7 €
-              </Button>
             </div>
-
-            {/* Igraal */}
-            <div className="mt-6 flex flex-col sm:mt-10">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site Igraal</h4>
-              </div>
-              <p>
-                Igraal est le site de référence dans l’univers du cashback, leader depuis plus de 20
-                ans. Détenu par le groupe de média M6 et par un grand groupe marketing allemand,
-                c’est un site très sérieux qui offre des conditions très compétitives.
-                <br />
-                <br />
-                Les points forts d’Igraal :
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>
-                  Le plus gros bonus de bienvenue avec 10 € dans votre cagnotte à votre inscription
-                  par notre lien de parrainage ambassadeur
-                </List.Item>
-                <List.Item>
-                  Un taux boosté chaque jour sur une grande enseigne (par exemple 20% sur lapeyre
-                  aujourd’hui, 10% sur L’oreal cette semaine…) et chaque mois des journées canons
-                  avec des taux bétons sur une dizaine d’enseignes
-                </List.Item>
-                <List.Item>
-                  Un service client de qualité, qui n’hésite pas à faire des gestes si le cashback
-                  n’a pas marché
-                </List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://fr.igraal.com/?parrain=AG_54ad6a5dac33a"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Igraal avec
-                <br />
-                un bonus de bienvenue de 10 €
-              </Button>
-            </div>
-
-            {/* Poulpeo */}
-            <div className="mt-6 flex flex-col sm:mt-10">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site Poulpeo</h4>
-              </div>
-              <p>
-                Poulpeo est l’un des premiers sites de cashback du net, présent en France mais aussi
-                en Belgique. Son offre n’est pas la plus développée mais ses taux sont vraiment
-                compétitifs.
-                <br />
-                <br />
-                Les points forts de Poulpeo :
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>
-                  Un statut Poulpeo + à partir du 4ème cashback qui offre des avantages
-                  supplémentaires
-                </List.Item>
-                <List.Item>
-                  Une offre de cashback automatique sur vos achats magasins dans certaines enseignes
-                  (Starbucks, Subway, Burger King…)
-                </List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.poulpeo.com/inscription-parrainage.htm?sponsor_key=CASHBACKPOULPEO&utm_content=comparateur&utm_medium=affiliate&utm_source=affilae&utm_campaign=54#ae54"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Poulpeo avec
-                <br />
-                un bonus de bienvenue de 10 €
-              </Button>
-            </div>
-
-            {/* Widilo */}
-            <div className="mt-6 flex flex-col sm:mt-10">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site Widilo</h4>
-              </div>
-              <p>
-                Widilo est arrivé plus tard sur le marché français (2019) mais derrière Widilo il y
-                a AFILIZA, une société pionnière du codes promo en France, Espagne, Royaume-Uni et
-                en Belgique depuis 2012. Widilo a donc directement débarqué avec une offre très
-                sérieuse et compétitive.
-                <br />
-                <br />
-                Les points forts de Widilo
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>Les taux de cashback les plus élevés du marché</List.Item>
-                <List.Item>
-                  Le lien widilove qui vous permet d’envoyer un lien à vos proches et d’obtenir le
-                  cashback lié à l’achat (idéal pour les cadeaux de noël avec les grands parents)
-                </List.Item>
-                <List.Item>
-                  Le lien widilove qui vous permet d’envoyer un lien à vos proches et d’obtenir le
-                  cashback lié à l’achat (idéal pour les cadeaux de noël avec les grands parents)
-                </List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.widilo.fr/i/SITESCASHBACK"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Widilo avec
-                <br />
-                un bonus de bienvenue de 3 €
-              </Button>
-            </div>
-
-            {/* The Corner Boursorama */}
-            <div className="mt-6 flex flex-col sm:mt-10">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site The Corner de Boursorama</h4>
-              </div>
-              <p>
-                Au-delà d’être la banque en ligne la plus complète et la moins chère du marché,
-                Boursorama propose également une offre de cashback de très bon niveau.
-                <br />
-                <br />
-                Les points forts de The corner - Boursorama :
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>Du cashback sur l’achat de chèques cadeaux amazon</List.Item>
-                <List.Item>
-                  Des taux supérieurs aux autres sur les bons d’achat des grandes enseignes
-                </List.Item>
-                <List.Item>
-                  Un parcours d’achat très simple car on peut débiter directement son compte
-                  boursorama pour le paiement des bons d’achat
-                </List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://sitescashback.com/inscription-sur-boursorama-the-corner-avec-prime-de-parrainage/"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Boursorama Banque avec
-                <br />
-                le code CEBE1272 pour avoir 80 € de bonus
-              </Button>
-            </div>
-
-            {/* Joko */}
-            <div className="mt-6 flex flex-col sm:mt-10">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site Joko</h4>
-              </div>
-              <p>
-                Joko est une appli qui a été créé au début des années 2020 et qui concentre
-                l’ensemble des offres cashback sur une même appli avec une volonté d’extrême
-                simplicité. Vous renseignez vos coordonnées bancaires et ainsi Joko va récupérer
-                automatiquement le cashback grâce à la lecture de votre relevé de compte en banque.
-                <br />
-                <br />
-                Les points forts de Joko :
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>
-                  <p>
-                    Le seul qui permet d’avoir du cashback sur vos courses dans toutes les enseignes
-                    (Leclerc, Aldi,
-                    <Link href={'/seller/meilleur-cashback-carrefour'}>
-                      <a className="text-hyperlink" target={'_blank'}>
-                        {' '}
-                        Carrefour
-                      </a>
-                    </Link>
-                    , Intermarché, Lidl, Super U, Cora, Franprix, Cora…)
-                  </p>
-                </List.Item>
-                <List.Item>Des marchands exclusifs tels que manomano</List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://sitescashback.com/bonus-3-e-inscription-appli-de-cashback-joko/"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Joko avec
-                <br />
-                un bonus de bienvenue de 3 €
-              </Button>
-            </div>
-
-            {/* Capital Koala */}
-            <div className="mt-6 flex flex-col sm:mt-10 sm:mb-6">
-              <div className="w-full">
-                <h4 className="underline m-0">Notre avis sur le site Capital Koala</h4>
-              </div>
-              <p>
-                Capital Koala est un site vraiment original puisque le cashback que vous réalisez ne
-                vous profite pas directement mais vient faire fructifier les livrets d’épargne de
-                vos enfants (ou d’enfants de votre famille ou amis si vous n’avez pas de bambins).
-                <br />
-                <br />
-                Les points forts de Capital Koala :
-              </p>
-              <List
-                spacing="md"
-                size="md"
-                center
-                className="mb-8"
-                icon={<PlusSvg width={'1rem'}></PlusSvg>}
-              >
-                <List.Item>
-                  Un positionnement « famille » permettant d’avoir accès à des commerçants exclusifs
-                  que vous ne trouverez pas autre part tels que Maisons du Monde, Vertbaudet ou
-                  Becquet
-                </List.Item>
-                <List.Item>
-                  Une offre de cashback magasin directement via notre carte bancaire mais aussi bons
-                  d’achats
-                </List.Item>
-              </List>
-              <Button
-                component="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.capitalkoala.com/accueil/?autoregister=1&mi=NzQxNTM%3D"
-                variant="outline"
-                className="w-full h-12 sm:w-1/3"
-                style={{margin: 'auto'}}
-              >
-                Je m'inscris à Capital Koala avec
-                <br />
-                un bonus de bienvenue de 3 €
-              </Button>
-            </div>
-          </Card>
+            <p className="cb-disclosure">Certains liens sont des liens de parrainage : une inscription peut nous apporter une rémunération, sans coût supplémentaire pour vous. Les conditions des bonus sont à vérifier auprès de chaque plateforme.</p>
+          </section>
+          <section className="cb-section" id="comparatif" aria-labelledby="comparison-title">
+            <h2 id="comparison-title">Comparez les plateformes en un coup d'œil</h2>
+            <p className="cb-intro">Classement, bonus et accès direct aux avis : retrouvez les informations essentielles dans un seul tableau.</p>
+            <div className="cb-table-wrap"><table className="cb-table"><thead><tr><th>Plateforme</th><th>Classement</th><th>Bonus de bienvenue</th><th>Notre avis</th><th>Inscription</th></tr></thead><tbody>
+              {ordered.map(site=><tr key={site.name}><td><div className="cb-table-name"><Image src={site.logoUrl} width={92} height={54} objectFit="contain" alt={'Logo '+site.name}/><strong>{site.name}</strong></div></td><td><span className="cb-rank-small">#{site.rank}</span></td><td><strong className="cb-bonus-small">{site.signupBonus} €</strong></td><td><a className="cb-text-link" href={site.reviewsUrl} target="_blank" rel="noopener noreferrer">Voir l'avis ↗</a></td><td><a className="cb-button cb-primary cb-table-button" href={site.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored">S'inscrire →</a></td></tr>)}
+            </tbody></table></div>
+          </section>
+          <section className="cb-section cb-advice"><div><span className="cb-eyebrow">Conseil pour économiser davantage</span><h2>Le meilleur taux dépend aussi du marchand</h2><p>Avant chaque achat, comparez les offres de cashback disponibles chez votre enseigne préférée. Le site offrant le meilleur bonus de bienvenue n'est pas forcément celui qui propose le meilleur taux pour chaque achat.</p><Link href="/"><a className="cb-button cb-primary">Comparer les taux par marchand →</a></Link></div></section>
+          <section className="cb-section" aria-labelledby="faq-title"><h2 id="faq-title">Questions fréquentes sur les sites de cashback</h2><div className="cb-faq">{faq.map(item=><details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</div></section>
         </div>
       </main>
-      <footer>
-        <footer>
-          <FooterLinks data={footerData}></FooterLinks>
-        </footer>
-      </footer>
+      <FooterLinks data={footerData} />
+      <style jsx global>{`
+        .cb-page{background:#faf9ff;color:#17142c;min-height:100vh;font-family:Montserrat,Arial,sans-serif}
+        .cb-page *{box-sizing:border-box}.cb-container{width:min(1180px,calc(100% - 40px));margin:0 auto}
+        .cb-hero{background:linear-gradient(115deg,#fff 0%,#f5f0ff 58%,#e6ddff 100%);padding:20px 0 66px;overflow:hidden}
+        .cb-breadcrumb{font-size:13px;color:#68617c;margin:0 0 36px}.cb-breadcrumb a{color:#6841d5;text-decoration:none}
+        .cb-hero-content{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center;min-height:345px}
+        .cb-eyebrow{color:#6a35d7;font-size:13px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+        .cb-hero h1{font-size:clamp(32px,4vw,54px);line-height:1.12;letter-spacing:-.045em;margin:18px 0 22px;font-weight:850}
+        .cb-hero h1 span{color:#6b36df}.cb-hero p{font-size:18px;line-height:1.7;color:#4e4963;max-width:670px}
+        .cb-trust{display:flex;flex-wrap:wrap;gap:12px 22px;font-size:13px;font-weight:650;color:#4a4267;margin:24px 0}
+        .cb-button{display:inline-flex;align-items:center;justify-content:center;text-align:center;border-radius:100px;padding:13px 23px;font-weight:750;text-decoration:none!important;transition:transform .2s,box-shadow .2s}
+        .cb-button:hover{transform:translateY(-2px);box-shadow:0 9px 22px #6631d733}
+        .cb-primary{background:linear-gradient(110deg,#8735ed,#5826ce);color:white!important}
+        .cb-illustration{height:300px;position:relative;display:flex;align-items:center;justify-content:center}
+        .cb-laptop{width:320px;height:210px;background:#28234b;border:10px solid #28234b;border-radius:18px;box-shadow:0 30px 50px #5d3ca840;transform:rotate(-6deg)}
+        .cb-screen{height:100%;background:linear-gradient(130deg,#fff,#e8ddff);border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#6931d5;font-size:27px}
+        .cb-screen span{font-size:55px}.cb-screen em{font-style:normal;font-weight:900;color:#22a16c}
+        .cb-pig{position:absolute;bottom:0;right:10px;font-size:95px;filter:drop-shadow(0 12px 10px #6c52a83d)}
+        .cb-coin{position:absolute;bottom:10px;left:10px;background:#ffcf4e;color:#9c5b00;border:5px solid #ffb52e;border-radius:50%;width:76px;height:76px;display:grid;place-items:center;font-size:42px;font-weight:900;box-shadow:0 9px 15px #9b661b33}
+        .cb-section{padding:50px 0 16px;scroll-margin-top:90px}.cb-section h2{font-size:clamp(25px,3vw,34px);line-height:1.2;letter-spacing:-.025em;margin:0 0 12px}.cb-intro{color:#68617c;font-size:16px;margin:0 0 28px}
+        .cb-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+        .cb-podium-card{background:white;border:1px solid #e8e1fa;border-radius:22px;padding:25px;box-shadow:0 10px 28px #3e2b7810;position:relative;display:flex;flex-direction:column;gap:13px}
+        .cb-podium-card.cb-featured{border:2px solid #7737e8;box-shadow:0 14px 32px #6935dd23}
+        .cb-favorite{position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#7134dc;color:white;border-radius:40px;padding:9px 17px;font-size:12px;font-weight:800}
+        .cb-card-top{display:flex;align-items:center;gap:15px}.cb-rank{display:grid;place-items:center;width:45px;height:45px;border-radius:50%;background:#f1eaff;color:#6632d0;font-size:19px;font-weight:900;flex-shrink:0}
+        .cb-logo{height:75px;display:flex;align-items:center}.cb-podium-card h3{font-size:23px;margin:0}
+        .cb-bonus{background:#f4ecff;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px}
+        .cb-bonus strong{font-size:25px;color:#6c2ed7;white-space:nowrap}.cb-podium-card p{color:#645e73;line-height:1.6;flex:1;margin:0}
+        .cb-podium-card .cb-button{width:100%}.cb-text-link{color:#6731d0;font-weight:700;text-decoration:none}.cb-podium-card .cb-text-link{text-align:center;font-size:13px}
+        .cb-disclosure{font-size:12px;color:#716a80;line-height:1.6;margin-top:20px}
+        .cb-table-wrap{overflow-x:auto;background:white;border:1px solid #e7defa;border-radius:20px;box-shadow:0 8px 22px #3e2b780b}
+        .cb-table{width:100%;border-collapse:collapse;min-width:690px}.cb-table th{text-align:left;background:#f0eafe;color:#3b315a;font-size:13px;padding:17px 18px}.cb-table td{padding:13px 18px;border-top:1px solid #eee9f7;vertical-align:middle}
+        .cb-table-name{display:flex;align-items:center;gap:12px}.cb-rank-small{background:#f2eaff;border-radius:30px;padding:6px 12px;font-weight:800;color:#6c34d6}.cb-bonus-small{color:#6c34d6;font-size:18px}.cb-table-button{padding:10px 17px;font-size:13px}
+        .cb-advice{margin-top:38px;background:linear-gradient(120deg,#eee6ff,#faf7ff);padding:35px;border-radius:24px}.cb-advice p{color:#514a66;line-height:1.7;max-width:790px}.cb-advice .cb-button{margin-top:10px}
+        .cb-faq details{background:white;border:1px solid #e8e1f6;border-radius:14px;margin:10px 0;padding:18px 22px}.cb-faq summary{cursor:pointer;font-weight:750}.cb-faq p{color:#5d566f;line-height:1.7}
+        @media(max-width:800px){.cb-hero{padding-bottom:35px}.cb-hero-content{grid-template-columns:1fr}.cb-illustration{display:none}.cb-podium{grid-template-columns:1fr;gap:27px}.cb-section{padding-top:38px}.cb-hero h1{font-size:36px}.cb-hero p{font-size:16px}.cb-container{width:min(100% - 28px,1180px)}.cb-podium-card{padding:23px}.cb-advice{padding:25px}.cb-table th,.cb-table td{padding:12px}}
+      `}</style>
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<CashbackerPageProps> = async (context) => {
-  // Avoid soft 404
-  if (Object.keys(context.query).length !== 0) {
-    return {notFound: true};
-  }
-
+export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  if (Object.keys(context.query).length !== 0) return {notFound:true};
   try {
-    const cashbackers = await prisma.cashbacker.findMany({
-      orderBy: {rank: 'asc'},
-    });
-
-    return {
-      props: {
-        cashbackers: cashbackers,
-      },
-    };
-  } catch (e) {
-    return {notFound: true};
-  }
+    const cashbackers = await prisma.cashbacker.findMany({orderBy:{rank:'asc'}});
+    return {props:{cashbackers}};
+  } catch(e) { return {notFound:true}; }
 };
-
-export default CashbackerPage;
+export default CashbackersPage;
