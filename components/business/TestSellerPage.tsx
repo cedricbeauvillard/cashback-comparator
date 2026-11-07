@@ -1,250 +1,179 @@
-import {Card, createStyles, SimpleGrid, Table} from '@mantine/core';
+import {Card, createStyles, SimpleGrid} from '@mantine/core';
 import {Cashbacker, RateUnit, Seller} from '@prisma/client';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import {VFC} from 'react';
-import {ItemCashbackerDesktop} from './ItemCashbackerDesktop';
-import {ItemCashbackerMobile} from './ItemCashbackerMobile';
 import {SellerSearchBar} from './SellerSearchBar';
-import {emptyRateData, RateData} from './types';
 import {FooterLinks} from '../generic/FooterLinks';
 import {SearchHeader} from '../generic/SearchHeader';
 import {footerData} from '../_static';
 
-/*
- * Template page for sellers
- */
-
 const useStyles = createStyles((theme) => ({
-  cardBody: {
-    marginLeft: '1rem',
-    marginRight: '1rem',
-    marginTop: '1rem',
-    marginBottom: '0.5rem',
-
-    [theme.fn.largerThan('xs')]: {
-      maxWidth: 1210,
-      borderRadius: '0.6rem',
-      padding: '1.5rem',
-      backgroundColor: 'white',
-      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    },
+  content: {
+    margin: '1rem',
+    padding: '1.5rem',
+    maxWidth: 1180,
+    width: '100%',
+    borderRadius: 16,
+    [theme.fn.smallerThan('sm')]: {padding: '1rem', margin: '0.5rem'},
   },
-
-  mobileTable: {
-    [theme.fn.largerThan('xs')]: {
-      display: 'none',
-    },
+  highlights: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: 16,
+    margin: '22px 0 30px',
+    [theme.fn.smallerThan('sm')]: {gridTemplateColumns: '1fr'},
   },
-  desktopTable: {
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none',
-    },
+  offer: {
+    border: '1px solid #e2e8f0',
+    borderRadius: 14,
+    padding: 18,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+    background: '#fff',
   },
 }));
 
-export interface SellerPageProps {
-  seller: Seller;
-  cashbackers: Cashbacker[] | null;
-}
+type Props = {seller: Seller; cashbackers: Cashbacker[] | null};
+type Offer = {cashbacker: Cashbacker; rate: number; unit: RateUnit; range: boolean};
 
-/*
- * Find column in seller that match current treated cashbacker
- */
+const formatRate = (rate: number, unit: RateUnit, range = false) =>
+  `${range ? 'Jusqu’à ' : ''}${rate.toLocaleString('fr-FR')} ${unit === RateUnit.Percent ? '%' : '€'}`;
 
-const getCashbackerRateData = (
-  seller: Seller | null,
-  cashbackerName: string
-): RateData => {
-  if (!seller) return emptyRateData;
-
-  const platform = cashbackerName.trim().toLowerCase();
-
-  const rates: Record<string, RateData> = {
-    ebuyclub: {
-      isRangeRate: seller.isRangeRateEbuyclub ?? false,
-      rate: seller.rateEbuyclub ?? 0,
-      unit: seller.unitRateEbuyclub ?? RateUnit.None,
-    },
-    igraal: {
-      isRangeRate: seller.isRangeRateIgraal ?? false,
-      rate: seller.rateIgraal ?? 0,
-      unit: seller.unitRateIgraal ?? RateUnit.None,
-    },
-    poulpeo: {
-      isRangeRate: seller.isRangeRatePoulpeo ?? false,
-      rate: seller.ratePoulpeo ?? 0,
-      unit: seller.unitRatePoulpeo ?? RateUnit.None,
-    },
-    widilo: {
-      isRangeRate: seller.isRangeRateWidilo ?? false,
-      rate: seller.rateWidilo ?? 0,
-      unit: seller.unitRateWidilo ?? RateUnit.None,
-    },
-    joko: {
-      isRangeRate: seller.isRangeRateJoko ?? false,
-      rate: seller.rateJoko ?? 0,
-      unit: seller.unitRateJoko ?? RateUnit.None,
-    },
-    'boursorama the corner': {
-      isRangeRate: seller.isRangeRateBoursorama ?? false,
-      rate: seller.rateBoursorama ?? 0,
-      unit: seller.unitRateBoursorama ?? RateUnit.None,
-    },
-    'capital koala': {
-      isRangeRate: seller.isRangeRateCapitalKoala ?? false,
-      rate: seller.rateCapitalKoala ?? 0,
-      unit: seller.unitRateCapitalKoala ?? RateUnit.None,
-    },
-    flouzy: {
-      isRangeRate: seller.isRangeRateFlouzy ?? false,
-      rate: seller.rateFlouzy ?? 0,
-      unit: seller.unitRateFlouzy ?? RateUnit.None,
-    },
-  };
-
-  return rates[platform] ?? emptyRateData;
+const getRate = (seller: Seller, name: string) => {
+  switch (name.trim().toLowerCase()) {
+    case 'igraal': return {rate: seller.rateIgraal, unit: seller.unitRateIgraal, range: seller.isRangeRateIgraal};
+    case 'ebuyclub': return {rate: seller.rateEbuyclub, unit: seller.unitRateEbuyclub, range: seller.isRangeRateEbuyclub};
+    case 'poulpeo': return {rate: seller.ratePoulpeo, unit: seller.unitRatePoulpeo, range: seller.isRangeRatePoulpeo};
+    case 'widilo': return {rate: seller.rateWidilo, unit: seller.unitRateWidilo, range: seller.isRangeRateWidilo};
+    case 'joko': return {rate: seller.rateJoko, unit: seller.unitRateJoko, range: seller.isRangeRateJoko};
+    case 'boursorama the corner': return {rate: seller.rateBoursorama, unit: seller.unitRateBoursorama, range: seller.isRangeRateBoursorama};
+    case 'capital koala': return {rate: seller.rateCapitalKoala, unit: seller.unitRateCapitalKoala, range: seller.isRangeRateCapitalKoala};
+    case 'flouzy': return {rate: seller.rateFlouzy, unit: seller.unitRateFlouzy, range: seller.isRangeRateFlouzy};
+    default: return null;
+  }
 };
-const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
-    const {classes} = useStyles();
- const couponRate = seller.rateEbuyclubCoupon ?? 0;
- const couponUnit = seller.unitRateEbuyclubCoupon;
- const couponRateLabel = `${seller.isRangeRateEbuyclubCoupon ? 'Jusqu’à ' : ''}${couponRate}${couponUnit === RateUnit.Percent ? ' %' : couponUnit === RateUnit.Euro ? ' €' : ''}`;
- const availableCashbackers = (cashbackers ?? [])
-    .filter((cashbacker) => {
-      const data = getCashbackerRateData(seller, cashbacker.name);
-      return data.rate > 0 && data.unit !== RateUnit.None;
-    })
-    .sort((a, b) => {
-      const rateA = getCashbackerRateData(seller, a.name);
-      const rateB = getCashbackerRateData(seller, b.name);
 
-      if (rateA.unit !== rateB.unit) {
-        if (rateA.unit === RateUnit.Percent) return -1;
-        if (rateB.unit === RateUnit.Percent) return 1;
-      }
+const OfferCard: VFC<{offer: Offer; featured?: boolean}> = ({offer, featured}) => {
+  const {cashbacker, rate, unit, range} = offer;
+  return (
+    <div style={{border: featured ? '2px solid #2563eb' : '1px solid #e2e8f0', borderRadius: 14, padding: 18, background: '#fff'}}>
+      {featured && <p style={{color: '#1d4ed8', fontWeight: 700, margin: '0 0 12px'}}>Meilleur taux affiché en ligne</p>}
+      <div style={{display: 'flex', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', alignItems: 'center'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+          <Image src={cashbacker.logoUrl} alt={cashbacker.name} width={110} height={70} objectFit="contain" />
+          <div>
+            <strong style={{fontSize: 18}}>{cashbacker.name}</strong>
+            {cashbacker.signupBonus > 0 && <p style={{margin: '5px 0', fontSize: 13}}>Bonus de bienvenue : {cashbacker.signupBonus} €*</p>}
+            <p style={{margin: '5px 0', fontSize: 13, color: '#64748b'}}>Note : {cashbacker.score}/5</p>
+          </div>
+        </div>
+        <div style={{textAlign: 'right'}}>
+          <strong style={{fontSize: 27, color: '#0f766e'}}>{formatRate(rate, unit, range)}</strong>
+          <div style={{fontSize: 12, color: '#64748b'}}>Cashback achat en ligne</div>
+        </div>
+      </div>
+      <div style={{display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginTop: 16}}>
+        <a href={cashbacker.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored" style={{background: '#2563eb', color: 'white', padding: '12px 18px', borderRadius: 8, fontWeight: 700, textDecoration: 'none'}}>
+          Profiter du cashback
+        </a>
+        <a href={cashbacker.reviewsUrl} target="_blank" rel="noopener noreferrer" style={{color: '#1d4ed8', fontWeight: 600}}>Lire notre avis</a>
+      </div>
+    </div>
+  );
+};
 
-      return rateB.rate - rateA.rate || a.rank - b.rank;
-    });
+const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
+  const {classes} = useStyles();
+  const offers: Offer[] = (cashbackers ?? []).flatMap((cashbacker) => {
+    const data = getRate(seller, cashbacker.name);
+    if (!data || !data.rate || data.rate <= 0 || !data.unit || data.unit === RateUnit.None) return [];
+    return [{cashbacker, rate: data.rate, unit: data.unit, range: !!data.range}];
+  }).sort((a, b) => {
+    if (a.unit !== b.unit) return a.unit === RateUnit.Percent ? -1 : 1;
+    return b.rate - a.rate || a.cashbacker.rank - b.cashbacker.rank;
+  });
+  const couponRate = seller.rateEbuyclubCoupon ?? 0;
+  const couponUnit = seller.unitRateEbuyclubCoupon;
+  const hasCoupon = couponRate > 0 && couponUnit != null && couponUnit !== RateUnit.None;
+  const couponCashbacker = (cashbackers ?? []).find((c) => c.name.trim().toLowerCase() === 'ebuyclub');
+  const bestWeb = offers[0];
+  const canonical = `https://meilleurscashback.com/seller/meilleur-cashback-${encodeURIComponent(seller.slug ?? '')}`;
 
   return (
     <div>
       <Head>
-        <title>Cashback {seller.name} : comparatif des offres | MeilleursCashback</title>
-        <link rel="icon" href="/logo.webp" />
-        <meta
-          name="description"
-          content={`Comparez les taux de cashback ${seller.name}, les bonus de bienvenue et les avis des plateformes sur MeilleursCashback.`}
-        />
-        <link
-          rel="canonical"
-          href={`https://meilleurscashback.com/seller/meilleur-cashback-${seller.slug}`}
-        />
-        <meta
-          property="og:title"
-          content={`Meilleurs cashback ${seller.name} comparés - MeilleursCashback.com`}
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:description"
-          content={`Comparez les taux de cashback ${seller.name}, les bonus de bienvenue et les avis des plateformes sur MeilleursCashback.`}
-        />
-        <meta property="og:site_name" content="MeilleursCashback" />
-        <meta
-          property="og:url"
-          content={`https://meilleurscashback.com/seller/meilleur-cashback-${seller.slug}`}
-        ></meta>
-        <meta property="og:image" content="/logo.webp"></meta>
+        <title>Cashback {seller.name} : achats en ligne et bons d’achat | MeilleursCashback</title>
+        <meta name="description" content={`Comparez le cashback ${seller.name} sur les achats en ligne et les bons d’achat : taux par plateforme, bonus et conseils pour économiser.`} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:title" content={`Cashback ${seller.name} : comparatif des offres`} />
+        <meta property="og:description" content={`Comparez les taux de cashback ${seller.name} en ligne et sur les bons d’achat.`} />
+        <meta property="og:url" content={canonical} />
       </Head>
       <main>
-        <SearchHeader></SearchHeader>
-        <div className="flex items-center justify-center">
-          <Card className={classes.cardBody} withBorder>
-            <h1 style={{fontFamily: 'Montserrat', fontWeight: 800, marginBottom: 12}}>
-              Cashback {seller.name} : comparez les meilleures offres
-            </h1>
-            <p style={{fontSize: '1.05rem', lineHeight: 1.7}}>
-              Comparez les taux de cashback chez {seller.name}, les notes et classements des plateformes,
-              ainsi que leurs éventuels bonus de bienvenue. Choisissez librement la plateforme qui vous convient.
-            </p>
-            <h2 style={{fontFamily: 'Montserrat', fontSize: '1.4rem', marginTop: 30}}>
-              Comparatif des offres de cashback {seller.name}
-            </h2>
-            <p>Les offres ci-dessous correspondent aux taux enregistrés dans notre comparateur. Les conditions d’activation (achat en ligne, bon d’achat ou magasin) doivent être vérifiées sur chaque plateforme.</p>
-            {couponRate > 0 && couponUnit && couponUnit !== RateUnit.None && (
-              <section style={{padding: 18, border: '1px solid #ddd', borderRadius: 8, marginBottom: 24}}>
-                <h2 style={{fontSize: '1.25rem', marginTop: 0}}>Cashback sur bon d’achat JouéClub</h2>
-                <p>eBuyClub : <strong>{couponRateLabel}</strong> selon les données enregistrées. Vérifiez les conditions et la disponibilité des bons avant achat.</p>
+        <SearchHeader />
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <Card withBorder className={classes.content}>
+            <p style={{color: '#64748b', fontSize: 13, marginBottom: 8}}>Comparateur de cashback / {seller.name}</p>
+            <h1 style={{fontSize: 'clamp(1.7rem, 3vw, 2.5rem)', fontWeight: 800, lineHeight: 1.2, margin: '0 0 12px'}}>Cashback {seller.name} : comparez les offres</h1>
+            <p style={{fontSize: 16, color: '#475569', lineHeight: 1.7}}>Découvrez les taux de cashback disponibles pour vos achats chez {seller.name}. Comparez les achats en ligne et les bons d’achat pour choisir l’offre adaptée.</p>
+            <div className={classes.highlights}>
+              <div style={{borderRadius: 14, padding: 22, background: '#eff6ff', border: '1px solid #bfdbfe'}}>
+                <div style={{fontWeight: 700, color: '#1e40af'}}>Meilleur cashback en ligne affiché</div>
+                <div style={{fontSize: 32, fontWeight: 800, margin: '8px 0'}}>{bestWeb ? formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range) : 'Aucune offre'}</div>
+                <div>{bestWeb ? `Sur ${bestWeb.cashbacker.name}` : 'Pas de taux disponible actuellement'}</div>
+                <a href="#cashback-en-ligne" style={{display: 'inline-block', marginTop: 10, color: '#1d4ed8', fontWeight: 700}}>Comparer les plateformes</a>
+              </div>
+              <div style={{borderRadius: 14, padding: 22, background: '#f0fdf4', border: '1px solid #bbf7d0'}}>
+                <div style={{fontWeight: 700, color: '#166534'}}>Cashback sur bon d’achat eBuyClub</div>
+                <div style={{fontSize: 32, fontWeight: 800, margin: '8px 0'}}>{hasCoupon && couponUnit ? formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon) : 'Non renseigné'}</div>
+                <div>{hasCoupon ? 'Offre distincte du cashback web' : 'Aucune offre de bon d’achat renseignée'}</div>
+                {hasCoupon && <a href="#bons-achat" style={{display: 'inline-block', marginTop: 10, color: '#166534', fontWeight: 700}}>Voir les conditions</a>}
+              </div>
+            </div>
+
+            <section id="cashback-en-ligne">
+              <h2 style={{fontSize: 23, marginBottom: 8}}>Cashback {seller.name} sur les achats en ligne</h2>
+              <p style={{color: '#475569'}}>Les offres sont classées par taux affiché, en privilégiant les pourcentages. Les bonus d’inscription sont indiqués séparément et soumis aux conditions de chaque plateforme.</p>
+              <SimpleGrid cols={1} spacing="md">
+                {offers.length ? offers.map((offer, index) => <OfferCard key={offer.cashbacker.id} offer={offer} featured={index === 0} />) : <p>Aucun taux de cashback web n’est actuellement renseigné.</p>}
+              </SimpleGrid>
+            </section>
+
+            {hasCoupon && couponUnit && (
+              <section id="bons-achat" style={{marginTop: 36}}>
+                <h2 style={{fontSize: 23}}>Cashback {seller.name} sur les bons d’achat</h2>
+                <div className={classes.offer}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap'}}>
+                    <div><strong style={{fontSize: 19}}>Bon d’achat via eBuyClub</strong><p style={{margin: '6px 0', color: '#475569'}}>Une offre différente du cashback obtenu sur un achat en ligne.</p></div>
+                    <strong style={{fontSize: 29, color: '#0f766e'}}>{formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon)}</strong>
+                  </div>
+                  <p style={{margin: 0}}>Vérifiez la disponibilité des bons d’achat, leurs modalités d’utilisation et les éventuelles exclusions avant de commander. Le cumul avec un cashback web n’est pas garanti.</p>
+                  {couponCashbacker && <a href={couponCashbacker.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored" style={{alignSelf: 'flex-start', padding: '12px 18px', borderRadius: 8, background: '#2563eb', color: '#fff', fontWeight: 700, textDecoration: 'none'}}>Découvrir les bons d’achat sur eBuyClub</a>}
+                </div>
               </section>
             )}
-            {/* Mobile table */}
-            <SimpleGrid cols={1} spacing="lg" className={classes.mobileTable}>
-         {availableCashbackers.map((cashbacker, index) => (
-                <ItemCashbackerMobile
-                  displayRate={true}
-                  key={`cashbacker-${index}`}
-                  cashbacker={cashbacker}
-                  rateData={getCashbackerRateData(seller, cashbacker.name)}
-                ></ItemCashbackerMobile>
-              ))}
-            </SimpleGrid>
-            {/* Desktop table */}
-            <Table sx={{minWidth: 500}} className={classes.desktopTable}>
-              <thead>
-                <tr>
-                  <th>Nom du site</th>
-                  <th>Note (/5)</th>
-                  <th>Classement</th>
-                  <th>Bonus</th>
-                  <th>Taux de cashback</th>
-                  <th>Voir l&apos;offre</th>
-                </tr>
-              </thead>
-              <tbody>
-              {availableCashbackers.map((cashbacker, index) => (
-                  <ItemCashbackerDesktop
-                    displayRate={true}
-                    key={`cashbacker-${index}`}
-                    cashbacker={cashbacker}
-                    rateData={getCashbackerRateData(seller, cashbacker.name)}
-                  ></ItemCashbackerDesktop>
-                ))}
-              </tbody>
-            </Table>
-            <p className="mt-4 md:mt-0">
-              Même si nous nous efforçons de mettre à jour le plus fréquemment possible les taux de
-              cashback présents dans nos comparatifs, nous vous conseillons de vérifier leur
-              validité sur les sites concernés. Une erreur dans ces taux ne pourrait engager ni
-              MeilleursCashback ni le site de cashback en question.
-            </p>
-            <section style={{marginTop: 36, lineHeight: 1.8}}>
+
+            <section style={{marginTop: 38, lineHeight: 1.7}}>
               <h2>Comment obtenir du cashback chez {seller.name} ?</h2>
               <ol style={{paddingLeft: 24}}>
-                <li><strong>Comparez les offres</strong> des différentes plateformes pour vos achats chez {seller.name}.</li>
-                <li><strong>Choisissez votre plateforme.</strong> Si vous n’y êtes pas encore inscrit,
-                  utilisez notre lien de parrainage via le bouton « Voir l’offre » pour bénéficier,
-                  sous réserve des conditions applicables, d’un éventuel bonus de bienvenue.</li>
-                <li><strong>Activez votre cashback</strong> sur la plateforme choisie avant votre achat.</li>
-                <li><strong>Finalisez votre commande</strong> en respectant les conditions de l’offre.</li>
+                <li>Comparez les taux proposés par les différentes plateformes.</li>
+                <li>Choisissez entre cashback sur achat en ligne et cashback sur bon d’achat, selon votre achat.</li>
+                <li>Vérifiez les conditions de l’offre, puis activez le cashback avant de commander.</li>
+                <li>Finalisez votre achat en respectant les exclusions et conditions de validation.</li>
               </ol>
+              <h2>Questions fréquentes sur le cashback {seller.name}</h2>
+              <details style={{marginBottom: 12}}><summary>Quelle différence entre cashback web et bon d’achat ?</summary><p>Le cashback web est associé à une commande effectuée après activation sur une plateforme. Le cashback sur bon d’achat est lié à l’achat d’un bon éligible, dont les conditions d’utilisation peuvent différer.</p></details>
+              <details style={{marginBottom: 12}}><summary>Peut-on cumuler les deux offres ?</summary><p>Le cumul dépend des conditions de chaque plateforme et du marchand. Il ne faut pas le considérer comme acquis.</p></details>
+              <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
+              <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus indicatifs issus du comparateur. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
             </section>
-            {seller.topSeller && (
-              <section style={{marginTop: 32, lineHeight: 1.8}}>
-                <h2>Questions fréquentes sur le cashback {seller.name}</h2>
-                <details><summary>Comment fonctionne le cashback chez {seller.name} ?</summary>
-                  <p>Choisissez une plateforme proposant une offre pour {seller.name}, activez le cashback depuis celle-ci,
-                  puis réalisez votre achat en respectant les conditions annoncées.</p></details>
-                <details><summary>Peut-on cumuler cashback et code promotionnel chez {seller.name} ?</summary>
-                  <p>Le cumul dépend de la plateforme, du code et des conditions de l’offre. Vérifiez-les avant de commander.</p></details>
-                <details><summary>Quand le cashback {seller.name} est-il versé ?</summary>
-                  <p>Les délais de suivi, de validation et de paiement varient selon la plateforme et les conditions de l’offre.</p></details>
-              </section>
-            )}
             <div style={{marginTop: 30}}>
-              {seller.topSeller && <p><Link href="/topsellers">Découvrir les autres Top marchands</Link></p>}
               <h3>Rechercher un autre marchand</h3>
               <SellerSearchBar radius="sm" />
-              <p><Link href="/sellers">Voir tous les marchands</Link></p>
+              <p style={{marginTop: 14}}><Link href="/sellers">Voir tous les marchands</Link></p>
             </div>
           </Card>
         </div>
