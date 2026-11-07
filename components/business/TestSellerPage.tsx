@@ -71,7 +71,7 @@ const OfferCard: VFC<{offer: Offer; featured?: boolean}> = ({offer, featured}) =
           <div>
             <strong style={{fontSize: 17}}>{cashbacker.name}</strong>
             {featured && <div style={{fontSize: 12, color: '#1d4ed8', fontWeight: 700}}>Meilleur taux web affiché</div>}
-            {cashbacker.signupBonus > 0 && <div style={{fontSize: 13}}>+ {cashbacker.signupBonus} € de bienvenue*</div>}
+            {cashbacker.signupBonus > 0 && <div style={{display: 'inline-block', marginTop: 7, padding: '6px 10px', borderRadius: 8, background: '#fff7ed', border: '1px solid #fed7aa', color: '#9a3412', fontSize: 13, fontWeight: 800}}>+ {cashbacker.signupBonus} € de bienvenue*</div>}
             <div style={{fontSize: 12, color: '#64748b'}}>Note : {cashbacker.score}/5</div>
           </div>
         </div>
@@ -127,12 +127,14 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
                 <div style={{fontWeight: 700, color: '#1e40af'}}>Meilleur cashback en ligne affiché</div>
                 <div style={{fontSize: 32, fontWeight: 800, margin: '8px 0'}}>{bestWeb ? formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range) : 'Aucune offre'}</div>
                 <div>{bestWeb ? `Sur ${bestWeb.cashbacker.name}` : 'Pas de taux disponible actuellement'}</div>
+                {bestWeb && bestWeb.cashbacker.signupBonus > 0 && <div style={{display: 'inline-block', marginTop: 12, padding: '8px 12px', borderRadius: 9, background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', fontWeight: 800}}>+ {bestWeb.cashbacker.signupBonus} € de bienvenue*</div>}
                 <a href={bestWeb ? bestWeb.cashbacker.sponsorshipUrl : "#cashback-en-ligne"} target={bestWeb ? "_blank" : undefined} rel="noopener noreferrer sponsored" style={{display: 'inline-block', marginTop: 10, color: '#1d4ed8', fontWeight: 700}}>Profiter du meilleur taux</a>
               </div>
               <div style={{borderRadius: 14, padding: 22, background: '#f0fdf4', border: '1px solid #bbf7d0'}}>
                 <div style={{fontWeight: 700, color: '#166534'}}>Cashback sur bon d’achat eBuyClub</div>
                 <div style={{fontSize: 32, fontWeight: 800, margin: '8px 0'}}>{hasCoupon && couponUnit ? formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon) : 'Non renseigné'}</div>
                 <div>{hasCoupon ? 'Offre distincte du cashback web' : 'Aucune offre de bon d’achat renseignée'}</div>
+                {hasCoupon && couponCashbacker && couponCashbacker.signupBonus > 0 && <div style={{display: 'inline-block', marginTop: 12, padding: '8px 12px', borderRadius: 9, background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', fontWeight: 800}}>+ {couponCashbacker.signupBonus} € de bienvenue*</div>}
                 {hasCoupon && <a href={couponCashbacker ? couponCashbacker.sponsorshipUrl : "#bons-achat"} target={couponCashbacker ? "_blank" : undefined} rel="noopener noreferrer sponsored" style={{display: 'inline-block', marginTop: 10, color: '#166534', fontWeight: 700}}>Découvrir les bons d’achat</a>}
               </div>
             </div>
@@ -171,7 +173,7 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <details style={{marginBottom: 12}}><summary>Quelle différence entre cashback web et bon d’achat ?</summary><p>Le cashback web est associé à une commande effectuée après activation sur une plateforme. Le cashback sur bon d’achat est lié à l’achat d’un bon éligible, dont les conditions d’utilisation peuvent différer.</p></details>
               <details style={{marginBottom: 12}}><summary>Peut-on cumuler les deux offres ?</summary><p>Le cumul dépend des conditions de chaque plateforme et du marchand. Il ne faut pas le considérer comme acquis.</p></details>
               <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
-              <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus indicatifs issus du comparateur. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
+              <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus de bienvenue réservés aux personnes éligibles, soumis aux conditions d’inscription et de validation des plateformes. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
             </section>
             <div style={{marginTop: 30}}>
               <h3>Rechercher un autre marchand</h3>
