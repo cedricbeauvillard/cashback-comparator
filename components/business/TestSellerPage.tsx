@@ -101,6 +101,10 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
     if (a.unit !== b.unit) return a.unit === RateUnit.Percent ? -1 : 1;
     return b.rate - a.rate || a.cashbacker.rank - b.cashbacker.rank;
   });
+  const unavailableCashbackers = (cashbackers ?? []).filter((cashbacker) => {
+    const data = getRate(seller, cashbacker.name);
+    return !data || !data.rate || data.rate <= 0 || !data.unit || data.unit === RateUnit.None;
+  }).sort((a, b) => a.rank - b.rank);
   const couponRate = seller.rateEbuyclubCoupon ?? 0;
   const couponUnit = seller.unitRateEbuyclubCoupon;
   const hasCoupon = couponRate > 0 && couponUnit != null && couponUnit !== RateUnit.None;
@@ -146,10 +150,24 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
             <section id="cashback-en-ligne">
               <h2 style={{fontSize: 23, marginBottom: 8}}>Cashback {seller.name} sur les achats en ligne</h2>
               <p style={{color: '#475569'}}>Les offres sont classées par taux affiché, en privilégiant les pourcentages. Les bonus d’inscription sont indiqués séparément et soumis aux conditions de chaque plateforme.</p>
+              {offers.length === 0 && <div style={{background: '#fff7ed', border: '1px solid #fed7aa', padding: 18, borderRadius: 12, marginBottom: 16}}><strong>Aucune offre de cashback web actuellement renseignée pour {seller.name}.</strong><p style={{marginBottom: 0}}>Consultez les autres plateformes comparées ci-dessous ou recherchez un autre marchand. Les offres peuvent évoluer.</p></div>}
               <SimpleGrid cols={1} spacing="md">
-                {offers.length ? offers.map((offer, index) => <OfferCard key={offer.cashbacker.id} offer={offer} featured={index === 0} />) : <p>Aucun taux de cashback web n’est actuellement renseigné.</p>}
+                {offers.map((offer, index) => <OfferCard key={offer.cashbacker.id} offer={offer} featured={index === 0} />)}
               </SimpleGrid>
             </section>
+
+            {unavailableCashbackers.length > 0 && <section style={{marginTop: 26}}>
+              <details style={{border: '1px solid #e2e8f0', borderRadius: 12, padding: '15px 18px', background: '#f8fafc'}} open={offers.length === 0}>
+                <summary style={{cursor: 'pointer', fontWeight: 700, color: '#334155'}}>Autres sites de cashback comparés ({unavailableCashbackers.length}) — aucune offre web renseignée</summary>
+                <p style={{fontSize: 13, color: '#64748b'}}>Ces plateformes figurent dans notre comparateur, mais aucun taux de cashback web positif n’est enregistré pour ce marchand. Cela ne garantit pas l’absence d’offres sur leurs sites.</p>
+                <div style={{display: 'grid', gap: 10}}>
+                  {unavailableCashbackers.map((cashbacker) => <div key={cashbacker.id} style={{display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', flexWrap: 'wrap', padding: '10px 0', borderTop: '1px solid #e2e8f0'}}>
+                    <div><strong>{cashbacker.name}</strong><div style={{fontSize: 13, color: '#64748b'}}>N° {cashbacker.rank} au classement · ★ {cashbacker.score}/5</div></div>
+                    <div style={{display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap'}}><span style={{color: '#64748b', fontSize: 13}}>Aucun taux web renseigné</span><a href={cashbacker.reviewsUrl} target="_blank" rel="noopener noreferrer" style={{fontSize: 13, color: '#1d4ed8', fontWeight: 600}}>Lire notre avis</a></div>
+                  </div>)}
+                </div>
+              </details>
+            </section>}
 
             {hasCoupon && couponUnit && (
               <section id="bons-achat" style={{marginTop: 36}}>
