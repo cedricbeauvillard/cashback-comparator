@@ -72,7 +72,10 @@ const OfferCard: VFC<{offer: Offer; featured?: boolean}> = ({offer, featured}) =
             <strong style={{fontSize: 17}}>{cashbacker.name}</strong>
             {featured && <div style={{fontSize: 12, color: '#1d4ed8', fontWeight: 700}}>Meilleur taux web affiché</div>}
             {cashbacker.signupBonus > 0 && <div style={{display: 'inline-block', marginTop: 7, padding: '6px 10px', borderRadius: 8, background: '#fff7ed', border: '1px solid #fed7aa', color: '#9a3412', fontSize: 13, fontWeight: 800}}>+ {cashbacker.signupBonus} € de bienvenue*</div>}
-            <div style={{fontSize: 12, color: '#64748b'}}>Note : {cashbacker.score}/5</div>
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', marginTop: 9}}>
+              <span style={{display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 9px', borderRadius: 7, background: '#eff6ff', color: '#1e40af', fontSize: 13, fontWeight: 800}}>🏅 N° {cashbacker.rank} au classement</span>
+              <span style={{display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 9px', borderRadius: 7, background: '#fffbeb', color: '#92400e', fontSize: 13, fontWeight: 800}}>★ {cashbacker.score}/5</span>
+            </div>
           </div>
         </div>
         <div style={{textAlign: 'center', minWidth: 105}}>
@@ -127,6 +130,7 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
                 <div style={{fontWeight: 700, color: '#1e40af'}}>Meilleur cashback en ligne affiché</div>
                 <div style={{fontSize: 32, fontWeight: 800, margin: '8px 0'}}>{bestWeb ? formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range) : 'Aucune offre'}</div>
                 <div>{bestWeb ? `Sur ${bestWeb.cashbacker.name}` : 'Pas de taux disponible actuellement'}</div>
+                {bestWeb && <div style={{fontSize: 13, color: '#475569', marginTop: 7}}>🏅 N° {bestWeb.cashbacker.rank} au classement · ★ {bestWeb.cashbacker.score}/5</div>}
                 {bestWeb && bestWeb.cashbacker.signupBonus > 0 && <div style={{display: 'inline-block', marginTop: 12, padding: '8px 12px', borderRadius: 9, background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', fontWeight: 800}}>+ {bestWeb.cashbacker.signupBonus} € de bienvenue*</div>}
                 <a href={bestWeb ? bestWeb.cashbacker.sponsorshipUrl : "#cashback-en-ligne"} target={bestWeb ? "_blank" : undefined} rel="noopener noreferrer sponsored" style={{display: 'inline-block', marginTop: 10, color: '#1d4ed8', fontWeight: 700}}>Profiter du meilleur taux</a>
               </div>
