@@ -7,6 +7,7 @@ on:
       - preparation-production-joueclub
       - joueclub-v2-design
       - joueclub-v3-polish
+      - joueclub-seo-pilot
   workflow_dispatch:
 
 permissions:
