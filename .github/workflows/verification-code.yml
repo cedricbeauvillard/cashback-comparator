@@ -5,6 +5,7 @@ on:
     branches:
       - refonte-fiches-marchands-v1
       - preparation-production-joueclub
+      - joueclub-v2-design
   workflow_dispatch:
 
 permissions:
@@ -23,10 +24,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: npm
+          cache: yarn
 
       - name: Installer les dépendances
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Générer le client Prisma
         run: npx prisma generate
@@ -38,4 +39,4 @@ jobs:
         run: npx next lint --file components/business/TestSellerPage.tsx --no-cache
 
       - name: Vérifier la compilation Next.js
-        run: npm run build
+        run: yarn build
