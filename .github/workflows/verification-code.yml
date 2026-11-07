@@ -6,6 +6,7 @@ on:
       - refonte-fiches-marchands-v1
       - preparation-production-joueclub
       - joueclub-v2-design
+      - joueclub-v3-polish
   workflow_dispatch:
 
 permissions:
