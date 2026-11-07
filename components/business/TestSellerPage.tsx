@@ -112,12 +112,22 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
   const bestWeb = offers[0];
   const canonical = `https://meilleurscashback.com/seller/meilleur-cashback-${encodeURIComponent(seller.slug ?? '')}`;
 
+  const bestPercent = offers.find((offer) => offer.unit === RateUnit.Percent);
+  const seoRate = bestPercent ? formatRate(bestPercent.rate, bestPercent.unit, bestPercent.range) : null;
+  const seoTitle = seoRate ? `Cashback ${seller.name} : ${seoRate} et bonus | MeilleursCashback` : `Cashback ${seller.name} : comparer les offres | MeilleursCashback`;
+  const seoDescription = seoRate ? `Comparez les offres de cashback ${seller.name} : ${seoRate} sur ${bestPercent?.cashbacker.name}, bonus et bons d’achat. Conditions à vérifier.` : `Comparez les offres de cashback ${seller.name}, les bons d’achat et les plateformes référencées.`;
+  const breadcrumbJsonLd = {'@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    {'@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://meilleurscashback.com/'},
+    {'@type': 'ListItem', position: 2, name: 'Marchands', item: 'https://meilleurscashback.com/sellers'},
+    {'@type': 'ListItem', position: 3, name: `Cashback ${seller.name}`, item: canonical},
+  ]};
   return (
     <div>
       <Head>
-        <title>Cashback {seller.name} : achats en ligne et bons d’achat | MeilleursCashback</title>
-        <meta name="description" content={`Comparez le cashback ${seller.name} sur les achats en ligne et les bons d’achat : taux par plateforme, bonus et conseils pour économiser.`} />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
         <link rel="canonical" href={canonical} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(breadcrumbJsonLd)}} />
         <meta property="og:title" content={`Cashback ${seller.name} : comparatif des offres`} />
         <meta property="og:description" content={`Comparez les taux de cashback ${seller.name} en ligne et sur les bons d’achat.`} />
         <meta property="og:url" content={canonical} />
@@ -156,6 +166,16 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               </SimpleGrid>
             </section>
 
+            {bestPercent && <section style={{marginTop: 30, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc'}}>
+              <h2 style={{fontSize: 22, marginTop: 0}}>Combien pouvez-vous économiser chez {seller.name} ?</h2>
+              <p style={{color: '#475569'}}>Exemples indicatifs au taux de {formatRate(bestPercent.rate, bestPercent.unit, bestPercent.range)} chez {bestPercent.cashbacker.name}, sous réserve des conditions.</p>
+              <div style={{overflowX: 'auto'}}><table style={{width: '100%', borderCollapse: 'collapse', textAlign: 'left'}}>
+                <thead><tr><th style={{padding: 10, borderBottom: '1px solid #cbd5e1'}}>Montant de l’achat</th><th style={{padding: 10, borderBottom: '1px solid #cbd5e1'}}>Cashback théorique</th></tr></thead>
+                <tbody>{[50, 100, 200].map((amount) => <tr key={amount}><td style={{padding: 10, borderBottom: '1px solid #e2e8f0'}}>{amount} €</td><td style={{padding: 10, borderBottom: '1px solid #e2e8f0', fontWeight: 700, color: '#0f766e'}}>{(amount * bestPercent.rate / 100).toLocaleString('fr-FR', {style: 'currency', currency: 'EUR'})}</td></tr>)}</tbody>
+              </table></div>
+              <p style={{fontSize: 12, color: '#64748b'}}>Montants non garantis : exclusions possibles. Un taux « jusqu’à » est un maximum et les bonus d’inscription sont exclus de ce calcul.</p>
+            </section>}
+
             {unavailableCashbackers.length > 0 && <section style={{marginTop: 26}}>
               <details style={{border: '1px solid #e2e8f0', borderRadius: 12, padding: '15px 18px', background: '#f8fafc'}} open={offers.length === 0}>
                 <summary style={{cursor: 'pointer', fontWeight: 700, color: '#334155'}}>Autres sites de cashback comparés ({unavailableCashbackers.length}) — aucune offre web renseignée</summary>
@@ -192,6 +212,8 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
                 <li>Finalisez votre achat en respectant les exclusions et conditions de validation.</li>
               </ol>
               <h2>Questions fréquentes sur le cashback {seller.name}</h2>
+              <details style={{marginBottom: 12}}><summary>Quel est le meilleur cashback {seller.name} affiché ?</summary><p>{bestWeb ? `Le taux web le plus élevé affiché est ${formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range)} chez ${bestWeb.cashbacker.name}. Vérifiez les conditions avant de commander.` : 'Aucun taux web positif n’est actuellement renseigné.'}</p></details>
+              <details style={{marginBottom: 12}}><summary>Existe-t-il des bons d’achat {seller.name} avec cashback ?</summary><p>{hasCoupon && couponUnit ? `Notre comparateur référence ${formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon)} sur les bons d’achat eBuyClub. Vérifiez leur disponibilité.` : 'Aucune offre de bon d’achat avec cashback n’est actuellement renseignée.'}</p></details>
               <details style={{marginBottom: 12}}><summary>Quelle différence entre cashback web et bon d’achat ?</summary><p>Le cashback web est associé à une commande effectuée après activation sur une plateforme. Le cashback sur bon d’achat est lié à l’achat d’un bon éligible, dont les conditions d’utilisation peuvent différer.</p></details>
               <details style={{marginBottom: 12}}><summary>Peut-on cumuler les deux offres ?</summary><p>Le cumul dépend des conditions de chaque plateforme et du marchand. Il ne faut pas le considérer comme acquis.</p></details>
               <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
