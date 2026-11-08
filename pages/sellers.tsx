@@ -140,7 +140,7 @@ export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async
         `SELECT DISTINCT name, slug FROM Seller WHERE slug IS NOT NULL AND name LIKE '${letter}%'`
       );
 
-      alphabeticalSellers.push(sellers);
+      alphabeticalSellers.push(sellers.sort((a, b) => a.name.localeCompare(b.name, 'fr', {sensitivity: 'base'})));
     }
 
     const otherSellers = await prisma.$queryRawUnsafe<Seller[]>(
@@ -175,11 +175,11 @@ export const getServerSideProps: GetServerSideProps<SellerListPageProps> = async
         AND name NOT LIKE 'z%'`
     );
 
-    alphabeticalSellers.push(otherSellers);
+    alphabeticalSellers.push(otherSellers.sort((a, b) => a.name.localeCompare(b.name, 'fr', {sensitivity: 'base'})));
 
     return {
       props: {
-        alphabeticalSellers,
+        alphabeticalSellers: alphabeticalSellers.map((group) => group.map((seller) => seller.name.toLocaleLowerCase('fr-FR') === 'jouéclub' || seller.name.toLocaleLowerCase('fr-FR') === 'joueclub' ? {...seller, name: 'JouéClub'} : seller)),
       },
     };
   } catch (e) {
