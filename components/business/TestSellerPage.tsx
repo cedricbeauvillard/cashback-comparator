@@ -219,6 +219,17 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
               <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus de bienvenue réservés aux personnes éligibles, soumis aux conditions d’inscription et de validation des plateformes. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
             </section>
+            <section style={{marginTop: 30, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc'}}>
+              <h2 style={{marginTop: 0}}>Le cashback {seller.name} en résumé</h2>
+              <p style={{color: '#475569', lineHeight: 1.7}}>
+                {offers.length > 0
+                  ? `Notre comparateur affiche ${offers.length} ${offers.length === 1 ? 'offre de cashback en ligne' : 'offres de cashback en ligne'} pour ${seller.name}. `
+                  : `Aucune offre de cashback en ligne positive n’est actuellement renseignée pour ${seller.name}. `}
+                {bestWeb ? `Le taux web le plus élevé affiché est ${formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range)} chez ${bestWeb.cashbacker.name}. ` : ''}
+                {hasCoupon && couponUnit ? `Une offre distincte sur bon d’achat eBuyClub est renseignée à ${formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon)}. ` : ''}
+                Ces informations sont issues des taux enregistrés dans notre comparateur et évoluent avec eux. Vérifiez les conditions de chaque offre avant votre achat.
+              </p>
+            </section>
             <div style={{marginTop: 30}}>
               <h3>Rechercher un autre marchand</h3>
               <SellerSearchBar radius="sm" />

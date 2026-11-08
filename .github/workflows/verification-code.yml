@@ -10,6 +10,7 @@ on:
       - joueclub-seo-pilot
       - joueclub-dynamic-seo-links
       - joueclub-seo-safe-v2
+      - joueclub-seo-no-db-safe
   workflow_dispatch:
 
 permissions:
