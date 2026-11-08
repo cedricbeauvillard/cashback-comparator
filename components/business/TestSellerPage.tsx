@@ -40,7 +40,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type Props = {seller: Seller; cashbackers: Cashbacker[] | null};
+type Props = {seller: Seller; cashbackers: Cashbacker[] | null; relatedSellers: Pick<Seller, 'id' | 'name' | 'slug'>[]; categoryNames: string[]};
 type Offer = {cashbacker: Cashbacker; rate: number; unit: RateUnit; range: boolean};
 
 const formatRate = (rate: number, unit: RateUnit, range = false) =>
@@ -91,7 +91,7 @@ const OfferCard: VFC<{offer: Offer; featured?: boolean}> = ({offer, featured}) =
   );
 };
 
-const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
+const SellerPage: VFC<Props> = ({seller, cashbackers, relatedSellers, categoryNames}) => {
   const {classes} = useStyles();
   const offers: Offer[] = (cashbackers ?? []).flatMap((cashbacker) => {
     const data = getRate(seller, cashbacker.name);
@@ -219,6 +219,25 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
               <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus de bienvenue réservés aux personnes éligibles, soumis aux conditions d’inscription et de validation des plateformes. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
             </section>
+            <section style={{marginTop: 32, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14}}>
+              <h2 style={{marginTop: 0}}>Comparer le cashback {seller.name} : les informations utiles</h2>
+              <p style={{lineHeight: 1.7, color: '#475569'}}>
+                {categoryNames.length > 0 ? `${seller.name} est référencé dans notre comparateur dans ${categoryNames.length === 1 ? 'la catégorie' : 'les catégories'} ${categoryNames.join(', ')}. ` : ''}
+                {offers.length > 0 ? `Nous comparons ${offers.length} ${offers.length === 1 ? 'offre de cashback en ligne renseignée' : 'offres de cashback en ligne renseignées'} pour ce marchand. ` : 'Aucune offre de cashback en ligne positive n’est actuellement renseignée pour ce marchand. '}
+                {bestWeb ? `Le meilleur taux web affiché est ${formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range)} chez ${bestWeb.cashbacker.name}. ` : ''}
+                {hasCoupon && couponUnit ? `Une offre distincte sur bon d’achat est aussi renseignée chez eBuyClub à ${formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon)}. ` : 'Aucun taux de bon d’achat n’est actuellement renseigné. '}
+                Les taux peuvent varier selon les conditions et les catégories d’achats.
+              </p>
+            </section>
+            {relatedSellers.length > 0 && <section style={{marginTop: 30}}>
+              <h2>Autres marchands à comparer</h2>
+              <p style={{color: '#475569'}}>Découvrez les offres de cashback d’autres marchands présents dans les mêmes catégories que {seller.name}.</p>
+              <ul style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, padding: 0, listStyle: 'none'}}>
+                {relatedSellers.filter((item) => item.slug).map((item) => <li key={item.id} style={{border: '1px solid #e2e8f0', borderRadius: 10, padding: 14}}>
+                  <Link href={`/seller/meilleur-cashback-${encodeURIComponent(item.slug ?? '')}`}>Cashback {item.name}</Link>
+                </li>)}
+              </ul>
+            </section>}
             <div style={{marginTop: 30}}>
               <h3>Rechercher un autre marchand</h3>
               <SellerSearchBar radius="sm" />
