@@ -8,6 +8,7 @@ on:
       - joueclub-v2-design
       - joueclub-v3-polish
       - joueclub-seo-pilot
+      - joueclub-dynamic-seo-links
   workflow_dispatch:
 
 permissions:
