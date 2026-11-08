@@ -9,6 +9,7 @@ on:
       - joueclub-v3-polish
       - joueclub-seo-pilot
       - joueclub-dynamic-seo-links
+      - joueclub-seo-safe-v2
   workflow_dispatch:
 
 permissions:
