@@ -51,6 +51,8 @@ const useStyles = createStyles((theme) => ({
 export interface SellerPageProps {
   seller: Seller;
   cashbackers: Cashbacker[] | null;
+  relatedSellers?: {id: number; name: string; slug: string | null}[];
+  categoryNames?: string[];
 }
 
 /*
@@ -104,14 +106,14 @@ const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): R
   };
 };
 
-const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
+const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers, relatedSellers = [], categoryNames = []}) => {
   const {classes} = useStyles();
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
 
   // Pilot only: keep the legacy design for all other merchants.
   if (seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub') {
-    return <TestSellerPage seller={seller} cashbackers={cashbackers} />;
+    return <TestSellerPage seller={seller} cashbackers={cashbackers} relatedSellers={relatedSellers} categoryNames={categoryNames} />;
   }
 
   return (
@@ -335,11 +337,40 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
       orderBy: {rank: 'asc'},
     });
 
+    // Pilot only. SEO enrichment is optional: a category-query failure must not break the page.
+    let relatedSellers: {id: number; name: string; slug: string | null}[] = [];
+    let categoryNames: string[] = [];
+    if (seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub') {
+      try {
+        const assignments = await prisma.categoriesOnSellers.findMany({
+          where: {sellerId: seller.id},
+          select: {categoryId: true, category: {select: {name: true}}},
+        });
+        categoryNames = assignments.map((entry) => entry.category.name);
+        const categoryIds = assignments.map((entry) => entry.categoryId);
+        if (categoryIds.length > 0) {
+          const matchingAssignments = await prisma.categoriesOnSellers.findMany({
+            where: {categoryId: {in: categoryIds}, sellerId: {not: seller.id}},
+            select: {sellerId: true},
+            take: 200,
+          });
+          const ids = [...new Set(matchingAssignments.map((entry) => entry.sellerId))];
+          if (ids.length > 0) {
+            relatedSellers = await prisma.seller.findMany({
+              where: {id: {in: ids}, slug: {not: null}},
+              select: {id: true, name: true, slug: true},
+              orderBy: {name: 'asc'},
+              take: 6,
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Optional merchant SEO enrichment failed', error);
+      }
+    }
+
     return {
-      props: {
-        seller,
-        cashbackers,
-      },
+      props: {seller, cashbackers, relatedSellers, categoryNames},
     };
   } catch (e) {
     return {
