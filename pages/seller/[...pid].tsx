@@ -354,7 +354,7 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
             select: {sellerId: true},
             take: 200,
           });
-          const ids = [...new Set(matchingAssignments.map((entry) => entry.sellerId))];
+          const ids = Array.from(new Set(matchingAssignments.map((entry) => entry.sellerId)));
           if (ids.length > 0) {
             relatedSellers = await prisma.seller.findMany({
               where: {id: {in: ids}, slug: {not: null}},
