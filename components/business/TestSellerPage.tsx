@@ -225,8 +225,8 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
                 {offers.length > 0
                   ? `Notre comparateur affiche ${offers.length} ${offers.length === 1 ? 'offre de cashback en ligne' : 'offres de cashback en ligne'} pour ${seller.name}. `
                   : `Aucune offre de cashback en ligne positive n’est actuellement renseignée pour ${seller.name}. `}
-                {bestWeb ? `Le taux web le plus élevé affiché est ${formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range)} chez ${bestWeb.cashbacker.name}. ` : ''}
-                {hasCoupon && couponUnit ? `Une offre distincte sur bon d’achat eBuyClub est renseignée à ${formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon)}. ` : ''}
+                {bestWeb ? <>Le taux web le plus élevé affiché est {formatRate(bestWeb.rate, bestWeb.unit, bestWeb.range)} chez <a href={bestWeb.cashbacker.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored">{bestWeb.cashbacker.name}</a>. </> : null}
+                {hasCoupon && couponUnit ? <>Une offre distincte sur bon d’achat {couponCashbacker ? <a href={couponCashbacker.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored">eBuyClub</a> : 'eBuyClub'} est renseignée à {formatRate(couponRate, couponUnit, !!seller.isRangeRateEbuyclubCoupon)}. </> : null}
                 Ces informations sont issues des taux enregistrés dans notre comparateur et évoluent avec eux. Vérifiez les conditions de chaque offre avant votre achat.
               </p>
             </section>
