@@ -51,8 +51,6 @@ const useStyles = createStyles((theme) => ({
 export interface SellerPageProps {
   seller: Seller;
   cashbackers: Cashbacker[] | null;
-  relatedSellers: Pick<Seller, 'id' | 'name' | 'slug'>[];
-  categoryNames: string[];
 }
 
 /*
@@ -106,14 +104,14 @@ const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): R
   };
 };
 
-const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers, relatedSellers, categoryNames}) => {
+const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const {classes} = useStyles();
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
 
   // Pilot only: keep the legacy design for all other merchants.
   if (seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub') {
-    return <TestSellerPage seller={seller} cashbackers={cashbackers} relatedSellers={relatedSellers} categoryNames={categoryNames} />;
+    return <TestSellerPage seller={seller} cashbackers={cashbackers} />;
   }
 
   return (
@@ -337,25 +335,10 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
       orderBy: {rank: 'asc'},
     });
 
-    // Related merchants are loaded only for the JouéClub pilot.
-    const pilot = seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub';
-    const categories = pilot ? await prisma.categoriesOnSellers.findMany({
-      where: {sellerId: seller.id},
-      include: {category: true},
-    }) : [];
-    const categoryIds = categories.map((entry) => entry.categoryId);
-    const relatedSellers = categoryIds.length ? await prisma.seller.findMany({
-      where: {id: {not: seller.id}, slug: {not: null}, categories: {some: {categoryId: {in: categoryIds}}}},
-      select: {id: true, name: true, slug: true},
-      take: 6,
-      orderBy: {name: 'asc'},
-    }) : [];
     return {
       props: {
         seller,
         cashbackers,
-        relatedSellers,
-        categoryNames: categories.map((entry) => entry.category.name),
       },
     };
   } catch (e) {
