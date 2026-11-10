@@ -219,15 +219,16 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
               <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus de bienvenue réservés aux personnes éligibles, soumis aux conditions d’inscription et de validation des plateformes. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
             </section>
-            <section style={{marginTop: 30}}>
+            {seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub' && <section style={{marginTop: 30}}>
               <h2>Présentation de JouéClub</h2>
-              <p style={{color: '#475569', lineHeight: 1.7}}>
-                JouéClub est une enseigne française spécialisée dans les jeux et jouets pour les enfants et les familles. Son catalogue comprend notamment des jeux de société, des jeux de construction, des poupées, des figurines, des véhicules miniatures et des jeux éducatifs.
-              </p>
-              <p style={{color: '#475569', lineHeight: 1.7}}>
-                Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d'éligibilité du cashback.
-              </p>
-            </section>
+              <p style={{color: '#475569', lineHeight: 1.7}}>JouéClub est une enseigne française spécialisée dans les jeux et jouets pour les enfants et les familles. Son catalogue comprend notamment des jeux de société, des jeux de construction, des poupées, des figurines, des véhicules miniatures et des jeux éducatifs.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d’éligibilité du cashback.</p>
+            </section>}
+            {seller.slug?.toLowerCase() === 'ikea' && <section style={{marginTop: 30}}>
+              <h2>IKEA : meubles, décoration et équipement de la maison</h2>
+              <p style={{color: '#475569', lineHeight: 1.7}}>IKEA propose des solutions pour aménager les différentes pièces de la maison : canapés, tables, bureaux, cuisines, rangements, lits, matelas, luminaires et accessoires de décoration. L’enseigne est notamment connue pour ses meubles en kit et ses collections conçues pour optimiser l’espace, du petit appartement à la maison familiale.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Avant un achat sur IKEA, le prix affiché n’est pas toujours le seul élément à comparer : livraison, retrait, montage et éventuelles promotions peuvent influencer le budget final. Pour réaliser des économies supplémentaires, consultez les offres de cashback en ligne et les bons d’achat éventuellement référencés ci-dessus. Vérifiez les conditions de chaque plateforme, notamment les exclusions et la possibilité de cumuler plusieurs avantages.</p>
+            </section>}
             <section style={{marginTop: 30, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc'}}>
               <h2 style={{marginTop: 0}}>Le cashback {seller.name} en résumé</h2>
               <p style={{color: '#475569', lineHeight: 1.7}}>
