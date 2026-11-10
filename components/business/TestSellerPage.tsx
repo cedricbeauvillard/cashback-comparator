@@ -225,9 +225,9 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <p style={{color: '#475569', lineHeight: 1.7}}>Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d'éligibilité du cashback.</p>
             </section>}
             {seller.slug?.toLowerCase() === 'ikea' && <section style={{marginTop: 30}}>
-              <h2>Présentation d'IKEA</h2>
-              <p style={{color: '#475569', lineHeight: 1.7}}>IKEA est une enseigne d'ameublement et de décoration qui propose notamment des meubles, des rangements, de la literie, des luminaires et des accessoires pour la maison. Ses produits sont disponibles en ligne et dans ses magasins.</p>
-              <p style={{color: '#475569', lineHeight: 1.7}}>Pour réduire le coût d'un achat IKEA, comparez les offres de cashback et les éventuels bons d'achat présentés sur cette page. Leur disponibilité et leurs conditions peuvent varier : vérifiez notamment les exclusions, les modalités d'utilisation et la compatibilité avec d'autres promotions avant de commander.</p>
+              <h2>IKEA : meubles, décoration et équipement de la maison</h2>
+              <p style={{color: '#475569', lineHeight: 1.7}}>IKEA propose des solutions pour aménager les différentes pièces de la maison : canapés, tables, bureaux, cuisines, rangements, lits, matelas, luminaires et accessoires de décoration. L'enseigne est notamment connue pour ses meubles en kit et ses collections conçues pour optimiser l'espace, du petit appartement à la maison familiale.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Avant un achat sur IKEA, le prix affiché n'est pas toujours le seul élément à comparer : livraison, retrait, montage et éventuelles promotions peuvent influencer le budget final. Pour réaliser des économies supplémentaires, consultez les offres de cashback en ligne et les bons d'achat éventuellement référencés ci-dessus. Vérifiez les conditions de chaque plateforme, notamment les exclusions et la possibilité de cumuler plusieurs avantages.</p>
             </section>}
             {seller.slug?.toLowerCase() === 'airbnb' && <section style={{marginTop: 30}}>
               <h2>Présentation d'Airbnb</h2>
