@@ -222,7 +222,7 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
             {seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub' && <section style={{marginTop: 30}}>
               <h2>Présentation de JouéClub</h2>
               <p style={{color: '#475569', lineHeight: 1.7}}>JouéClub est une enseigne française spécialisée dans les jeux et jouets pour les enfants et les familles. Son catalogue comprend notamment des jeux de société, des jeux de construction, des poupées, des figurines, des véhicules miniatures et des jeux éducatifs.</p>
-              <p style={{color: '#475569', lineHeight: 1.7}}>Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d'éligibilité du cashback.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d’éligibilité du cashback.</p>
             </section>}
             {seller.slug?.toLowerCase() === 'ikea' && <section style={{marginTop: 30}}>
               <h2>IKEA : meubles, décoration et équipement de la maison</h2>
