@@ -219,15 +219,21 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <details><summary>Les bonus de bienvenue sont-ils automatiques ?</summary><p>Non. Les bonus éventuels sont soumis aux conditions d’inscription et de validation propres à chaque plateforme.</p></details>
               <p style={{fontSize: 13, color: '#64748b', marginTop: 24}}>* Bonus de bienvenue réservés aux personnes éligibles, soumis aux conditions d’inscription et de validation des plateformes. Les taux et conditions peuvent évoluer : vérifiez-les sur la plateforme avant tout achat.</p>
             </section>
-            <section style={{marginTop: 30}}>
+            {seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub' && <section style={{marginTop: 30}}>
               <h2>Présentation de JouéClub</h2>
-              <p style={{color: '#475569', lineHeight: 1.7}}>
-                JouéClub est une enseigne française spécialisée dans les jeux et jouets pour les enfants et les familles. Son catalogue comprend notamment des jeux de société, des jeux de construction, des poupées, des figurines, des véhicules miniatures et des jeux éducatifs.
-              </p>
-              <p style={{color: '#475569', lineHeight: 1.7}}>
-                Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d'éligibilité du cashback.
-              </p>
-            </section>
+              <p style={{color: '#475569', lineHeight: 1.7}}>JouéClub est une enseigne française spécialisée dans les jeux et jouets pour les enfants et les familles. Son catalogue comprend notamment des jeux de société, des jeux de construction, des poupées, des figurines, des véhicules miniatures et des jeux éducatifs.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Les achats peuvent être réalisés sur le site de JouéClub ou dans les magasins de son réseau. Pour les commandes en ligne, certaines plateformes de cashback permettent de récupérer une partie du montant des achats, selon leurs conditions et exclusions. Comparez les offres présentées sur cette page avant de commander et vérifiez les modalités d'éligibilité du cashback.</p>
+            </section>}
+            {seller.slug?.toLowerCase() === 'ikea' && <section style={{marginTop: 30}}>
+              <h2>Présentation d'IKEA</h2>
+              <p style={{color: '#475569', lineHeight: 1.7}}>IKEA est une enseigne d'ameublement et de décoration qui propose notamment des meubles, des rangements, de la literie, des luminaires et des accessoires pour la maison. Ses produits sont disponibles en ligne et dans ses magasins.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Pour réduire le coût d'un achat IKEA, comparez les offres de cashback et les éventuels bons d'achat présentés sur cette page. Leur disponibilité et leurs conditions peuvent varier : vérifiez notamment les exclusions, les modalités d'utilisation et la compatibilité avec d'autres promotions avant de commander.</p>
+            </section>}
+            {seller.slug?.toLowerCase() === 'airbnb' && <section style={{marginTop: 30}}>
+              <h2>Présentation d'Airbnb</h2>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Airbnb est une plateforme de réservation de logements et d'hébergements pour les voyages et les séjours. Les voyageurs peuvent y rechercher des appartements, des maisons et d'autres types de locations selon leur destination et leurs dates.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Pour une réservation Airbnb, vérifiez si une plateforme propose du cashback ou un bon d'achat éligible. Les conditions peuvent dépendre du mode de réservation, du type d'offre et des exclusions indiquées par le partenaire. Un cashback affiché n'est pas nécessairement valable pour toutes les réservations.</p>
+            </section>}
             <section style={{marginTop: 30, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc'}}>
               <h2 style={{marginTop: 0}}>Le cashback {seller.name} en résumé</h2>
               <p style={{color: '#475569', lineHeight: 1.7}}>
