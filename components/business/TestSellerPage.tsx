@@ -229,6 +229,11 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <p style={{color: '#475569', lineHeight: 1.7}}>IKEA propose des solutions pour aménager les différentes pièces de la maison : canapés, tables, bureaux, cuisines, rangements, lits, matelas, luminaires et accessoires de décoration. L’enseigne est notamment connue pour ses meubles en kit et ses collections conçues pour optimiser l’espace, du petit appartement à la maison familiale.</p>
               <p style={{color: '#475569', lineHeight: 1.7}}>Avant un achat sur IKEA, le prix affiché n’est pas toujours le seul élément à comparer : livraison, retrait, montage et éventuelles promotions peuvent influencer le budget final. Pour réaliser des économies supplémentaires, consultez les offres de cashback en ligne et les bons d’achat éventuellement référencés ci-dessus. Vérifiez les conditions de chaque plateforme, notamment les exclusions et la possibilité de cumuler plusieurs avantages.</p>
             </section>}
+            {seller.slug?.toLowerCase() === 'airbnb' && <section style={{marginTop: 30}}>
+              <h2>Airbnb : réserver un hébergement pour ses voyages</h2>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Airbnb est une plateforme de réservation de logements pour les vacances, les déplacements et les séjours de courte ou de longue durée. Les voyageurs peuvent y rechercher des appartements, des maisons et différents types d’hébergements, en filtrant notamment par destination, dates, nombre de voyageurs et équipements.</p>
+              <p style={{color: '#475569', lineHeight: 1.7}}>Avant de réserver, comparez le prix total du séjour, y compris les frais éventuels et les conditions d’annulation. Pour économiser sur une réservation Airbnb, consultez les offres de cashback et de bons d’achat éventuellement disponibles sur cette page. Vérifiez attentivement les conditions des plateformes : certaines réservations, catégories ou modalités de paiement peuvent être exclues, et le cumul des avantages n’est pas systématique.</p>
+            </section>}
             <section style={{marginTop: 30, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc'}}>
               <h2 style={{marginTop: 0}}>Le cashback {seller.name} en résumé</h2>
               <p style={{color: '#475569', lineHeight: 1.7}}>

@@ -11,6 +11,7 @@ on:
       - joueclub-dynamic-seo-links
       - joueclub-seo-safe-v2
       - pilot-seo-ikea-airbnb
+      - pilot-seo-airbnb
       - joueclub-seo-no-db-safe
   workflow_dispatch:
 

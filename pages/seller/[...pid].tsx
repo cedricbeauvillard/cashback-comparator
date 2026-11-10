@@ -110,7 +110,7 @@ const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
   const router = useRouter();
 
   // Pilot only: keep the legacy design for all other merchants.
-  if (['jouéclub', 'ikea'].includes(seller.slug?.normalize('NFC').toLowerCase() ?? '')) {
+  if (['jouéclub', 'ikea', 'airbnb'].includes(seller.slug?.normalize('NFC').toLowerCase() ?? '')) {
     return <TestSellerPage seller={seller} cashbackers={cashbackers} />;
   }
 
