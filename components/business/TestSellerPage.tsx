@@ -229,11 +229,6 @@ const SellerPage: VFC<Props> = ({seller, cashbackers}) => {
               <p style={{color: '#475569', lineHeight: 1.7}}>IKEA propose des solutions pour aménager les différentes pièces de la maison : canapés, tables, bureaux, cuisines, rangements, lits, matelas, luminaires et accessoires de décoration. L’enseigne est notamment connue pour ses meubles en kit et ses collections conçues pour optimiser l’espace, du petit appartement à la maison familiale.</p>
               <p style={{color: '#475569', lineHeight: 1.7}}>Avant un achat sur IKEA, le prix affiché n’est pas toujours le seul élément à comparer : livraison, retrait, montage et éventuelles promotions peuvent influencer le budget final. Pour réaliser des économies supplémentaires, consultez les offres de cashback en ligne et les bons d’achat éventuellement référencés ci-dessus. Vérifiez les conditions de chaque plateforme, notamment les exclusions et la possibilité de cumuler plusieurs avantages.</p>
             </section>}
-            {seller.slug?.toLowerCase() === 'airbnb' && <section style={{marginTop: 30}}>
-              <h2>Présentation d'Airbnb</h2>
-              <p style={{color: '#475569', lineHeight: 1.7}}>Airbnb est une plateforme de réservation de logements et d'hébergements pour les voyages et les séjours. Les voyageurs peuvent y rechercher des appartements, des maisons et d'autres types de locations selon leur destination et leurs dates.</p>
-              <p style={{color: '#475569', lineHeight: 1.7}}>Pour une réservation Airbnb, vérifiez si une plateforme propose du cashback ou un bon d'achat éligible. Les conditions peuvent dépendre du mode de réservation, du type d'offre et des exclusions indiquées par le partenaire. Un cashback affiché n'est pas nécessairement valable pour toutes les réservations.</p>
-            </section>}
             <section style={{marginTop: 30, padding: 20, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc'}}>
               <h2 style={{marginTop: 0}}>Le cashback {seller.name} en résumé</h2>
               <p style={{color: '#475569', lineHeight: 1.7}}>
