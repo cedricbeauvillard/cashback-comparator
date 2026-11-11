@@ -18,6 +18,8 @@ model Cashbacker {
   paymentMethod    String @default("virement bancaire") @db.VarChar(255)
   sponsorshipUrl   String
   reviewsUrl       String
+
+  offers           CashbackOffer[]
 }
 
 // The unit of rate
@@ -44,6 +46,7 @@ model Seller {
   coupon    Boolean? @default(false)
 
   categories CategoriesOnSellers[]
+  offers     CashbackOffer[]
 
   isRangeRateIgraal Boolean?  @default(false)
   rateIgraal        Float?    @default(0)
@@ -111,4 +114,32 @@ model Administrator {
   connectionToken String? @db.VarChar(255)
 
   createdAt DateTime @default(now())
+}
+
+// Separate offer records allow multiple cashback mechanisms per merchant/platform.
+// Legacy Seller rate columns remain in place during the transition.
+enum CashbackOfferType {
+  WEB
+  GIFT_CARD
+  AUTOMATIC
+}
+
+model CashbackOffer {
+  id           Int               @id @default(autoincrement())
+  seller       Seller            @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId     Int
+  cashbacker   Cashbacker        @relation(fields: [cashbackerId], references: [id], onDelete: Cascade)
+  cashbackerId Int
+  type         CashbackOfferType
+  rate         Float
+  unit         RateUnit
+  isRangeRate  Boolean           @default(false)
+  description  String?           @db.Text
+  url          String?           @db.VarChar(2048)
+  isActive     Boolean           @default(true)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([sellerId, type, isActive])
+  @@index([cashbackerId, type])
 }
