@@ -8,6 +8,7 @@
 - Conserver intégralement les champs existants et les identifiants, y compris les colonnes de taux historiques pendant la transition.
 - **Ajouter ultérieurement** `websiteDomain VARCHAR(255) NULL` : domaine officiel de référence pour faciliter le rapprochement ; ni unique ni obligatoire (plusieurs enseignes peuvent partager un domaine).
 - **Ajouter ultérieurement** `isActive BOOLEAN NOT NULL DEFAULT TRUE` : statut du marchand, distinct de la disponibilité d'une offre cashback.
+- **Ajouter ultérieurement** `description TEXT NULL` : présentation éditoriale du marchand, destinée à enrichir les fiches marchands et leur contenu SEO. Le champ peut rester vide pendant la transition.
 - Ne pas ajouter de colonnes supplémentaires de taux ; les offres cibles iront dans CashbackOffer.
 
 ### Cashbacker — existante
