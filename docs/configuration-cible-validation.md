@@ -9,6 +9,8 @@
 - **Ajouter ultérieurement** `websiteDomain VARCHAR(255) NULL` : domaine officiel de référence pour faciliter le rapprochement ; ni unique ni obligatoire (plusieurs enseignes peuvent partager un domaine).
 - **Ajouter ultérieurement** `isActive BOOLEAN NOT NULL DEFAULT TRUE` : statut du marchand, distinct de la disponibilité d'une offre cashback.
 - **Ajouter ultérieurement** `description TEXT NULL` : présentation éditoriale du marchand, destinée à enrichir les fiches marchands et leur contenu SEO. Le champ peut rester vide pendant la transition.
+- **Ajouter ultérieurement** `redirectSellerId INT NULL` : référence à `Seller.id` (clé étrangère auto-référente) pour les fusions de marchands et redirections HTTP 301 des anciennes URL vers la fiche de destination. Valeur `NULL` = pas de redirection. Préserver la fiche source et son ancien slug.
+- **Règles à implémenter côté application** : empêcher les redirections vers soi-même, les cycles, les destinations inactives et les chaînes de redirections ; faire pointer directement vers la destination finale active. Un marchand inactif sans `redirectSellerId` ne doit pas être redirigé arbitrairement. Les imports devront rattacher les offres au marchand de destination après une fusion. Le champ SQL seul ne crée aucune redirection HTTP.
 - Ne pas ajouter de colonnes supplémentaires de taux ; les offres cibles iront dans CashbackOffer.
 
 ### Cashbacker — existante
