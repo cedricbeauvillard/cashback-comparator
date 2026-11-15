@@ -30,9 +30,16 @@
 - Option simple : ajouter `isPrimary BOOLEAN NOT NULL DEFAULT FALSE`, mais ce seul champ ne garantit pas l'unicité de la catégorie principale par marchand ; il faudra des contrôles applicatifs ou une autre conception. **Aucune décision prise.**
 
 ## Autres tables à examiner
-- SellerMapping : nouvelle table proposée, non validée ni implémentée.
+- SellerMapping : **écartée de la configuration cible SQL**. Le Mapping Master Excel reste le référentiel externe cumulatif des alias, identifiants et décisions de rapprochement. Aucun modèle/table SellerMapping à créer.
 - CashbackOffer : nouvelle table proposée dans la PR #14, non déployée.
 - Category, CategoriesOnSellers, Seller, Cashbacker sont des tables existantes ; UserMessage et Administrator restent inchangées.
+
+## Circuit d'import validé (conception)
+- Préparer les rapprochements hors de la base SQL à partir du Mapping Master Excel cumulatif ; ne jamais perdre l'historique des alias, ignorés et cas à rapprocher.
+- Préparer un Excel d'import contenant des identifiants internes Seller/Cashbacker validés et les champs des offres, plutôt que d'importer des noms de plateformes ambigus.
+- Faire évoluer la console d'administration pour charger cet Excel, prévisualiser les créations/mises à jour, contrôler les clés étrangères, les doublons et les conflits, puis appliquer les changements aux seules tables Seller et CashbackOffer.
+- Prévoir un journal d'import, une sauvegarde et un retour arrière adaptés avant toute exécution ; conserver les imports legacy tant que le nouveau circuit n'est pas testé.
+- Les pages publiques lisent Seller et CashbackOffer, pas le Mapping Master.
 
 ## Règles métier validées pour les imports cashback
 - Une offre cible par combinaison marchand + plateforme + type (WEB / GIFT_CARD / AUTOMATIC).
