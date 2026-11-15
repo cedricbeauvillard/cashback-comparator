@@ -31,7 +31,8 @@
 
 ## Autres tables à examiner
 - SellerMapping : **écartée de la configuration cible SQL**. Le Mapping Master Excel reste le référentiel externe cumulatif des alias, identifiants et décisions de rapprochement. Aucun modèle/table SellerMapping à créer.
-- CashbackOffer : nouvelle table proposée dans la PR #14, non déployée.
+- CashbackOffer : **structure métier validée** ; nouvelle table proposée dans la PR #14, **non déployée**. Ajouter `lastCheckedAt DATETIME(3) NULL` et une contrainte d'unicité composite `UNIQUE(sellerId, cashbackerId, type)` au modèle et à la migration **avant toute application SQL**. Les 12 champs existants du modèle de PR #14 sont conservés. La PR #14 ne contient pas encore ces deux améliorations : ne pas appliquer la migration en l'état.
+- Pour les imports, une combinaison marchand / plateforme / type doit être mise à jour (upsert), jamais dupliquée. `lastCheckedAt` indique la dernière vérification de l'offre et ne remplace pas `updatedAt` (date de modification de la ligne).
 - Category, CategoriesOnSellers, Seller, Cashbacker sont des tables existantes ; UserMessage et Administrator restent inchangées.
 
 ## Circuit d'import validé (conception)
