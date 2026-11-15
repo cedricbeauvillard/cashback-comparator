@@ -1,6 +1,6 @@
 # Configuration cible — MeilleursCashback (validation progressive)
 
-**Document de conception uniquement.** Aucun changement de schéma, migration SQL, import ou déploiement en production n'est autorisé par ce document. Les champs ci-dessous sont des décisions de cible et ne sont PAS encore présents dans le schéma Prisma.
+**Toutes les structures métier sont validées (Seller, Cashbacker, Category, CategoriesOnSellers, CashbackOffer) ; SellerMapping SQL est écartée. Document de conception uniquement.** Aucun changement de schéma, migration SQL, import ou déploiement en production n'est autorisé par ce document. Les champs ci-dessous sont des décisions de cible et ne sont PAS encore présents dans le schéma Prisma.
 
 ## Tables validées
 
@@ -22,12 +22,11 @@
 - **Ajouter ultérieurement** `parentId INT NULL` : clé étrangère auto-référente vers `Category.id` pour une hiérarchie limitée dans l'application à deux niveaux (catégorie / sous-catégorie).
 - Les catégories existantes restent des racines (`parentId = NULL`) lors de l'ajout ; la migration et les affectations seront validées séparément.
 
-## En discussion — non validée
-
-### CategoriesOnSellers — existante
-- Actuellement : `sellerId`, `categoryId` et clé primaire composite.
-- Question à trancher : faut-il une catégorie principale parmi plusieurs associations ?
-- Option simple : ajouter `isPrimary BOOLEAN NOT NULL DEFAULT FALSE`, mais ce seul champ ne garantit pas l'unicité de la catégorie principale par marchand ; il faudra des contrôles applicatifs ou une autre conception. **Aucune décision prise.**
+### CategoriesOnSellers — existante, validée
+- Conserver `sellerId`, `categoryId` et leur clé primaire composite.
+- **Ajouter ultérieurement** `isPrimary BOOLEAN NOT NULL DEFAULT FALSE` : marque l'association correspondant à la catégorie principale d'un marchand, les autres associations restant secondaires.
+- **Règle métier validée** : au maximum une association `isPrimary = TRUE` par marchand ; une catégorie principale peut rester non renseignée durant la transition. Le booléen seul ne garantit pas cette unicité dans MySQL : imposer un contrôle transactionnel lors des imports et modifications (ou une contrainte SQL adaptée lors de l'implémentation).
+- Les associations historiques restent présentes et sont initialisées à `FALSE` jusqu'à classification validée.
 
 ## Autres tables à examiner
 - SellerMapping : **écartée de la configuration cible SQL**. Le Mapping Master Excel reste le référentiel externe cumulatif des alias, identifiants et décisions de rapprochement. Aucun modèle/table SellerMapping à créer.
