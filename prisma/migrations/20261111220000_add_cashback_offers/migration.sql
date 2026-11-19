@@ -13,8 +13,10 @@ CREATE TABLE `CashbackOffer` (
   `isActive` BOOLEAN NOT NULL DEFAULT true,
   `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` DATETIME(3) NOT NULL,
+  `lastCheckedAt` DATETIME(3) NULL,
   INDEX `CashbackOffer_sellerId_type_isActive_idx`(`sellerId`, `type`, `isActive`),
   INDEX `CashbackOffer_cashbackerId_type_idx`(`cashbackerId`, `type`),
+  UNIQUE INDEX `CashbackOffer_sellerId_cashbackerId_type_key`(`sellerId`, `cashbackerId`, `type`),
   PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
