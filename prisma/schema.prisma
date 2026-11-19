@@ -118,8 +118,8 @@ model Administrator {
 model SellerV2 {
   id Int @id @default(autoincrement())
   name String @db.VarChar(255)
-  logoUrl String?
-  slug String?
+  logoUrl String? @db.Text
+  slug String? @db.Text
   top40 Boolean? @default(false)
   topSeller Boolean? @default(false)
   coupon Boolean? @default(false)
@@ -137,14 +137,14 @@ model SellerV2 {
 model CashbackerV2 {
   id Int @id @default(autoincrement())
   name String @db.VarChar(255)
-  logoUrl String
+  logoUrl String @db.Text
   score Int @default(0)
   rank Int @default(0)
   signupBonus Int @default(0)
   paymentThreshold Float @default(0)
   paymentMethod String @default("virement bancaire") @db.VarChar(255)
-  sponsorshipUrl String
-  reviewsUrl String
+  sponsorshipUrl String @db.Text
+  reviewsUrl String @db.Text
   isActive Boolean @default(true)
   offers CashbackOfferV2[]
 }
