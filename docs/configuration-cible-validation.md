@@ -53,3 +53,12 @@
 ## Sécurité de la migration
 - Aucun changement en production avant validation explicite, vérification du schéma réel, sauvegarde et procédure de retour arrière.
 - Ne pas supprimer les colonnes historiques de Seller pendant la migration.
+
+## Feuille de route — administration V1/V2 en parallèle (décision du 19/11/2026)
+- Architecture de migration retenue : nouvelles tables métier V2 parallèles aux tables historiques dans le même cluster MySQL, avec validation sur environnement de test avant création en production. Les anciennes tables et leurs données restent intactes pendant la transition.
+- Conserver la console d'administration actuelle et ses traitements V1 sans modification fonctionnelle.
+- Ajouter dans la même application un espace d'administration V2 autonome (écrans et services distincts) pour consulter, rechercher, créer/modifier les enregistrements V2, et importer les Excel de marchands, catégories, plateformes et offres.
+- Mutualiser l'authentification et les contrôles d'accès ; isoler strictement les écritures V2 des écritures V1, avec prévisualisation, validation, journal d'import et sauvegarde adaptée.
+- Pendant la transition, maintenir explicitement les deux circuits de mise à jour ; tester des fiches pilotes puis basculer progressivement les lectures publiques vers V2, sans changement d'URL.
+- Après bascule complète, validation des imports, suivi des écarts et période d'observation, désactiver puis supprimer les seuls modules V1 ; conserver la console et les modules V2.
+- Attention : les précédents scripts SQL et le schéma Prisma de branche reflètent encore une stratégie additive sur les tables historiques ; les réviser avant toute migration. Aucun déploiement autorisé.
