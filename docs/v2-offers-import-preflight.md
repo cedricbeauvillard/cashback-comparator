@@ -33,3 +33,9 @@ Source locale : `cashback_offers_corriges.csv` (séparateur point-virgule, 11 co
 - Inclure **Joko** dans le référentiel `CashbackerV2` lors de la copie V1 → V2 ; si absent de V1, préparer sa création après vérification des champs obligatoires et de l'absence de doublon. Ne pas inventer son identifiant SQL.
 - Inclure Joko dans le mapping des plateformes, les filtres de l'administration V2 et les prochains imports.
 - L'extraction de 6 973 offres actuellement préparée ne comporte aucune ligne Joko : les offres Joko devront être ajoutées uniquement à partir d'un export vérifié. Ne pas fabriquer de taux.
+
+## Contrôle préparatoire supplémentaire (20/11/2026)
+- Un validateur CSV local, sans connexion à MySQL ni écriture SQL, a été préparé. Il prend en entrée le staging et deux exports **réels** de test `SellerV2(id)` et `CashbackerV2(id,name)`, puis sépare `ready.csv`, `blocked.csv` et `summary.txt`.
+- Test de contrôle effectué avec des listes **fictives** de marchands et plateformes (y compris Joko) : 0 ligne prête, 6 973 bloquées pour `NOT_BUSINESS_VERIFIED`. Ces listes ne prouvent aucune correspondance avec la base réelle.
+- Le passage au statut `VERIFIED` ne peut se faire qu'après validation métier effective des offres, des plateformes et de leur fraîcheur. Le validateur ne décide pas lui-même du statut.
+- Pas d'upsert SQL à ce stade : il faut d'abord des exports d'IDs réels, puis un essai sur une base de test.
