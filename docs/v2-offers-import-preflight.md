@@ -28,3 +28,8 @@ Source locale : `cashback_offers_corriges.csv` (séparateur point-virgule, 11 co
 5. Importer en transaction par lots avec journal, vérification d'unicité et possibilité de reprise ; ne pas désactiver les offres absentes sans politique explicite.
 6. Tester les pages pilotes JouéClub, IKEA, Airbnb avant bascule.
 7. Aucun import ni déploiement en production sans approbation explicite.
+
+## Plateforme supplémentaire à intégrer : Joko (demande du 20/11/2026)
+- Inclure **Joko** dans le référentiel `CashbackerV2` lors de la copie V1 → V2 ; si absent de V1, préparer sa création après vérification des champs obligatoires et de l'absence de doublon. Ne pas inventer son identifiant SQL.
+- Inclure Joko dans le mapping des plateformes, les filtres de l'administration V2 et les prochains imports.
+- L'extraction de 6 973 offres actuellement préparée ne comporte aucune ligne Joko : les offres Joko devront être ajoutées uniquement à partir d'un export vérifié. Ne pas fabriquer de taux.
