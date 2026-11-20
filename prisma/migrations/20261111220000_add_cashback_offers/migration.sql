@@ -44,8 +44,8 @@ CREATE TABLE `CashbackOfferV2` (
  INDEX `CashbackOfferV2_cashbackerId_type_idx`(`cashbackerId`,`type`),
  PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `SellerV2` ADD CONSTRAINT `SellerV2_redirectSellerId_fkey` FOREIGN KEY (`redirectSellerId`) REFERENCES `SellerV2`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `CategoryV2` ADD CONSTRAINT `CategoryV2_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `CategoryV2`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `SellerV2` ADD CONSTRAINT `SellerV2_redirectSellerId_fkey` FOREIGN KEY (`redirectSellerId`) REFERENCES `SellerV2`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `CategoryV2` ADD CONSTRAINT `CategoryV2_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `CategoryV2`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `CategoriesOnSellersV2` ADD CONSTRAINT `CategoriesOnSellersV2_sellerId_fkey` FOREIGN KEY (`sellerId`) REFERENCES `SellerV2`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `CategoriesOnSellersV2` ADD CONSTRAINT `CategoriesOnSellersV2_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `CategoryV2`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE `CashbackOfferV2` ADD CONSTRAINT `CashbackOfferV2_sellerId_fkey` FOREIGN KEY (`sellerId`) REFERENCES `SellerV2`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
