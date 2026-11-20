@@ -127,7 +127,7 @@ model SellerV2 {
   isActive Boolean @default(true)
   description String? @db.Text
   redirectSellerId Int?
-  redirectSeller SellerV2? @relation("SellerV2Redirect", fields: [redirectSellerId], references: [id], onDelete: SetNull)
+  redirectSeller SellerV2? @relation("SellerV2Redirect", fields: [redirectSellerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   redirectedSellers SellerV2[] @relation("SellerV2Redirect")
   categories CategoriesOnSellersV2[]
   offers CashbackOfferV2[]
