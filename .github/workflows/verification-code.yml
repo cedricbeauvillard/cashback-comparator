@@ -3,6 +3,7 @@ name: Vérification du code
 on:
   push:
     branches:
+      - deploy-joueclub-v2-only
       - refonte-fiches-marchands-v1
       - preparation-production-joueclub
       - joueclub-v2-design
