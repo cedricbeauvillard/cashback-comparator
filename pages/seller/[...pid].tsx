@@ -339,9 +339,9 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
       orderBy: {rank: 'asc'},
     });
 
-    // Read V2 only for JouéClub. All other merchant pages continue using V1.
+    // V2 pilot for JouéClub, Pandora and Lidl; other merchants stay on V1.
     let joueclubV2: SellerPageProps['joueclubV2'];
-    if (seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub') {
+    if (['jouéclub', 'pandora', 'lidl'].includes(seller.slug?.normalize('NFC').toLowerCase() ?? '')) {
       const v2 = await prisma.sellerV2.findUnique({
         where: {id: seller.id},
         include: {offers: {where: {isActive: true}, include: {cashbacker: true}}},
