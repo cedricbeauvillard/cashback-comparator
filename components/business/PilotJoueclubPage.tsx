@@ -40,6 +40,7 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
     .sort((a, b) => a.unit === b.unit ? b.rate - a.rate || a.cashbacker.rank - b.cashbacker.rank : a.unit === 'PERCENT' ? -1 : 1);
   const web = byType('WEB');
   const gifts = byType('GIFT_CARD');
+  const automatic = byType('AUTOMATIC');
   const canonical = `https://meilleurscashback.com/seller/meilleur-cashback-${encodeURIComponent(slug)}`;
   const renderTopOfferBadges = (offer: PilotOffer) => (
     <div style={{marginTop: 10}}>
@@ -89,7 +90,7 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
           <p style={{color: '#64748b', fontSize: 13}}>Comparateur de cashback / {name}</p>
           <h1 style={{fontSize: 'clamp(1.7rem, 3vw, 2.5rem)', marginTop: 8}}>Cashback {name} : comparez les offres</h1>
           <p>Comparez les offres de cashback web et de bons d’achat chez {name}. Les taux sont indicatifs et soumis aux conditions des plateformes.</p>
-          <div className={classes.columns} style={{margin: '22px 0'}}>
+          <div className={classes.columns} style={{margin: '22px 0', ...(automatic.length ? {gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))'} : {})}}>
             <div style={{background: '#eff6ff', borderRadius: 14, padding: 20}}>
               <strong>Meilleur cashback web affiché</strong>
               <div style={{fontSize: 30, fontWeight: 800, marginTop: 10}}>{web[0] ? formatRate(web[0]) : 'Aucune offre'}</div>
@@ -108,6 +109,16 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
                 {renderTopOfferBadges(gifts[0])}
               </div> : <div>Aucun taux positif renseigné</div>}
             </div>
+            {automatic.length > 0 && <div style={{background: '#f5f3ff', borderRadius: 14, padding: 20}}>
+              <strong>Meilleur cashback automatique</strong>
+              <div style={{fontSize: 30, fontWeight: 800, marginTop: 10}}>{formatRate(automatic[0])}</div>
+              {automatic.filter((o) => o.rate === automatic[0].rate && o.unit === automatic[0].unit).map((o) => (
+                <div key={o.id} style={{marginTop: 12}}>
+                  <strong>Sur {o.cashbacker.name}</strong>
+                  {renderTopOfferBadges(o)}
+                </div>
+              ))}
+            </div>}
           </div>
           {groups.map((group) => {
             const items = byType(group.type);
