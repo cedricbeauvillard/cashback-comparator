@@ -1,0 +1,44 @@
+name: V2 Prisma schema validation (no production DB)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature-cashback-offers-schema
+    paths:
+      - 'prisma/schema.prisma'
+      - 'prisma/migrations/**'
+      - '.github/workflows/v2-prisma-validate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Dummy URL only for Prisma schema parsing; no network access to a database.
+      DATABASE_URL: mysql://dummy:dummy@127.0.0.1:3306/dummy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci --ignore-scripts
+      - name: Validate Prisma schema (offline)
+        run: npx prisma validate --schema prisma/schema.prisma
+      - name: Check migration SQL structure (offline)
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          sql = Path('prisma/migrations/20261111220000_add_cashback_offers/migration.sql').read_text()
+          names = ('SellerV2', 'CashbackerV2', 'CategoryV2', 'CategoriesOnSellersV2', 'CashbackOfferV2')
+          for name in names:
+              assert sql.count('CREATE TABLE `' + name + '`') == 1, name
+          assert 'DROP TABLE' not in sql.upper()
+          assert 'ALTER TABLE `Seller`' not in sql
+          print('Five V2 CREATE TABLE statements found; no DROP TABLE.')
+          PY
