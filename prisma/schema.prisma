@@ -112,3 +112,85 @@ model Administrator {
 
   createdAt DateTime @default(now())
 }
+
+ 
+// V2 models are isolated from legacy tables; no V1 model is changed.
+model SellerV2 {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  logoUrl String? @db.Text
+  slug String? @db.Text
+  top40 Boolean? @default(false)
+  topSeller Boolean? @default(false)
+  coupon Boolean? @default(false)
+  websiteDomain String? @db.VarChar(255)
+  isActive Boolean @default(true)
+  description String? @db.Text
+  redirectSellerId Int?
+  redirectSeller SellerV2? @relation("SellerV2Redirect", fields: [redirectSellerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  redirectedSellers SellerV2[] @relation("SellerV2Redirect")
+  categories CategoriesOnSellersV2[]
+  offers CashbackOfferV2[]
+  @@index([redirectSellerId])
+}
+
+model CashbackerV2 {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  logoUrl String @db.Text
+  score Int @default(0)
+  rank Int @default(0)
+  signupBonus Int @default(0)
+  paymentThreshold Float @default(0)
+  paymentMethod String @default("virement bancaire") @db.VarChar(255)
+  sponsorshipUrl String @db.Text
+  reviewsUrl String @db.Text
+  isActive Boolean @default(true)
+  offers CashbackOfferV2[]
+}
+
+model CategoryV2 {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  parentId Int?
+  parent CategoryV2? @relation("CategoryV2Hierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children CategoryV2[] @relation("CategoryV2Hierarchy")
+  sellers CategoriesOnSellersV2[]
+  @@index([parentId])
+}
+
+model CategoriesOnSellersV2 {
+  seller SellerV2 @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId Int
+  category CategoryV2 @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  isPrimary Boolean @default(false)
+  @@id([sellerId, categoryId])
+}
+
+enum CashbackOfferTypeV2 {
+  WEB
+  GIFT_CARD
+  AUTOMATIC
+}
+
+model CashbackOfferV2 {
+  id Int @id @default(autoincrement())
+  seller SellerV2 @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  sellerId Int
+  cashbacker CashbackerV2 @relation(fields: [cashbackerId], references: [id], onDelete: Restrict)
+  cashbackerId Int
+  type CashbackOfferTypeV2
+  rate Float
+  unit RateUnit
+  isRangeRate Boolean @default(false)
+  description String? @db.Text
+  url String? @db.VarChar(2048)
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastCheckedAt DateTime?
+  @@unique([sellerId, cashbackerId, type])
+  @@index([sellerId, type, isActive])
+  @@index([cashbackerId, type])
+}
