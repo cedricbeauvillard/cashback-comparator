@@ -100,7 +100,7 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
           })}
           <section style={{marginTop: 36, lineHeight: 1.7}}>
             <h2>Présentation de {name}</h2>
-            <p>Retrouvez et comparez les offres de cashback disponibles chez {name}, selon les plateformes et les conditions indiquées pour chaque offre.</p>
+            {slug.normalize('NFC').toLowerCase() === 'jouéclub' ? <p>JouéClub est une enseigne française spécialisée dans les jeux et jouets : jeux de société, jeux de construction, poupées, figurines et jeux éducatifs. Les achats peuvent être effectués en ligne ou en magasin selon les modalités proposées.</p> : <p>Retrouvez et comparez les offres de cashback disponibles chez {name}, selon les plateformes et les conditions indiquées pour chaque offre.</p>}
             <h2>Questions fréquentes sur le cashback {name}</h2>
             <details><summary>Peut-on cumuler cashback web et bon d’achat ?</summary><p>Le cumul dépend des conditions de chaque offre et ne doit pas être considéré comme acquis.</p></details>
             <details><summary>Le taux est-il identique pour tous les clients ?</summary><p>Non. Certaines offres distinguent les nouveaux clients des clients existants. Consultez les conditions de chaque plateforme.</p></details>
