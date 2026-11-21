@@ -3,6 +3,7 @@ name: Vérification du code
 on:
   push:
     branches:
+      - pilot-pandora-lidl-v2
       - fix-joueclub-v2-badges
       - deploy-joueclub-v2-only
       - refonte-fiches-marchands-v1
