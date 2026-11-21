@@ -153,7 +153,7 @@ model CategoryV2 {
   id Int @id @default(autoincrement())
   name String @db.VarChar(255)
   parentId Int?
-  parent CategoryV2? @relation("CategoryV2Hierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  parent CategoryV2? @relation("CategoryV2Hierarchy", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   children CategoryV2[] @relation("CategoryV2Hierarchy")
   sellers CategoriesOnSellersV2[]
   @@index([parentId])
