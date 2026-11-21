@@ -25,11 +25,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: npm
-      - name: Install project dependencies
-        run: npm ci --ignore-scripts
       - name: Validate Prisma schema (offline)
-        run: npx prisma validate --schema prisma/schema.prisma
+        run: npx --yes --package prisma@4.4.0 prisma validate --schema prisma/schema.prisma
       - name: Check migration SQL structure (offline)
         run: |
           python3 - <<'PY'
