@@ -9,6 +9,7 @@ import {ItemCashbackerDesktop} from '../../components/business/ItemCashbackerDes
 import {ItemCashbackerMobile} from '../../components/business/ItemCashbackerMobile';
 import {SellerSearchBar} from '../../components/business/SellerSearchBar';
 import TestSellerPage from '../../components/business/TestSellerPage';
+import PilotJoueclubPage, {PilotOffer} from '../../components/business/PilotJoueclubPage';
 import {emptyRateData, RateData} from '../../components/business/types';
 import {FooterLinks} from '../../components/generic/FooterLinks';
 import {SearchHeader} from '../../components/generic/SearchHeader';
@@ -51,6 +52,7 @@ const useStyles = createStyles((theme) => ({
 export interface SellerPageProps {
   seller: Seller;
   cashbackers: Cashbacker[] | null;
+  joueclubV2?: {name: string; slug: string; offers: PilotOffer[]};
 }
 
 /*
@@ -104,10 +106,12 @@ const getCashbackerRateData = (seller: Seller | null, cashbackerName: string): R
   };
 };
 
-const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers}) => {
+const SellerPage: VFC<SellerPageProps> = ({seller, cashbackers, joueclubV2}) => {
   const {classes} = useStyles();
   const [foundedSellers, setFoundedSellers] = useState<Seller[] | null>([]);
   const router = useRouter();
+
+  if (joueclubV2) return <PilotJoueclubPage {...joueclubV2} />;
 
   // Pilot only: keep the legacy design for all other merchants.
   if (['jouéclub', 'ikea', 'airbnb'].includes(seller.slug?.normalize('NFC').toLowerCase() ?? '')) {
@@ -335,10 +339,39 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
       orderBy: {rank: 'asc'},
     });
 
+    // Read V2 only for JouéClub. All other merchant pages continue using V1.
+    let joueclubV2: SellerPageProps['joueclubV2'];
+    if (seller.slug?.normalize('NFC').toLowerCase() === 'jouéclub') {
+      const v2 = await prisma.sellerV2.findUnique({
+        where: {id: seller.id},
+        include: {offers: {where: {isActive: true}, include: {cashbacker: true}}},
+      });
+      if (v2) {
+        joueclubV2 = {
+          name: v2.name,
+          slug: seller.slug ?? '',
+          offers: v2.offers.map((o) => ({
+            id: o.id,
+            type: o.type,
+            rate: o.rate,
+            unit: o.unit === RateUnit.Percent ? 'PERCENT' : o.unit === RateUnit.Euro ? 'EURO' : 'NONE',
+            isRangeRate: o.isRangeRate,
+            description: o.description,
+            cashbacker: {
+              id: o.cashbacker.id, name: o.cashbacker.name, logoUrl: o.cashbacker.logoUrl,
+              rank: o.cashbacker.rank, score: o.cashbacker.score,
+              signupBonus: o.cashbacker.signupBonus,
+              sponsorshipUrl: o.cashbacker.sponsorshipUrl, reviewsUrl: o.cashbacker.reviewsUrl,
+            },
+          })),
+        };
+      }
+    }
     return {
       props: {
         seller,
         cashbackers,
+        ...(joueclubV2 ? {joueclubV2} : {}),
       },
     };
   } catch (e) {
