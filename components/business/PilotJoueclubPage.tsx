@@ -41,6 +41,18 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
   const web = byType('WEB');
   const gifts = byType('GIFT_CARD');
   const canonical = `https://meilleurscashback.com/seller/meilleur-cashback-${encodeURIComponent(slug)}`;
+  const renderTopOfferBadges = (offer: PilotOffer) => (
+    <div style={{marginTop: 10}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8}}>
+        {offer.cashbacker.signupBonus > 0 && <span style={{display: 'inline-block', padding: '8px 12px', borderRadius: 9, background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', fontSize: 13, fontWeight: 800}}>+ {offer.cashbacker.signupBonus} € de bienvenue*</span>}
+        <a href={offer.cashbacker.sponsorshipUrl} target="_blank" rel="noopener noreferrer sponsored" style={{color: '#1d4ed8', fontWeight: 700}}>Profiter de l’offre</a>
+      </div>
+      <div style={{display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 9}}>
+        <span style={{display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 9px', borderRadius: 7, background: '#dbeafe', color: '#1e40af', fontSize: 13, fontWeight: 800}}>🏅 N° {offer.cashbacker.rank} au classement</span>
+        <span style={{display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 9px', borderRadius: 7, background: '#fffbeb', color: '#92400e', fontSize: 13, fontWeight: 800}}>★ {offer.cashbacker.score}/5</span>
+      </div>
+    </div>
+  );
   const renderOffer = (o: PilotOffer) => (
     <div key={o.id} style={{border: '1px solid #e2e8f0', borderRadius: 14, padding: 18, marginTop: 12, background: '#fff'}}>
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 16}}>
@@ -81,12 +93,20 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
             <div style={{background: '#eff6ff', borderRadius: 14, padding: 20}}>
               <strong>Meilleur cashback web affiché</strong>
               <div style={{fontSize: 30, fontWeight: 800, marginTop: 10}}>{web[0] ? formatRate(web[0]) : 'Aucune offre'}</div>
-              <div>{web.length ? web.filter((o) => o.rate === web[0].rate && o.unit === web[0].unit).map((o) => o.cashbacker.name).join(' et ') : 'Aucun taux positif renseigné'}</div>
+              {web.length ? web.filter((o) => o.rate === web[0].rate && o.unit === web[0].unit).map((o) => (
+                <div key={o.id} style={{marginTop: 12}}>
+                  <strong>Sur {o.cashbacker.name}</strong>
+                  {renderTopOfferBadges(o)}
+                </div>
+              )) : <div>Aucun taux positif renseigné</div>}
             </div>
             <div style={{background: '#f0fdf4', borderRadius: 14, padding: 20}}>
               <strong>Meilleur cashback sur bon d’achat</strong>
               <div style={{fontSize: 30, fontWeight: 800, marginTop: 10}}>{gifts[0] ? formatRate(gifts[0]) : 'Aucune offre'}</div>
-              <div>{gifts[0]?.cashbacker.name ?? 'Aucun taux positif renseigné'}</div>
+              {gifts[0] ? <div style={{marginTop: 12}}>
+                <strong>Sur {gifts[0].cashbacker.name}</strong>
+                {renderTopOfferBadges(gifts[0])}
+              </div> : <div>Aucun taux positif renseigné</div>}
             </div>
           </div>
           {groups.map((group) => {
