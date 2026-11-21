@@ -46,8 +46,11 @@ const PilotJoueclubPage: VFC<Props> = ({name, slug, offers}) => {
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 16}}>
         <div>
           <strong style={{fontSize: 18}}>{o.cashbacker.name}</strong>
-          <div style={{fontSize: 13, color: '#475569', marginTop: 6}}>N° {o.cashbacker.rank} au classement · ★ {o.cashbacker.score}/5</div>
-          {o.cashbacker.signupBonus > 0 && <div style={{fontSize: 13, marginTop: 6}}>+ {o.cashbacker.signupBonus} € de bienvenue*</div>}
+          {o.cashbacker.signupBonus > 0 && <div style={{display: 'inline-block', marginTop: 7, padding: '6px 10px', borderRadius: 8, background: '#fff7ed', border: '1px solid #fed7aa', color: '#9a3412', fontSize: 13, fontWeight: 800}}>+ {o.cashbacker.signupBonus} € de bienvenue*</div>}
+          <div style={{display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 9}}>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 9px', borderRadius: 7, background: '#eff6ff', color: '#1e40af', fontSize: 13, fontWeight: 800}}>🏅 N° {o.cashbacker.rank} au classement</span>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 9px', borderRadius: 7, background: '#fffbeb', color: '#92400e', fontSize: 13, fontWeight: 800}}>★ {o.cashbacker.score}/5</span>
+          </div>
         </div>
         <strong style={{fontSize: 27, color: '#0f766e'}}>{formatRate(o)}</strong>
         <div style={{display: 'flex', flexDirection: 'column', gap: 8}}>
