@@ -3,6 +3,7 @@ name: Vérification du code
 on:
   push:
     branches:
+      - pilot-king-jouet-v2
       - pilot-smyths-toys-v2
       - deploy-pandora-lidl-v2-clean
       - fix-joueclub-v2-top-offers
