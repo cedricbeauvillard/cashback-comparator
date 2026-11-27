@@ -52,7 +52,7 @@ const useStyles = createStyles((theme) => ({
 export interface SellerPageProps {
   seller: Seller;
   cashbackers: Cashbacker[] | null;
-  joueclubV2?: {name: string; slug: string; offers: PilotOffer[]};
+  joueclubV2?: {name: string; slug: string; offers: PilotOffer[]; platforms?: PilotOffer['cashbacker'][]};
 }
 
 /*
@@ -341,7 +341,7 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
 
     // V2 pilot for JouéClub, Pandora and Lidl; other merchants stay on V1.
     let joueclubV2: SellerPageProps['joueclubV2'];
-    if (['jouéclub', 'pandora', 'lidl'].includes(seller.slug?.normalize('NFC').toLowerCase() ?? '')) {
+    if (['jouéclub', 'pandora', 'lidl', 'smyths-toys'].includes(seller.slug?.normalize('NFC').toLowerCase() ?? '')) {
       const v2 = await prisma.sellerV2.findUnique({
         where: {id: seller.id},
         include: {offers: {where: {isActive: true}, include: {cashbacker: true}}},
@@ -350,6 +350,7 @@ export const getServerSideProps: GetServerSideProps<SellerPageProps, {pid: strin
         joueclubV2 = {
           name: v2.name,
           slug: seller.slug ?? '',
+          platforms: await prisma.cashbackerV2.findMany({where: {isActive: true}, orderBy: {rank: 'asc'}, select: {id: true, name: true, logoUrl: true, rank: true, score: true, signupBonus: true, sponsorshipUrl: true, reviewsUrl: true}}),
           offers: v2.offers.map((o) => ({
             id: o.id,
             type: o.type,
